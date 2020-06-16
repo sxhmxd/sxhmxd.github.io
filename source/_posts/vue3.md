@@ -314,4 +314,221 @@ methodsToPatch.forEach(function (method) {
 
 ```
 
-###
+- 拦截器的使用
+
+源码实现
+
+```
+export default Observer {
+  constructor (value) {
+    this.value = value
+    if (Array.isArray(value)) {
+      const augment = hasProto ? protoAugment : copyAugment
+      augment(value,arrayMethods,arrayKeys)
+    } else {
+      this.walk(value)
+    }
+  }
+}
+// 能力检测： 判断 __proto__ 是否可用，有浏览器不支持该属性
+export const hasProto = '__proto__' in {}
+const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
+/**
+ * Augment an target Object or Array by intercepting
+ * the prototype chain using __proto__
+ */
+function protoAugment (target, src: Object, keys: any) {
+  target.__proto__ = src
+}
+
+/**
+ * Augment an target Object or Array by defining
+ * hidden properties.
+ */
+/* istanbul ignore next */
+function copyAugment (target: Object, src: Object, keys: Array<string>) {
+  for (let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i]
+    def(target, key, src[key])
+  }
+}
+```
+
+### 依赖收集
+
+数组的依赖收集也在`getter` 中收集，而给数组数据添加`getter/setter` 都是在`Observer`类中完成的，在`Observer`类中收集依赖。
+
+```
+export class Observer {
+  constructor (value) {
+    this.value = value
+    this.dep = new Dep()
+    if (Array.isArray(value)) {
+      const augment = hasProto
+        ? protoAugment
+        : copyAugment
+      augment(value, arrayMethods, arrayKeys)
+    } else {
+      this.walk(value)
+    }
+  }
+}
+```
+
+- 怎样收集依赖
+
+依赖管理器定义在`Observer` 类中，而我们需要在`getter`中收集依赖，也就是说我们必须在`getter`中能够访问到`Observer`类中的依赖管理器，才能把依赖存进去。
+
+```
+function defineReactive (obj,key,val) {
+  let childOb = observe(val)
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get(){
+      if (childOb) {
+        childOb.dep.depend()
+      }
+      return val;
+    },
+    set(newVal){
+      if(val === newVal){
+        return
+      }
+      val = newVal;
+      dep.notify()   // 在setter中通知依赖更新
+    }
+  })
+}
+
+/**
+ * Attempt to create an observer instance for a value,
+ * returns the new observer if successfully observed,
+ * or the existing observer if the value already has one.
+ * 尝试为value创建一个0bserver实例，如果创建成功，直接返回新创建的Observer实例。
+ * 如果 Value 已经存在一个Observer实例，则直接返回它
+ */
+export function observe (value, asRootData){
+  if (!isObject(value) || value instanceof VNode) {
+    return
+  }
+  let ob
+  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+    ob = value.__ob__
+  } else {
+    ob = new Observer(value)
+  }
+  return ob
+}
+```
+
+- 怎样通知依赖
+
+要想通知依赖，首先能访问到依赖，即只要能访问到被转化成响应式的数据 `value` 即可，因为`value` 上的 `__ob__`就是其对应的`Observer` 类实例，有了该实例我们就能访问到它上面的依赖管理器，然后只需要调用依赖管理的 `dep.notify()` 方法，
+
+```
+// 源码
+methodsToPatch.forEach(function (method) {
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    // notify change
+    ob.dep.notify()
+    return result
+  })
+})
+```
+
+### 深度侦测
+
+在前文所有讲的 Array 型数据的变化侦测都仅仅说的是数组自身变化的侦测，比如给数组新增一个元素或删除数组中一个元素，而在 Vue 中，不论是 Object 型数据还是 Array 型数据所实现的数据变化侦测都是深度侦测，所谓深度侦测就是不但要侦测数据自身的变化，还要侦测数据中所有子数据的变化。
+
+```
+let arr = [
+  {
+    name:'NLRX'，
+    age:'18'
+  }
+]
+
+```
+
+数组中包含一个对象，如果该对象的某个属性发生了变化也应该被侦测到，就是深度侦测。
+实现逻辑
+
+```
+export class Observer {
+  value: any;
+  dep: Dep;
+
+  constructor (value: any) {
+    this.value = value
+    this.dep = new Dep()
+    def(value, '__ob__', this)
+    if (Array.isArray(value)) {
+      const augment = hasProto
+        ? protoAugment
+        : copyAugment
+      augment(value, arrayMethods, arrayKeys)
+      this.observeArray(value)   // 将数组中的所有元素都转化为可被侦测的响应式
+    } else {
+      this.walk(value)
+    }
+  }
+
+  /**
+   * Observe a list of Array items.
+   */
+  observeArray (items: Array<any>) {
+    for (let i = 0, l = items.length; i < l; i++) {
+      observe(items[i])
+    }
+  }
+}
+
+export function observe (value, asRootData){
+  if (!isObject(value) || value instanceof VNode) {
+    return
+  }
+  let ob
+  if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+    ob = value.__ob__
+  } else {
+    ob = new Observer(value)
+  }
+  return ob
+}
+```
+
+### 数组新增元素的侦测
+
+向数组内新增的方法有 3 个，分别是：push、unshift、splice。我们只需对这 3 中方法分别处理，拿到新增的元素，再将其转化即可
+
+```
+/**
+ * Intercept mutating methods and emit events
+ */
+methodsToPatch.forEach(function (method) {
+  // cache original method
+  const original = arrayProto[method]
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args   // 如果是push或unshift方法，那么传入参数就是新增的元素
+        break
+      case 'splice':
+        inserted = args.slice(2) // 如果是splice方法，那么传入参数列表中下标为2的就是新增的元素
+        break
+    }
+    if (inserted) ob.observeArray(inserted) // 调用observe函数将新增的元素转化成响应式
+    // notify change
+    ob.dep.notify()
+    return result
+  })
+})
+```
