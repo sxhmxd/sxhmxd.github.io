@@ -1,5 +1,6 @@
 ---
-title: Vue.js 源码解读
+title: [Vue.js 源码解读, 数据的变化侦听]
+categories: [Vue.js 源码解读, 数据的变化侦听]
 ---
 
 # 变化侦听
