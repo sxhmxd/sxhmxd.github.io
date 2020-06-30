@@ -1,6 +1,6 @@
 ---
 title: Vue.js 源码解读, Diff
-categories: [Vue.js 源码解读, Diff]
+categories: [Vue.js 源码解读, 虚拟DOM, Diff]
 ---
 
 # DOM-Diff

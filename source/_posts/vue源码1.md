@@ -1,6 +1,6 @@
 ---
 title: Vue.js 源码解读, 虚拟Dom
-categories: [Vue.js 源码解读, 虚拟Dom]
+categories: [Vue.js 源码解读, 虚拟DOM, Vue中的虚拟Dom]
 ---
 
 # 虚拟 Dom
