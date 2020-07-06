@@ -246,7 +246,11 @@ Watcher 类实现的逻辑
 
 ## 总结
 
-我们通过 Object.defineProperty 实现了对 Object 数据的可观测，并且封装成 Observer 类，我们能够方便的把 Object 数据中的所有属性(子属性)转换成 getter/setter 的形式来侦测变化。
+1、我们通过 Object.defineProperty 实现了对 Object 数据的可观测，并且封装成 Observer 类，我们能够方便的把 Object 数据中的所有属性(子属性)转换成 getter/setter 的形式来侦测变化。
+
+2、依赖收集，在 getter 中收集依赖，在 setter 中通知依赖跟新，依赖收集封装成一个 Dep 类。用于存储收集的依赖。
+
+3、我们为每一个依赖创建一个 Watcher 实例，当数据发生变化的时候，通知 Watcher 实例，由 Watcher 实例去做真实的更新操作
 
 - Data 通过 observer 转换成了 getter/setter 的形式来追踪变化。
 - 当外界通过 Watcher 读取数据时，会触发 getter 从而将 Watcher 添加到依赖中。
