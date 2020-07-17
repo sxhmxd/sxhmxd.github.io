@@ -382,10 +382,12 @@ export function updateListeners (
 ```
 
 - 代码分析
+
   - 对比 listeners 和 oldListeners 的不同，并调用参数中提供的 add 和 remove 进行相应的注册事件和卸载事件。
     对比的思想：如果 listeners 对象中存在某个 key 而 oldListeners 中不存在，则说明这个事件是需要新增的；反之，如果 oldListeners 对象中存在某个 key(事件名) 而 listeners 中不存在，则说明这个事件是需要从事件系统中卸载。
   - 函数接收 5 个参数，分别是 on、oldOn、add、remove、vm,其中 on 对应 listeners, oldOn 对应 oldListeners。
   - 首先对 on 进行遍历， 获得每一个事件名，然后调用 normalizeEvent 函数（关于该函数下面会介绍）处理， 处理完事件名后， 判断事件名对应的值是否存在，如果不存在则抛出警告，
+
   ```
   for (name in on) {
     def = cur = on[name]
@@ -399,28 +401,37 @@ export function updateListeners (
     }
   }
   ```
+
   - 如果存在，则继续判断该事件名在 oldOn 中是否存在，如果不存在，则调用 add 注册事件
-  ```
-  if (isUndef(old)) {
-  if (isUndef(cur.fns)) {
-    cur = on[name] = createFnInvoker(cur)
-  }
-  add(event.name, cur, event.once, event.capture, event.passive, event.params)
-  }
-  export function createFnInvoker (fns) {
-  function invoker () {
-    const fns = invoker.fns
-    if (Array.isArray(fns)) {
-      const cloned = fns.slice()
-      for (let i = 0; i < cloned.length; i++) {
-        cloned[i].apply(null, arguments)
+
+    ```
+    if (isUndef(old)) {
+      if (isUndef(cur.fns)) {
+        cur = on[name] = createFnInvoker(cur)
       }
-    } else {
-      // return handler return value for single handlers
-      return fns.apply(null, arguments)
+      add(event.name, cur, event.once, event.capture, event.passive, event.params)
     }
-  }
-  invoker.fns = fns
-  return invoker
-  }
-  ```
+
+    export function createFnInvoker (fns) {
+      function invoker () {
+        const fns = invoker.fns
+        if (Array.isArray(fns)) {
+          const cloned = fns.slice()
+          for (let i = 0; i < cloned.length; i++) {
+            cloned[i].apply(null, arguments)
+          }
+        } else {
+          // return handler return value for single handlers
+          return fns.apply(null, arguments)
+        }
+      }
+    invoker.fns = fns
+    return invoker
+    }
+    ```
+
+## 初始化阶段 initInjections
+
+该函数是用来初始化实例中的 inject 选项。inject 和 provide 选项，这两个选项都是成对出现，左右是：允许一个祖先组件向其它子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。
+
+
