@@ -432,6 +432,84 @@ export function updateListeners (
 
 ## 初始化阶段 initInjections
 
-该函数是用来初始化实例中的 inject 选项。inject 和 provide 选项，这两个选项都是成对出现，左右是：允许一个祖先组件向其它子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。
+该函数是用来初始化实例中的 inject 选项。inject 和 provide 选项，这两个选项都是成对出现，左右是：允许一个祖先组件向其它子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。provide 选项应该返回一个对象或返回一个对象的函数。该对象包含可注入其子孙的属性。
 
+```
+ var Parent = {
+   provide:{
+     foo:'bar'
+   }
+ }
+ var Child = {
+   inject:['foo'],
+   created () {
+     console.log(this.foo) // bar
+   }
+ }
+```
 
+### initInjections 函数分析
+
+```
+export function initInjections (vm: Component) {
+  const result = resolveInject(vm.$options.inject, vm)
+  if (result) {
+    toggleObserving(false)
+    Object.keys(result).forEach(key => {
+      defineReactive(vm, key, result[key])
+    }
+    toggleObserving(true)
+  }
+}
+
+export let shouldObserve: boolean = true
+export function toggleObserving (value: boolean) {
+  shouldObserve = value
+}
+```
+
+- 代码分析
+  - 首先调用 resolveInject 把 inject 选项中的数据转化成键值对的形式赋值给 result 。
+  - 遍历 result 中的每一对键值，调用 defineReactive 将数据转换成可观测的数据。
+- 注意点：
+  在把 result 中的键值对添加到当前实例上之前，会先调用 toggleObserving(false),而这个函数内部是把 shouldObserver = false, 是告诉 defineReactive 函数仅仅是把键值添加到当前实例上而不需要将其转换成响应式。
+
+### resolveInject 函数分析
+
+```
+export function resolveInject (inject: any, vm: Component): ?Object {
+  if (inject) {
+    const result = Object.create(null)
+    const keys =  Object.keys(inject)
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      const provideKey = inject[key].from
+      let source = vm
+      while (source) {
+        if (source._provided && hasOwn(source._provided, provideKey)) {
+          result[key] = source._provided[provideKey]
+          break
+        }
+        source = source.$parent
+      }
+      if (!source) {
+        if ('default' in inject[key]) {
+          const provideDefault = inject[key].default
+          result[key] = typeof provideDefault === 'function'
+            ? provideDefault.call(vm)
+            : provideDefault
+        } else if (process.env.NODE_ENV !== 'production') {
+          warn(`Injection "${key}" not found`, vm)
+        }
+      }
+    }
+    return result
+  }
+}
+```
+
+- 代码分析
+  - 首先创建一个空对象 result,用来存储 inject 选项中的数据 key 及其对应的值，作为最后的返回结果。
+  - 获取当前 inject 选项中的所有 key，然后遍历每一个 key,拿到每一个 key 的 from 属性记作 provideKey，provideKey 就是上游父级组件提供的源属性，然后开启一个 while 循环，从当前组件起，不断的向上游父级组件的\_provided 属性中（父级组件使用 provide 选项注入数据时会将注入的数据存入自己的实例的\_provided 属性中）查找，直到查找到源属性的对应的值，将其存入 result 中。如果没有找到，就看 inject 选项中当前数据 key 是否设置了默认值，如果有，则拿这个默认值。如果没有默认值就，就抛出异常。
+  - 最后返回 result
