@@ -513,3 +513,5 @@ export function resolveInject (inject: any, vm: Component): ?Object {
   - 首先创建一个空对象 result,用来存储 inject 选项中的数据 key 及其对应的值，作为最后的返回结果。
   - 获取当前 inject 选项中的所有 key，然后遍历每一个 key,拿到每一个 key 的 from 属性记作 provideKey，provideKey 就是上游父级组件提供的源属性，然后开启一个 while 循环，从当前组件起，不断的向上游父级组件的\_provided 属性中（父级组件使用 provide 选项注入数据时会将注入的数据存入自己的实例的\_provided 属性中）查找，直到查找到源属性的对应的值，将其存入 result 中。如果没有找到，就看 inject 选项中当前数据 key 是否设置了默认值，如果有，则拿这个默认值。如果没有默认值就，就抛出异常。
   - 最后返回 result
+
+## 
