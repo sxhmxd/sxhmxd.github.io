@@ -274,3 +274,249 @@ function getPropDefaultValue (vm, prop, key){
   - 首先判断 prop 中是否有 default 属性，如果没有，则表示没有默认值，直接返回。如果有则取出 default 属性，赋值给变量 def。接着判断在非生产环境下 def 是否是一个对象，如果是，则抛出警告。
   - 接着判断如果父组件没有传入 props 属性，但是在 vm.\_props 中有该属性值，这说明 vm.\_props 中的该属性值就是默认值。
   - 最后，判断 def 是否为函数并且 prop.type 不为 Function ，如果是的话表明 def 是一个返回对象或数组的工厂函数，那么将函数的返回值作为默认值返回；如果 def 不是函数，则将 def 作为默认值返回。
+
+#### assertProp 函数分析
+
+```
+function assertProp (prop,name,value,vm,absent) {
+  if (prop.required && absent) {
+    warn(
+      'Missing required prop: "' + name + '"',
+      vm
+    )
+    return
+  }
+  if (value == null && !prop.required) {
+    return
+  }
+  let type = prop.type
+  let valid = !type || type === true
+  const expectedTypes = []
+  if (type) {
+    if (!Array.isArray(type)) {
+      type = [type]
+    }
+    for (let i = 0; i < type.length && !valid; i++) {
+      const assertedType = assertType(value, type[i])
+      expectedTypes.push(assertedType.expectedType || '')
+      valid = assertedType.valid
+    }
+  }
+  if (!valid) {
+    warn(
+      `Invalid prop: type check failed for prop "${name}".` +
+      ` Expected ${expectedTypes.map(capitalize).join(', ')}` +
+      `, got ${toRawType(value)}.`,
+      vm
+    )
+    return
+  }
+  const validator = prop.validator
+  if (validator) {
+    if (!validator(value)) {
+      warn(
+        'Invalid prop: custom validator check failed for prop "' + name + '".',
+        vm
+      )
+    }
+  }
+}
+```
+
+- 代码分析
+  - 该函数接收五个参数
+    - prop: prop 选项
+    - name: props 中 prop 选项的 key
+    - value: 父组件传入的 propsData 中 key 对应的真实数据。
+    - vm: 当前实例。
+    - absent: 当前 key 是否在 propsData 中存在，即父组件是否传入了该属性
+      作用：是校验父组件传来的真实值是否与 prop 的 type 类型相匹配，如果不匹配则在非生产环境下抛出警告。
+  - 定义 3 个变量
+    - type: prop 中的 type 类型。
+    - valid: 校验是否成功。
+    - expectedTypes: 保存期望类型的数组，当校验失败抛出警告时，提示用户该属性所期望的类型是什么
+
+### 初始化 methods
+
+```
+function initMethods (vm, methods) {
+  const props = vm.$options.props
+  for (const key in methods) {
+    if (process.env.NODE_ENV !== 'production') {
+      if (methods[key] == null) {
+        warn(
+          `Method "${key}" has an undefined value in the component definition. ` +
+          `Did you reference the function correctly?`,
+          vm
+        )
+      }
+      if (props && hasOwn(props, key)) {
+        warn(
+          `Method "${key}" has already been defined as a prop.`,
+          vm
+        )
+      }
+      if ((key in vm) && isReserved(key)) {
+        warn(
+          `Method "${key}" conflicts with an existing Vue instance method. ` +
+          `Avoid defining component methods that start with _ or $.`
+        )
+      }
+    }
+    vm[key] = methods[key] == null ? noop : bind(methods[key], vm)
+  }
+}
+```
+
+- 代码分析
+  - 首先遍历 methods 选项中的每一个对象，在非生产环境下判断如果 methods 中某个方法只有 key 而没有 value，即只有方法名没有方法体时，抛出异常：提示用户方法未定义。
+  - 接着判断如果 methods 中某个方法名与 props 中某个属性名重复了，就抛出异常：提示用户方法名重复。
+  - 接着判断如果 methods 中某个方法名如果在实例 vm 中已经存在并且方法名是以 \_ 或 \$ 开头的，就抛出异常：提示用户方法名命名不规范。
+  - 最后，如果上述判断没有问题，那就 method 绑定到 实例 vm 上，可以通过 this.fun() 来访问 methods 选项中的 fun 方法。
+    总起来：初始化 methods 就做了三件事情，判断 method 有没有，method 的命名符不符合命名规范，method 既有又符合命名规范就把它挂载到 vm 实例上。
+
+### 初始化 data
+
+```
+function initData (vm) {
+    let data = vm.$options.data
+    data = vm._data = typeof data === 'function'
+        ? getData(data, vm)
+    : data || {}
+    if (!isPlainObject(data)) {
+        data = {}
+        process.env.NODE_ENV !== 'production' && warn(
+            'data functions should return an object:\n' +
+            'https://vuejs.org/v2/guide/components.html##data-Must-Be-a-Function',
+            vm
+        )
+    }
+    // proxy data on instance
+    const keys = Object.keys(data)
+    const props = vm.$options.props
+    const methods = vm.$options.methods
+    let i = keys.length
+    while (i--) {
+        const key = keys[i]
+        if (process.env.NODE_ENV !== 'production') {
+            if (methods && hasOwn(methods, key)) {
+                warn(
+                    `Method "${key}" has already been defined as a data property.`,
+                    vm
+                )
+            }
+        }
+        if (props && hasOwn(props, key)) {
+            process.env.NODE_ENV !== 'production' && warn(
+                `The data property "${key}" is already declared as a prop. ` +
+                `Use prop default value instead.`,
+                vm
+            )
+        } else if (!isReserved(key)) {
+            proxy(vm, `_data`, key)
+        }
+    }
+    // observe data
+    observe(data, true /* asRootData */)
+}
+```
+
+- 代码分析
+  - 首先获取到用户传入的 data 选项，赋值给变量 data,同时将变量 data 作为指针指向 vm.\_data, 然后判断 data 是不是一个函数，如果是函数调用 getData 函数获取其返回值，将其保存到 vm.\_data 中，如果不是，就将其本身保存到 vm.\_data 中。
+  - 接下来遍历 data 对象中的每一项，在非生产环境下判断 data 对象中是否存在某一项的 key 与 method 中某个属性名重复，如果重复，就抛出警告：提示用户属性名重复。
+  - 接着再判断是否存在某一项的 key 与 prop 中某个属性名重复，如果存在重复，就抛出警告：提示用户属性名重复。
+    如果都没有重复，则调用 proxy 函数将 data 对象中 key 不以\_或\$开头的属性代理到实例 vm 上，这样，我们就可以通过 this.xxx 来访问 data 选项中的 xxx 数据了
+  - 最后，调用 observe 函数将 data 中的数据转化成响应式。
+
+### 初始化 computed
+
+计算属性有一个很大的特点：计算属性的结果会被缓存，除非依赖的响应属性发生变化才会重新计算。
+
+#### initComputed 函数分析
+
+```
+function initComputed (vm: Component, computed: Object) {
+    const watchers = vm._computedWatchers = Object.create(null)
+    const isSSR = isServerRendering()
+
+    for (const key in computed) {
+        const userDef = computed[key]
+        const getter = typeof userDef === 'function' ? userDef : userDef.get
+        if (process.env.NODE_ENV !== 'production' && getter == null) {
+            warn(
+                `Getter is missing for computed property "${key}".`,
+                vm
+            )
+        }
+
+        if (!isSSR) {
+            // create internal watcher for the computed property.
+            watchers[key] = new Watcher(
+                vm,
+                getter || noop,
+                noop,
+                computedWatcherOptions
+            )
+        }
+
+        if (!(key in vm)) {
+            defineComputed(vm, key, userDef)
+        } else if (process.env.NODE_ENV !== 'production') {
+            if (key in vm.$data) {
+                warn(`The computed property "${key}" is already defined in data.`, vm)
+            } else if (vm.$options.props && key in vm.$options.props) {
+                warn(`The computed property "${key}" is already defined as a prop.`, vm)
+            }
+        }
+    }
+}
+```
+
+- 代码分析
+  - 首先定义一个变量 watchers 并将其赋值为空对象，同时将其作为指针指向 vm.computedWatchers
+  - 接着遍历 computed 选项中的每一项属性，首先获取到每一项的属性值，记作 userDef,然后判断 userDef 是不是一个函数，如果是函数，则该函数默认为取值器 getter,将其赋值给变量 getter; 如果不是函数，则说明是一个对象，则对象中的 get 属性作为取值器赋给变量 getter。
+  - 接着判断在非生产环境下如果上面的两种情况取到的取值器不存在，则抛出警告：提示用户计算属性必须有取值器。
+  - 接着判断如果不是在服务端渲染环境下，则创建一个 watcher 实例，并将当前循环到的属性名作为键，创建的 watcher 实例作为值存入 watcher 对象中。
+  - 最后判断当前循环到的属性名是否存在于当前实例 vm 上，如果存在，则在非生产环境下抛出警告；如果不存在，则调用 defineComputed 函数为实例 vm 上设置计算属性。
+
+#### defineComputed 函数分析
+
+```
+const sharedPropertyDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: noop,
+  set: noop
+}
+
+export function defineComputed (target,key,userDef) {
+  const shouldCache = !isServerRendering()
+  if (typeof userDef === 'function') {
+    sharedPropertyDefinition.get = shouldCache
+      ? createComputedGetter(key)
+      : userDef
+    sharedPropertyDefinition.set = noop
+  } else {
+    sharedPropertyDefinition.get = userDef.get
+      ? shouldCache && userDef.cache !== false
+        ? createComputedGetter(key)
+        : userDef.get
+      : noop
+    sharedPropertyDefinition.set = userDef.set
+      ? userDef.set
+      : noop
+  }
+  if (process.env.NODE_ENV !== 'production' &&
+      sharedPropertyDefinition.set === noop) {
+    sharedPropertyDefinition.set = function () {
+      warn(
+        `Computed property "${key}" was assigned to but it has no setter.`,
+        this
+      )
+    }
+  }
+  Object.defineProperty(target, key, sharedPropertyDefinition)
+}
+```
+
+-
