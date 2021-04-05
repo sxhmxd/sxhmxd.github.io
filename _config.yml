@@ -99,5 +99,5 @@ theme: landscape
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/sxhmxd/sxhmxd.github.io.git
+  repo: git@github.com:sxhmxd/sxhmxd.github.io.git
   branch: master
