@@ -5,8 +5,9 @@ categories: []
 
 ## webSocket 封装，重连
 
+
 ```
-import { Message } from 'element-ui'
+
 // import { getToken } from '@/utils/authToken' // 与后端的协商，websocket请求需要带上token参数
 let websock = null
 let messageCallback = null
@@ -46,6 +47,7 @@ function websocketclose (e) {
   // e.code === 1000  表示正常关闭。 无论为何目的而创建, 该链接都已成功完成任务。
   // e.code !== 1000  表示非正常关闭。
   if (e && e.code !== 1000) {
+    reconnect(wsUrl);    //异常关闭，自动重连
     // Message.error('ws连接异常，请稍候重试')
     errorCallback(e)
     // // 如果需要设置异常重连则可替换为下面的代码，自行进行测试
@@ -93,7 +95,7 @@ function initWebSocket () {
     reconnect(wsUrl);
   }
   websock.onclose = function (e) {
-    reconnect(wsUrl);
+   
     websocketclose(e)
   } 
 }
