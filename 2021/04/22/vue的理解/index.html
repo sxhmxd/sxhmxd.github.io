@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Vue 的理解 | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="变化侦测对象的单个属性值实现可观测通过 Object.defineProperty 实现对象数据变化的 可观测 12345678910111213141516let car &#x3D; &amp;#123;   price:3000&amp;#125;let val &#x3D; 3000Object.defineProperty(car, &#39;price&#39;, &amp;#123;  enumerable">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 的理解">
+<meta property="og:url" content="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="变化侦测对象的单个属性值实现可观测通过 Object.defineProperty 实现对象数据变化的 可观测 12345678910111213141516let car &#x3D; &amp;#123;   price:3000&amp;#125;let val &#x3D; 3000Object.defineProperty(car, &#39;price&#39;, &amp;#123;  enumerable">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2021-04-22T07:51:22.470Z">
+<meta property="article:modified_time" content="2021-04-22T07:51:22.470Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vue的理解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.470Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue 的理解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="变化侦测"><a href="#变化侦测" class="headerlink" title="变化侦测"></a>变化侦测</h1><h2 id="对象的单个属性值实现可观测"><a href="#对象的单个属性值实现可观测" class="headerlink" title="对象的单个属性值实现可观测"></a>对象的单个属性值实现可观测</h2><p>通过 Object.defineProperty 实现对象数据变化的 可观测</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">let car &#x3D; &#123;</span><br><span class="line">   price:3000</span><br><span class="line">&#125;</span><br><span class="line">let val &#x3D; 3000</span><br><span class="line">Object.defineProperty(car, &#39;price&#39;, &#123;</span><br><span class="line">  enumerable: true,</span><br><span class="line">  configurable: true,</span><br><span class="line">  get()&#123;</span><br><span class="line">    console.log(&#39;price属性被读取了&#39;)</span><br><span class="line">    return val</span><br><span class="line">  &#125;,</span><br><span class="line">  set(newVal)&#123;</span><br><span class="line">    console.log(&#39;price属性被修改了&#39;)</span><br><span class="line">    val &#x3D; newVal</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="使对象的所有属性变的可观测"><a href="#使对象的所有属性变的可观测" class="headerlink" title="使对象的所有属性变的可观测"></a>使对象的所有属性变的可观测</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Observer类会通过递归的方式把一个对象的所有属性都转化成可观测对象</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">export class Observer &#123;</span><br><span class="line">  constructor (value) &#123;</span><br><span class="line">    this.value &#x3D; value</span><br><span class="line">    &#x2F;&#x2F; 给value新增一个__ob__属性，值为该value的Observer实例</span><br><span class="line">    &#x2F;&#x2F; 相当于为value打上标记，表示它已经被转化成响应式了，避免重复操作</span><br><span class="line">    def(value,&#39;__ob__&#39;,this)</span><br><span class="line">    if (Array.isArray(value)) &#123;</span><br><span class="line">      &#x2F;&#x2F; 当value为数组时的逻辑</span><br><span class="line">      &#x2F;&#x2F; ...</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      this.walk(value)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  walk (obj: Object) &#123;</span><br><span class="line">    const keys &#x3D; Object.keys(obj)</span><br><span class="line">    for (let i &#x3D; 0; i &lt; keys.length; i++) &#123;</span><br><span class="line">      defineReactive(obj, keys[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 使一个对象转化成可观测对象</span><br><span class="line"> * @param &#123; Object &#125; obj 对象</span><br><span class="line"> * @param &#123; String &#125; key 对象的key</span><br><span class="line"> * @param &#123; Any &#125; val 对象的某个key的值</span><br><span class="line"> *&#x2F;</span><br><span class="line"></span><br><span class="line">function defineReactive (obj,key,val) &#123; &#x2F;&#x2F; 将传进来的某个属性变成可侦测的</span><br><span class="line">  &#x2F;&#x2F; 如果只传了obj和key，那么val &#x3D; obj[key]</span><br><span class="line">  if (arguments.length &#x3D;&#x3D;&#x3D; 2) &#123;</span><br><span class="line">    val &#x3D; obj[key]</span><br><span class="line">  &#125;</span><br><span class="line">  if(typeof val &#x3D;&#x3D;&#x3D; &#39;object&#39;)&#123;</span><br><span class="line">    new Observer(val)</span><br><span class="line">  &#125;</span><br><span class="line">  Object.defineProperty(obj, key, &#123;</span><br><span class="line">    enumerable: true,</span><br><span class="line">    configurable: true,</span><br><span class="line">    get()&#123;</span><br><span class="line">      console.log(&#96;$&#123;key&#125;属性被读取了&#96;);</span><br><span class="line">      return val;</span><br><span class="line">    &#125;,</span><br><span class="line">    set(newVal)&#123;</span><br><span class="line">      if(val &#x3D;&#x3D;&#x3D; newVal)&#123;</span><br><span class="line">          return</span><br><span class="line">      &#125;</span><br><span class="line">      console.log(&#96;$&#123;key&#125;属性被修改了&#96;);</span><br><span class="line">      val &#x3D; newVal;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过定义了 Observer 类，将一个正常的 object 转换成可观测的 object<br>并且给 value 增加 <code>__ob__</code> 属性值为该 value 的 Observer 实例。 该操作相当于是为 value 打上一个标志，标识已经转换成响应式了，避免重复操作。<br>然后判断数据的类型：(数组和对象的数据监测方式不一样，数组是通过修改数组的操作方法来实现数据变化的监测) object 类型的数据调用 walk 将每一个属性转换成 getter/setter 的形式来侦测变化，当 defineReactive 中当传入的属性值还是一个 object 时使用 new observer（val）来递归子属性，这样我们就可以把 obj 中的所有属性（包括子属性）都转换成 getter/seter 的形式来侦测变化。</p>
+<p>通过一个 observer 类，我们将一个对象传入到里面，这个对象就变成可观测的。</p>
+<h2 id="收集依赖"><a href="#收集依赖" class="headerlink" title="收集依赖"></a>收集依赖</h2><h3 id="为什么要有收集依赖"><a href="#为什么要有收集依赖" class="headerlink" title="为什么要有收集依赖"></a>为什么要有收集依赖</h3><p>数据变的可观测以后，我们知道数据什么时候发生了变化，当数据变化时，通知视图更新。但是我们不知道该通知谁去发生变化，但是也不能一个数据变化，就整个视图就更新。</p>
+<p>解决思路: 就是对每个数据建立一个依赖数组，谁依赖了这个数据，就把谁放入到这个依赖数组中，当该数据发生变化的时候，就去对应的依赖数组，通知数组中的依赖，更新。</p>
+<p>什么时候收集依赖?什么时候通知依赖更新？</p>
+<p><code>在 getter中收集依赖，在setter中通知依赖更新</code>。</p>
+<h3 id="依赖收集的地方"><a href="#依赖收集的地方" class="headerlink" title="依赖收集的地方"></a>依赖收集的地方</h3><p>创建依赖管理器 <code>Dep</code> 类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">export default class Dep &#123;</span><br><span class="line">  constructor () &#123;</span><br><span class="line">    this.subs &#x3D; []</span><br><span class="line">  &#125;</span><br><span class="line">  addSub (sub) &#123;</span><br><span class="line">    this.subs.push(sub)</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 删除一个依赖</span><br><span class="line">  removeSub (sub) &#123;</span><br><span class="line">    remove(this.subs,sub)</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 添加一个依赖</span><br><span class="line">  depend () &#123;</span><br><span class="line">    if (window.target) &#123;</span><br><span class="line">      this.addSub(window.target)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 通知所有的依赖更新</span><br><span class="line">  notify () &#123;</span><br><span class="line">    const subs &#x3D; this.subs.slice()</span><br><span class="line">    for (let i &#x3D; 0, l &#x3D; subs.length; i&lt;l; i++) &#123;</span><br><span class="line">      subs[i].update()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * Remove an item from an array</span><br><span class="line"> *&#x2F;</span><br><span class="line">export function remove (arr, item) &#123;</span><br><span class="line">  if (arr.length) &#123;</span><br><span class="line">    const index &#x3D; arr.indexOf(item)</span><br><span class="line">    if (index &gt; -1) &#123;</span><br><span class="line">      return arr.splice(index, 1)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了 Dep 类依赖收集，可以在 getter 中收集依赖，在 setter 中通知依赖更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function defineReactive (obj,key,val) &#123;</span><br><span class="line">  if (arguments.length &#x3D;&#x3D;&#x3D; 2) &#123;</span><br><span class="line">    val &#x3D; obj[key]</span><br><span class="line">  &#125;</span><br><span class="line">  if(typeof val &#x3D;&#x3D;&#x3D; &#39;object&#39;)&#123;</span><br><span class="line">    new Observer(val)</span><br><span class="line">  &#125;</span><br><span class="line">  const dep &#x3D; new Dep()  &#x2F;&#x2F;实例化一个依赖管理器，生成一个依赖管理数组dep</span><br><span class="line">  Object.defineProperty(obj, key, &#123;</span><br><span class="line">    enumerable: true,</span><br><span class="line">    configurable: true,</span><br><span class="line">    get()&#123;</span><br><span class="line">      dep.depend()    &#x2F;&#x2F; 在getter中收集依赖</span><br><span class="line">      return val;</span><br><span class="line">    &#125;,</span><br><span class="line">    set(newVal)&#123;</span><br><span class="line">      if(val &#x3D;&#x3D;&#x3D; newVal)&#123;</span><br><span class="line">          return</span><br><span class="line">      &#125;</span><br><span class="line">      val &#x3D; newVal;</span><br><span class="line">      dep.notify()   &#x2F;&#x2F; 在setter中通知依赖更新</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="我们所说的依赖到底是谁"><a href="#我们所说的依赖到底是谁" class="headerlink" title="我们所说的依赖到底是谁"></a>我们所说的依赖到底是谁</h3><p>我们说 <code>谁用到了这个数据谁就是依赖</code>，在代码上的体现，在 vue 中还有一个 Watcher 类，这个 <code>Watcher</code> 就是我们所说的 <code>谁</code>。<br>谁用到了数据，谁就是依赖，我们就为谁创建一个 Watcher 实例。之后当数据发生变化的时，我们不直接通知依赖跟新，而是通知依赖对应的 Watch 实例，由 Watcher 实例去通知真正的视图。<br>Watcher 类的具体实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">export default class Watcher &#123;</span><br><span class="line">  constructor (vm,expOrFn,cb) &#123;</span><br><span class="line">    this.vm &#x3D; vm;</span><br><span class="line">    this.cb &#x3D; cb;</span><br><span class="line">    this.getter &#x3D; parsePath(expOrFn)</span><br><span class="line">    this.value &#x3D; this.get()</span><br><span class="line">  &#125;</span><br><span class="line">  get () &#123;</span><br><span class="line">    window.target &#x3D; this;</span><br><span class="line">    const vm &#x3D; this.vm</span><br><span class="line">    let value &#x3D; this.getter.call(vm, vm)</span><br><span class="line">    window.target &#x3D; undefined;</span><br><span class="line">    return value</span><br><span class="line">  &#125;</span><br><span class="line">  update () &#123;</span><br><span class="line">    const oldValue &#x3D; this.value</span><br><span class="line">    this.value &#x3D; this.get()</span><br><span class="line">    this.cb.call(this.vm, this.value, oldValue)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Parse simple path.</span><br><span class="line"> * 把一个形如&#39;data.a.b.c&#39;的字符串路径所表示的值，从真实的data对象中取出来</span><br><span class="line"> * 例如：</span><br><span class="line"> * data &#x3D; &#123;a:&#123;b:&#123;c:2&#125;&#125;&#125;</span><br><span class="line"> * parsePath(&#39;a.b.c&#39;)(data)  &#x2F;&#x2F; 2</span><br><span class="line"> *&#x2F;</span><br><span class="line">const bailRE &#x3D; &#x2F;[^\w.$]&#x2F;</span><br><span class="line">export function parsePath (path) &#123;</span><br><span class="line">  if (bailRE.test(path)) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  const segments &#x3D; path.split(&#39;.&#39;)</span><br><span class="line">  return function (obj) &#123;</span><br><span class="line">    for (let i &#x3D; 0; i &lt; segments.length; i++) &#123;</span><br><span class="line">      if (!obj) return</span><br><span class="line">      obj &#x3D; obj[segments[i]]</span><br><span class="line">    &#125;</span><br><span class="line">    return obj</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在创建 Watcher 实例的过程中会自动的把自己添加到这个数据对应的依赖管理器中，以后这个 Watcher 实例就代表这个依赖，当数据变化时，我们就通知 Watcher 实例，由 Watcher 实例再去通知真正的依赖。</p>
+<p>Watcher 类实现的逻辑</p>
+<ul>
+<li><p>当实例化 Watcher 类时，会先执行其构造函数；</p>
+</li>
+<li><p>在构造函数中调用了 this.get()实例方法；</p>
+</li>
+<li><p>在 get()方法中，首先通过 window.target = this 把实例自身赋给了全局的一个唯一对象 window.target 上，然后通过 let value = this.getter.call(vm, vm)获取一下被依赖的数据，获取被依赖数据的目的是触发该数据上面的 getter，上文我们说过，在 getter 里会调用 dep.depend()收集依赖，而在 dep.depend()中取到挂载 window.target 上的值并将其存入依赖数组中，在 get()方法最后将 window.target 释放掉。</p>
+</li>
+<li><p>而当数据变化时，会触发数据的 setter，在 setter 中调用了 dep.notify()方法，在 dep.notify()方法中，遍历所有依赖(即 watcher 实例)，执行依赖的 update()方法，也就是 Watcher 类中的 update()实例方法，在 update()方法中调用数据变化的更新回调函数，从而更新视图。</p>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>1、我们通过 Object.defineProperty 实现了对 Object 数据的可观测，并且封装成 Observer 类，我们能够方便的把 Object 数据中的所有属性(子属性)转换成 getter/setter 的形式来侦测变化。</p>
+<p>2、依赖收集，在 getter 中收集依赖，在 setter 中通知依赖跟新，依赖收集封装成一个 Dep 类。用于存储收集的依赖。</p>
+<p>3、我们为每一个依赖创建一个 Watcher 实例，当数据发生变化的时候，通知 Watcher 实例，由 Watcher 实例去做真实的更新操作</p>
+<ul>
+<li>Data 通过 observer 转换成了 getter/setter 的形式来追踪变化。</li>
+<li>当外界通过 Watcher 读取数据时，会触发 getter 从而将 Watcher 添加到依赖中。</li>
+<li>当数据发生了变化时，会触发 setter，从而向 Dep 中的依赖（即 Watcher）发送通知。</li>
+<li>Watcher 接收到通知后，会向外界发送通知，变化通知到外界后可能会触发视图更新，也有可能触发用户的某个回调函数等</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="ckpgky4u1000f08dx6irmeimm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue.js 源码解读,
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%816/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue.js 源码解读,</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装/websocket</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/">HTTP 知识</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/27/%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/">渲染流水线</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/22/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

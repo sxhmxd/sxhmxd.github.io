@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>webSocket封装/websocket | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="import { Message } from &#39;element-ui&#39; &#x2F;&#x2F; import { getToken } from &#39;@&#x2F;utils&#x2F;authToken&#39; &#x2F;&#x2F; 与后端的协商，websocket请求需要带上token参数 let websock &#x3D; null let messageCallback &#x3D; null let errorCallback &#x3D; null let wsUrl &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webSocket封装&#x2F;websocket">
+<meta property="og:url" content="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="import { Message } from &#39;element-ui&#39; &#x2F;&#x2F; import { getToken } from &#39;@&#x2F;utils&#x2F;authToken&#39; &#x2F;&#x2F; 与后端的协商，websocket请求需要带上token参数 let websock &#x3D; null let messageCallback &#x3D; null let errorCallback &#x3D; null let wsUrl &#x3D;">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2021-06-03T06:44:50.407Z">
+<meta property="article:modified_time" content="2021-06-03T06:48:24.845Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-webSocket封装/websocket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" class="article-date">
+  <time datetime="2021-06-03T06:44:50.407Z" itemprop="datePublished">2021-06-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webSocket封装/websocket
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        import { Message } from 'element-ui'
+// import { getToken } from '@/utils/authToken' // 与后端的协商，websocket请求需要带上token参数
+let websock = null
+let messageCallback = null
+let errorCallback = null
+let wsUrl = ''
+
+var lockReconnect = false;//避免重复连接
+// 接收ws后端返回的数据
+function websocketonmessage (e) { 
+
+  messageCallback(e.data)
+  heartCheck.reset().start();
+}
+ 
+/**
+ * 发起websocket连接
+ * @param {Object} agentData 需要向后台传递的参数数据
+ */
+function websocketSend (agentData) {
+  // 加延迟是为了尽量让ws连接状态变为OPEN   
+  setTimeout(() => { 
+    // 添加状态判断，当为OPEN时，发送消息
+    if (websock.readyState === websock.OPEN) { // websock.OPEN = 1 
+      // 发给后端的数据需要字符串化
+      websock.send(JSON.stringify(agentData))
+    }
+    if (websock.readyState === websock.CLOSED) { // websock.CLOSED = 3 
+      console.log('websock.readyState=3')
+      // Message.error('ws连接异常，请稍候重试')
+      errorCallback()
+    }
+  }, 500)
+}
+ 
+// 关闭ws连接
+function websocketclose (e) {  
+  // e.code === 1000  表示正常关闭。 无论为何目的而创建, 该链接都已成功完成任务。
+  // e.code !== 1000  表示非正常关闭。
+  if (e && e.code !== 1000) {
+    // Message.error('ws连接异常，请稍候重试')
+    errorCallback(e)
+    // // 如果需要设置异常重连则可替换为下面的代码，自行进行测试
+    // if (tryTime < 10) {
+    //   setTimeout(function() {
+    //    websock = null
+    //    tryTime++
+    //    initWebSocket()
+    //    console.log(`第${tryTime}次重连`)
+    //  }, 3 * 1000)
+    //} else {
+    //  Message.error('重连失败！请稍后重试')
+    //}
+  }
+}
+// 建立ws连接
+function websocketOpen (e) {
+  // console.log('ws连接成功')
+  heartCheck.reset().start();
+}
+ 
+// 初始化weosocket
+function initWebSocket () { 
+  console.log('重连重连')
+  if (typeof (WebSocket) === 'undefined') {
+    Message.error('您的浏览器不支持WebSocket，无法获取数据')
+    return false
+  }
+  
+  // const token = 'JWT=' + getToken()
+  // ws请求完整地址
+  const requstWsUrl = wsUrl // .// + '?' + token
+  websock = new WebSocket(requstWsUrl)
+
+  websock.onmessage = function (e) {
+    websocketonmessage(e)
+  } 
+  websock.onopen = function () {
+    
+    websocketOpen()
+  }
+  websock.onerror = function () {
+    // Message.error('ws连接异常，请稍候重试')
+    errorCallback()
+    reconnect(wsUrl);
+  }
+  websock.onclose = function (e) {
+    reconnect(wsUrl);
+    websocketclose(e)
+  } 
+}
+ 
+/**
+ * 发起websocket请求函数
+ * @param {string} url ws连接地址
+ * @param {Object} agentData 传给后台的参数
+ * @param {function} successCallback 接收到ws数据，对数据进行处理的回调函数
+ * @param {function} errCallback ws连接错误的回调函数
+ */
+export function sendWebsocket (url,agentData, successCallback, errCallback) { 
+  wsUrl = url
+  initWebSocket()
+  messageCallback = successCallback
+  errorCallback = errCallback
+  websocketSend(agentData)
+}
+
+/**
+ * 关闭websocket函数
+ */
+export function closeWebsocket () {
+  if (websock) {
+    websock.close() // 关闭websocket
+    websock.onclose() // 关闭websocket
+  }
+}
+
+function reconnect() {
+  
+    if(lockReconnect) return;
+    lockReconnect = true;
+    //没连接上会一直重连，设置延迟避免请求过多
+    setTimeout(function () {
+      
+      initWebSocket();
+        lockReconnect = false;
+    }, 2000);
+}
+
+//心跳检测
+var heartCheck = {
+    timeout: 6000,//60秒
+    timeoutObj: null,
+    serverTimeoutObj: null,
+    reset: function(){
+        clearTimeout(this.timeoutObj);
+        clearTimeout(this.serverTimeoutObj);
+        return this;
+    },
+    start: function(){
+        var self = this;
+        this.timeoutObj = setTimeout(function(){
+            //这里发送一个心跳，后端收到后，返回一个心跳消息，
+            //onmessage拿到返回的心跳就说明连接正常
+            websock.send("HeartBeat");
+            self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
+              websock.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+            }, self.timeout)
+        }, this.timeout)
+    }
+}
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="ckpgky4vo002708dx8k9i9td2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webSocket封装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">HTTP 知识</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装/websocket</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/">HTTP 知识</a>
+          </li>
+        
+          <li>
+            <a href="/2021/05/27/%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/">渲染流水线</a>
+          </li>
+        
+          <li>
+            <a href="/2021/04/22/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
