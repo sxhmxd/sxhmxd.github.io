@@ -109,7 +109,86 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="ckpgky56q003208dx0hp9d8sc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="ckpnewgm0001rj0dxdon3ddja" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/SPA" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.474Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/">SPA单页面</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="SPA-单页面，优缺点是"><a href="#SPA-单页面，优缺点是" class="headerlink" title="SPA 单页面，优缺点是"></a>SPA 单页面，优缺点是</h3><p>SPA ( single-page-application ) 仅在页面初始化时加载相应的 HTML、JavaScript 和 CSS。页面加载完成，SPA 不会因为用户的操作而进行页面的重新加载或者跳转;取而代之的是利用路由机制实现 HTML 内容的变换，UI 与用户的交互，避免页面的重新加载。</p>
+<p>单页面</p>
+<p><code>单页面应用，就是只有一个页面的应用，页面的刷新和内部子页面的跳转完全由js来控制。</code></p>
+<ul>
+<li><p>单页面应用的特点</p>
+<ul>
+<li>本地路由，由 js 定义路由、根据路由渲染页面、控制页面的跳转。</li>
+<li>所有的文件只会加载一次，最大限度重用文件，并且极大提升加载速度。</li>
+<li>按需加载<br>根据业务逻辑拆分代码为独立的异步 js 文件(不存在于 html 的 Script 中)，在触发对应逻辑(如路由跳转，组件使用等)时通过 js 代码进行下载并使用。</li>
+</ul>
+</li>
+<li><p>优点：</p>
+<ul>
+<li>有良好的交互体验<br>能提升页面切换体验，用户在访问应用页面是不会频繁的去切换浏览页面，从而避免了页面的重新加载。</li>
+<li>前后端分离开发<br>前端进行交互逻辑，后端负责数据处理。</li>
+<li>减轻服务器压力<br>服务器只用出数据就可以，不用管展示逻辑和页面合成。</li>
+<li>共有一套后端代码<br>不用修改后端程序代码就可以同时用于多种客户端。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>初次加载很耗时多<br>为实现单页面 Web 应用功能及显示效果，需要在加载页面的时候将 JavaScript、CSS 统一加载，部分页面可以在需要的时候加载</li>
+<li>SEO 难度较高<br>由于所有的内容都会在一个页面中动态替换显示，</li>
+<li>前进后退路由管理<br>由于单页面应用在一个页面显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理。</li>
+</ul>
+</li>
+<li><p>性能优化</p>
+<ul>
+<li>加载优化<br>通常一开始就会加载所必需的的代码(JavaScript HTML CSS),首屏加载太慢会按需加载。<br><code>按需加载</code>就是按照当前呈现的不同页面加载不同的文件，<br>当首屏加载完毕后，设备&amp;网络处于空闲状态，可以对其他路由组件进行预加载。<br>根据路由拆分减少初始化加载体积，利用异步加载方式，在路由注册时提供拉取组件的方法，仅在需要进入对应路由时，组件才会被加载进来。</li>
+<li>SEO 优化</li>
+</ul>
+</li>
+<li><p>体验优化</p>
+<ul>
+<li>构建骨架图。</li>
+<li>页面切换<br>页面切换前：在确保组件数据加载完毕前，可保证页面可交互，减少用户阻塞感。<br>切换时增加动画</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" data-id="ckpnewglw001lj0dx9losbwg2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -194,86 +273,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" data-id="ckpgky4vg001v08dx00ypcsg9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-面试/SPA" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.474Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/">SPA单页面</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="SPA-单页面，优缺点是"><a href="#SPA-单页面，优缺点是" class="headerlink" title="SPA 单页面，优缺点是"></a>SPA 单页面，优缺点是</h3><p>SPA ( single-page-application ) 仅在页面初始化时加载相应的 HTML、JavaScript 和 CSS。页面加载完成，SPA 不会因为用户的操作而进行页面的重新加载或者跳转;取而代之的是利用路由机制实现 HTML 内容的变换，UI 与用户的交互，避免页面的重新加载。</p>
-<p>单页面</p>
-<p><code>单页面应用，就是只有一个页面的应用，页面的刷新和内部子页面的跳转完全由js来控制。</code></p>
-<ul>
-<li><p>单页面应用的特点</p>
-<ul>
-<li>本地路由，由 js 定义路由、根据路由渲染页面、控制页面的跳转。</li>
-<li>所有的文件只会加载一次，最大限度重用文件，并且极大提升加载速度。</li>
-<li>按需加载<br>根据业务逻辑拆分代码为独立的异步 js 文件(不存在于 html 的 Script 中)，在触发对应逻辑(如路由跳转，组件使用等)时通过 js 代码进行下载并使用。</li>
-</ul>
-</li>
-<li><p>优点：</p>
-<ul>
-<li>有良好的交互体验<br>能提升页面切换体验，用户在访问应用页面是不会频繁的去切换浏览页面，从而避免了页面的重新加载。</li>
-<li>前后端分离开发<br>前端进行交互逻辑，后端负责数据处理。</li>
-<li>减轻服务器压力<br>服务器只用出数据就可以，不用管展示逻辑和页面合成。</li>
-<li>共有一套后端代码<br>不用修改后端程序代码就可以同时用于多种客户端。</li>
-</ul>
-</li>
-<li><p>缺点：</p>
-<ul>
-<li>初次加载很耗时多<br>为实现单页面 Web 应用功能及显示效果，需要在加载页面的时候将 JavaScript、CSS 统一加载，部分页面可以在需要的时候加载</li>
-<li>SEO 难度较高<br>由于所有的内容都会在一个页面中动态替换显示，</li>
-<li>前进后退路由管理<br>由于单页面应用在一个页面显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理。</li>
-</ul>
-</li>
-<li><p>性能优化</p>
-<ul>
-<li>加载优化<br>通常一开始就会加载所必需的的代码(JavaScript HTML CSS),首屏加载太慢会按需加载。<br><code>按需加载</code>就是按照当前呈现的不同页面加载不同的文件，<br>当首屏加载完毕后，设备&amp;网络处于空闲状态，可以对其他路由组件进行预加载。<br>根据路由拆分减少初始化加载体积，利用异步加载方式，在路由注册时提供拉取组件的方法，仅在需要进入对应路由时，组件才会被加载进来。</li>
-<li>SEO 优化</li>
-</ul>
-</li>
-<li><p>体验优化</p>
-<ul>
-<li>构建骨架图。</li>
-<li>页面切换<br>页面切换前：在确保组件数据加载完毕前，可保证页面可交互，减少用户阻塞感。<br>切换时增加动画</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" data-id="ckpgky4vh001w08dxeytqgbdx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" data-id="ckpnewgly001nj0dxc8megdju" class="article-share-link">Share</a>
       
       
     </footer>
@@ -435,7 +435,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="ckpgky4u8000p08dxf8nce0t8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="ckpnewgkc000lj0dx0l101w7a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -533,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="ckpgky4u4000j08dx4pirgwzg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="ckpnewgk9000hj0dx7tws2tlm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -613,7 +613,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" data-id="ckpgky4u6000l08dxattofwpj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" data-id="ckpnewgkb000kj0dx2xw0fvmd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -652,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="ckpgky4u2000g08dxciu63s5u" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="ckpnewgk8000fj0dxec507oie" class="article-share-link">Share</a>
       
       
     </footer>
@@ -696,7 +696,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" data-id="ckpgky4ty000d08dxdg0c5cog" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" data-id="ckpnewgk4000cj0dx6trb71ld" class="article-share-link">Share</a>
       
       
     </footer>
@@ -773,7 +773,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="ckpgky4u1000f08dx6irmeimm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="ckpnewgk6000ej0dx5p66hem1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -985,7 +985,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%816/" data-id="ckpgky4u7000m08dx8flb4fmn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%816/" data-id="ckpnewgk3000bj0dxfoye0qhm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1038,11 +1038,11 @@
       <ul>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
+            <a href="/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/">web 代码编辑器</a>
           </li>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装/websocket</a>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
           </li>
         
           <li>

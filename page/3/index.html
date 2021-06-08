@@ -236,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%815/" data-id="ckpgky4u3000i08dxgwr5d2ue" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%815/" data-id="ckpnewgjy0009j0dxfyebgl1p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -287,7 +287,74 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%814/" data-id="ckpgky4tt000908dx91us7mj4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%814/" data-id="ckpnewgmp002uj0dx5qsd6a9v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vue源码3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%813/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.466Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%813/">Vue.js 源码解读, 更新子节点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="更新子节点"><a href="#更新子节点" class="headerlink" title="更新子节点"></a>更新子节点</h2><p>当新的 VNode 与旧的 oldVNode 都是元素节点并且都包含子节点时，那么这两个节点的 VNode 实例上的 children 属性就是所包含的子节点数组。我们把新的 VNode 上的子节点数组记为 newChildren，把旧的 oldVNode 上的子节点数组记为 oldChildren，我们把 newChildren 里面的元素与 oldChildren 里的元素一一进行对比，对比两个子节点数组肯定是要通过循环，外层循环 newChildren 数组，内层循环 oldChildren 数组，每循环外层 newChildren 数组里的一个子节点，就去内层 oldChildren 数组里找看有没有与之相同的子节点</p>
+<p>以上这个过程存在四种情况: 创建子节点、删除字节点、移动子节点、更新节点。</p>
+<h2 id="创建子节点"><a href="#创建子节点" class="headerlink" title="创建子节点"></a>创建子节点</h2><p>newChildren 里面的某个子节点在 oldChildren 里找不到与之相同的子节点，说明 newChildren 里面的这个子节点是之前没有的，是需要此次新增的节点，创建这个节点，创建之后把它插入到 DOM 中合适的位置。</p>
+<p><img src="https://vue-js.com/learn-vue/assets/img/4.cb62f1aa.png" alt="avatar"></p>
+<h2 id="删除子节点"><a href="#删除子节点" class="headerlink" title="删除子节点"></a>删除子节点</h2><p>把 newChildren 里面的每一个子节点都循环一遍，能在 oldChildren 数组里找到的就处理它，找不到的就新增，直到把 newChildren 里面所有子节点都遍历一遍后，发现 oldChildren 还存在未处理的子节点，说明未处理的子节点是需要被废弃的，那么就将这些节点删除。</p>
+<h2 id="更新子节点-1"><a href="#更新子节点-1" class="headerlink" title="更新子节点"></a>更新子节点</h2><p>如果 newChildren 里面的某个子节点在 oldChildren 里找到与之相同的子节点，并且所处的位置也相同，那么就更新 oldChildren 里该节点使之与 newChildren 里的该节点相同。</p>
+<h2 id="移动子节点"><a href="#移动子节点" class="headerlink" title="移动子节点"></a>移动子节点</h2><p>如果 newChildren 里面的某个子节点在 oldChildren 里找到与之相同的子节点，但是所处的位置不同，则此次变化需要调整该子节点的位置，以 newChildren 的位置为准，调整 oldChildren 里改节点的位置。</p>
+<p><img src="https://vue-js.com/learn-vue/assets/img/6.b9621b4d.png" alt="avatar"></p>
+<p>在上图中，绿色的两个节点是相同节点但是所处位置不同，按照上面所说的，我们应该以 newChildren 里子节点的位置为基准，调整 oldChildren 里该节点的位置，所以我们应该把真实 DOM 即 oldChildren 里面的第四个节点移动到第三个节点的位置</p>
+<h2 id="更新子节点的优化"><a href="#更新子节点的优化" class="headerlink" title="更新子节点的优化"></a>更新子节点的优化</h2><p>根据之前的跟新逻辑，可以解决问题，存在可以优化的地方。如果当包含的子节点数量很多时，循环算法的时间复杂度会变的很大，不利于性能的提升。</p>
+<h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h3><p>我们不按照顺序去循环 newChildren 和 oldChildren 这两个数组，可以先比较这两个数组里特殊位置的子节点。</p>
+<ul>
+<li>新前与旧前<br>先把 newChildren 数组里面的所有未处理子节点的第一个和 oldChildren 数组里面所有未处理子节点的第一个做对比，如果相同，就直接进入更新子节点的操作。</li>
+</ul>
+<p><img src="https://vue-js.com/learn-vue/assets/img/9.e017b452.png" alt="avatar"></p>
+<ul>
+<li>新后与旧后<br>把 newChildren 数组里面的所有未处理子节点的最后一个和 oldChildren 数组里面所有未处理子节点的最后一个做对比，如果相同，就直接进入更新子节点的操作。</li>
+</ul>
+<p><img src="https://vue-js.com/learn-vue/assets/img/10.cf98adc0.png" alt="avatar"></p>
+<ul>
+<li>新后与旧前<br>把 newChildren 数组里面的所有未处理子节点的最后一个和 oldChildren 数组里面所有未处理子节点的第一个做对比，如果相同，就直接进入更新子节点的操作，更新完成后再将 oldChildren 数组里的该节点移动到与 newChildren 数组节点相同的位置。</li>
+</ul>
+<p><img src="https://vue-js.com/learn-vue/assets/img/12.bace2f7f.png" alt="avatar"></p>
+<ul>
+<li>新前与旧后<br>把 newChildren 数组里面的所有未处理子节点的第一个和 oldChildren 数组里面所有未处理子节点的最后一个做对比，如果相同，就直接进入更新子节点的操作，更新完成后再将 oldChildren 数组里的该节点移动到与 newChildren 数组节点相同的位置。</li>
+</ul>
+<p><img src="https://vue-js.com/learn-vue/assets/img/14.18c1c6dd.png" alt="avatar"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%813/" data-id="ckpnewgjx0008j0dx64s33rlt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -374,74 +441,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%812/" data-id="ckpgky4tp000608dx58ry51ka" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%813/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.466Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%813/">Vue.js 源码解读, 更新子节点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="更新子节点"><a href="#更新子节点" class="headerlink" title="更新子节点"></a>更新子节点</h2><p>当新的 VNode 与旧的 oldVNode 都是元素节点并且都包含子节点时，那么这两个节点的 VNode 实例上的 children 属性就是所包含的子节点数组。我们把新的 VNode 上的子节点数组记为 newChildren，把旧的 oldVNode 上的子节点数组记为 oldChildren，我们把 newChildren 里面的元素与 oldChildren 里的元素一一进行对比，对比两个子节点数组肯定是要通过循环，外层循环 newChildren 数组，内层循环 oldChildren 数组，每循环外层 newChildren 数组里的一个子节点，就去内层 oldChildren 数组里找看有没有与之相同的子节点</p>
-<p>以上这个过程存在四种情况: 创建子节点、删除字节点、移动子节点、更新节点。</p>
-<h2 id="创建子节点"><a href="#创建子节点" class="headerlink" title="创建子节点"></a>创建子节点</h2><p>newChildren 里面的某个子节点在 oldChildren 里找不到与之相同的子节点，说明 newChildren 里面的这个子节点是之前没有的，是需要此次新增的节点，创建这个节点，创建之后把它插入到 DOM 中合适的位置。</p>
-<p><img src="https://vue-js.com/learn-vue/assets/img/4.cb62f1aa.png" alt="avatar"></p>
-<h2 id="删除子节点"><a href="#删除子节点" class="headerlink" title="删除子节点"></a>删除子节点</h2><p>把 newChildren 里面的每一个子节点都循环一遍，能在 oldChildren 数组里找到的就处理它，找不到的就新增，直到把 newChildren 里面所有子节点都遍历一遍后，发现 oldChildren 还存在未处理的子节点，说明未处理的子节点是需要被废弃的，那么就将这些节点删除。</p>
-<h2 id="更新子节点-1"><a href="#更新子节点-1" class="headerlink" title="更新子节点"></a>更新子节点</h2><p>如果 newChildren 里面的某个子节点在 oldChildren 里找到与之相同的子节点，并且所处的位置也相同，那么就更新 oldChildren 里该节点使之与 newChildren 里的该节点相同。</p>
-<h2 id="移动子节点"><a href="#移动子节点" class="headerlink" title="移动子节点"></a>移动子节点</h2><p>如果 newChildren 里面的某个子节点在 oldChildren 里找到与之相同的子节点，但是所处的位置不同，则此次变化需要调整该子节点的位置，以 newChildren 的位置为准，调整 oldChildren 里改节点的位置。</p>
-<p><img src="https://vue-js.com/learn-vue/assets/img/6.b9621b4d.png" alt="avatar"></p>
-<p>在上图中，绿色的两个节点是相同节点但是所处位置不同，按照上面所说的，我们应该以 newChildren 里子节点的位置为基准，调整 oldChildren 里该节点的位置，所以我们应该把真实 DOM 即 oldChildren 里面的第四个节点移动到第三个节点的位置</p>
-<h2 id="更新子节点的优化"><a href="#更新子节点的优化" class="headerlink" title="更新子节点的优化"></a>更新子节点的优化</h2><p>根据之前的跟新逻辑，可以解决问题，存在可以优化的地方。如果当包含的子节点数量很多时，循环算法的时间复杂度会变的很大，不利于性能的提升。</p>
-<h3 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h3><p>我们不按照顺序去循环 newChildren 和 oldChildren 这两个数组，可以先比较这两个数组里特殊位置的子节点。</p>
-<ul>
-<li>新前与旧前<br>先把 newChildren 数组里面的所有未处理子节点的第一个和 oldChildren 数组里面所有未处理子节点的第一个做对比，如果相同，就直接进入更新子节点的操作。</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/9.e017b452.png" alt="avatar"></p>
-<ul>
-<li>新后与旧后<br>把 newChildren 数组里面的所有未处理子节点的最后一个和 oldChildren 数组里面所有未处理子节点的最后一个做对比，如果相同，就直接进入更新子节点的操作。</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/10.cf98adc0.png" alt="avatar"></p>
-<ul>
-<li>新后与旧前<br>把 newChildren 数组里面的所有未处理子节点的最后一个和 oldChildren 数组里面所有未处理子节点的第一个做对比，如果相同，就直接进入更新子节点的操作，更新完成后再将 oldChildren 数组里的该节点移动到与 newChildren 数组节点相同的位置。</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/12.bace2f7f.png" alt="avatar"></p>
-<ul>
-<li>新前与旧后<br>把 newChildren 数组里面的所有未处理子节点的第一个和 oldChildren 数组里面所有未处理子节点的最后一个做对比，如果相同，就直接进入更新子节点的操作，更新完成后再将 oldChildren 数组里的该节点移动到与 newChildren 数组节点相同的位置。</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/14.18c1c6dd.png" alt="avatar"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%813/" data-id="ckpgky4tx000c08dxbso17f4q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%812/" data-id="ckpnewgmq002wj0dx6r8n2uw0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -526,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%811/" data-id="ckpgky4tu000a08dx5wku4jwr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%811/" data-id="ckpnewgjr0004j0dxebti0n12" class="article-share-link">Share</a>
       
       
     </footer>
@@ -652,7 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%81/" data-id="ckpgky4to000508dx24rx03jg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%81/" data-id="ckpnewgjt0005j0dx1ed73yiq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -696,7 +696,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckpgky4ts000808dx3rnw552k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/" data-id="ckpnewgjw0007j0dxdz1d7ffu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1106,7 +1106,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/" data-id="ckpgky4vf001u08dxdnyf367u" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/" data-id="ckpnewglq001hj0dxghzs58uw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1176,7 +1176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/jsType/" data-id="ckpgky4tn000408dxep6yanra" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/jsType/" data-id="ckpnewgjq0003j0dx654j1bmx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1230,7 +1230,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/git%E5%91%BD%E4%BB%A4/" data-id="ckpgky4tl000308dxcd5e5mxn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/git%E5%91%BD%E4%BB%A4/" data-id="ckpnewgjo0002j0dx3q4gb36t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1283,11 +1283,11 @@
       <ul>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
+            <a href="/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/">web 代码编辑器</a>
           </li>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装/websocket</a>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
           </li>
         
           <li>

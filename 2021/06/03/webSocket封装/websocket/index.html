@@ -5,17 +5,17 @@
   
 
   
-  <title>webSocket封装/websocket | 有理想的笛子</title>
+  <title>webSocket封装 | 有理想的笛子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="import { Message } from &#39;element-ui&#39; &#x2F;&#x2F; import { getToken } from &#39;@&#x2F;utils&#x2F;authToken&#39; &#x2F;&#x2F; 与后端的协商，websocket请求需要带上token参数 let websock &#x3D; null let messageCallback &#x3D; null let errorCallback &#x3D; null let wsUrl &#x3D;">
+  <meta name="description" content="webSocket 封装，重连12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
 <meta property="og:type" content="article">
-<meta property="og:title" content="webSocket封装&#x2F;websocket">
+<meta property="og:title" content="webSocket封装">
 <meta property="og:url" content="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/index.html">
 <meta property="og:site_name" content="有理想的笛子">
-<meta property="og:description" content="import { Message } from &#39;element-ui&#39; &#x2F;&#x2F; import { getToken } from &#39;@&#x2F;utils&#x2F;authToken&#39; &#x2F;&#x2F; 与后端的协商，websocket请求需要带上token参数 let websock &#x3D; null let messageCallback &#x3D; null let errorCallback &#x3D; null let wsUrl &#x3D;">
+<meta property="og:description" content="webSocket 封装，重连12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
 <meta property="og:locale" content="zh">
-<meta property="article:published_time" content="2021-06-03T06:44:50.407Z">
-<meta property="article:modified_time" content="2021-06-03T06:48:24.845Z">
+<meta property="article:published_time" content="2021-06-03T06:46:45.680Z">
+<meta property="article:modified_time" content="2021-06-03T07:15:29.782Z">
 <meta property="article:author" content="sxhMxd">
 <meta name="twitter:card" content="summary">
   
@@ -69,7 +69,7 @@
         <section id="main"><article id="post-webSocket封装/websocket" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" class="article-date">
-  <time datetime="2021-06-03T06:44:50.407Z" itemprop="datePublished">2021-06-03</time>
+  <time datetime="2021-06-03T06:46:45.680Z" itemprop="datePublished">2021-06-03</time>
 </a>
     
   </div>
@@ -80,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      webSocket封装/websocket
+      webSocket封装
     </h1>
   
 
@@ -88,163 +88,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        import { Message } from 'element-ui'
-// import { getToken } from '@/utils/authToken' // 与后端的协商，websocket请求需要带上token参数
-let websock = null
-let messageCallback = null
-let errorCallback = null
-let wsUrl = ''
-
-var lockReconnect = false;//避免重复连接
-// 接收ws后端返回的数据
-function websocketonmessage (e) { 
-
-  messageCallback(e.data)
-  heartCheck.reset().start();
-}
- 
-/**
- * 发起websocket连接
- * @param {Object} agentData 需要向后台传递的参数数据
- */
-function websocketSend (agentData) {
-  // 加延迟是为了尽量让ws连接状态变为OPEN   
-  setTimeout(() => { 
-    // 添加状态判断，当为OPEN时，发送消息
-    if (websock.readyState === websock.OPEN) { // websock.OPEN = 1 
-      // 发给后端的数据需要字符串化
-      websock.send(JSON.stringify(agentData))
-    }
-    if (websock.readyState === websock.CLOSED) { // websock.CLOSED = 3 
-      console.log('websock.readyState=3')
-      // Message.error('ws连接异常，请稍候重试')
-      errorCallback()
-    }
-  }, 500)
-}
- 
-// 关闭ws连接
-function websocketclose (e) {  
-  // e.code === 1000  表示正常关闭。 无论为何目的而创建, 该链接都已成功完成任务。
-  // e.code !== 1000  表示非正常关闭。
-  if (e && e.code !== 1000) {
-    // Message.error('ws连接异常，请稍候重试')
-    errorCallback(e)
-    // // 如果需要设置异常重连则可替换为下面的代码，自行进行测试
-    // if (tryTime < 10) {
-    //   setTimeout(function() {
-    //    websock = null
-    //    tryTime++
-    //    initWebSocket()
-    //    console.log(`第${tryTime}次重连`)
-    //  }, 3 * 1000)
-    //} else {
-    //  Message.error('重连失败！请稍后重试')
-    //}
-  }
-}
-// 建立ws连接
-function websocketOpen (e) {
-  // console.log('ws连接成功')
-  heartCheck.reset().start();
-}
- 
-// 初始化weosocket
-function initWebSocket () { 
-  console.log('重连重连')
-  if (typeof (WebSocket) === 'undefined') {
-    Message.error('您的浏览器不支持WebSocket，无法获取数据')
-    return false
-  }
-  
-  // const token = 'JWT=' + getToken()
-  // ws请求完整地址
-  const requstWsUrl = wsUrl // .// + '?' + token
-  websock = new WebSocket(requstWsUrl)
-
-  websock.onmessage = function (e) {
-    websocketonmessage(e)
-  } 
-  websock.onopen = function () {
-    
-    websocketOpen()
-  }
-  websock.onerror = function () {
-    // Message.error('ws连接异常，请稍候重试')
-    errorCallback()
-    reconnect(wsUrl);
-  }
-  websock.onclose = function (e) {
-    reconnect(wsUrl);
-    websocketclose(e)
-  } 
-}
- 
-/**
- * 发起websocket请求函数
- * @param {string} url ws连接地址
- * @param {Object} agentData 传给后台的参数
- * @param {function} successCallback 接收到ws数据，对数据进行处理的回调函数
- * @param {function} errCallback ws连接错误的回调函数
- */
-export function sendWebsocket (url,agentData, successCallback, errCallback) { 
-  wsUrl = url
-  initWebSocket()
-  messageCallback = successCallback
-  errorCallback = errCallback
-  websocketSend(agentData)
-}
-
-/**
- * 关闭websocket函数
- */
-export function closeWebsocket () {
-  if (websock) {
-    websock.close() // 关闭websocket
-    websock.onclose() // 关闭websocket
-  }
-}
-
-function reconnect() {
-  
-    if(lockReconnect) return;
-    lockReconnect = true;
-    //没连接上会一直重连，设置延迟避免请求过多
-    setTimeout(function () {
-      
-      initWebSocket();
-        lockReconnect = false;
-    }, 2000);
-}
-
-//心跳检测
-var heartCheck = {
-    timeout: 6000,//60秒
-    timeoutObj: null,
-    serverTimeoutObj: null,
-    reset: function(){
-        clearTimeout(this.timeoutObj);
-        clearTimeout(this.serverTimeoutObj);
-        return this;
-    },
-    start: function(){
-        var self = this;
-        this.timeoutObj = setTimeout(function(){
-            //这里发送一个心跳，后端收到后，返回一个心跳消息，
-            //onmessage拿到返回的心跳就说明连接正常
-            websock.send("HeartBeat");
-            self.serverTimeoutObj = setTimeout(function(){//如果超过一定时间还没重置，说明后端主动断开了
-              websock.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
-            }, self.timeout)
-        }, this.timeout)
-    }
-}
-
-
+        <h2 id="webSocket-封装，重连"><a href="#webSocket-封装，重连" class="headerlink" title="webSocket 封装，重连"></a>webSocket 封装，重连</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;&#x2F; import &#123; getToken &#125; from &#39;@&#x2F;utils&#x2F;authToken&#39; &#x2F;&#x2F; 与后端的协商，websocket请求需要带上token参数</span><br><span class="line">let websock &#x3D; null</span><br><span class="line">let messageCallback &#x3D; null</span><br><span class="line">let errorCallback &#x3D; null</span><br><span class="line">let wsUrl &#x3D; &#39;&#39;</span><br><span class="line"></span><br><span class="line">var lockReconnect &#x3D; false;&#x2F;&#x2F;避免重复连接</span><br><span class="line">&#x2F;&#x2F; 接收ws后端返回的数据</span><br><span class="line">function websocketonmessage (e) &#123; </span><br><span class="line"></span><br><span class="line">  messageCallback(e.data)</span><br><span class="line">  heartCheck.reset().start();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;**</span><br><span class="line"> * 发起websocket连接</span><br><span class="line"> * @param &#123;Object&#125; agentData 需要向后台传递的参数数据</span><br><span class="line"> *&#x2F;</span><br><span class="line">function websocketSend (agentData) &#123;</span><br><span class="line">  &#x2F;&#x2F; 加延迟是为了尽量让ws连接状态变为OPEN   </span><br><span class="line">  setTimeout(() &#x3D;&gt; &#123; </span><br><span class="line">    &#x2F;&#x2F; 添加状态判断，当为OPEN时，发送消息</span><br><span class="line">    if (websock.readyState &#x3D;&#x3D;&#x3D; websock.OPEN) &#123; &#x2F;&#x2F; websock.OPEN &#x3D; 1 </span><br><span class="line">      &#x2F;&#x2F; 发给后端的数据需要字符串化</span><br><span class="line">      websock.send(JSON.stringify(agentData))</span><br><span class="line">    &#125;</span><br><span class="line">    if (websock.readyState &#x3D;&#x3D;&#x3D; websock.CLOSED) &#123; &#x2F;&#x2F; websock.CLOSED &#x3D; 3 </span><br><span class="line">      console.log(&#39;websock.readyState&#x3D;3&#39;)</span><br><span class="line">      &#x2F;&#x2F; Message.error(&#39;ws连接异常，请稍候重试&#39;)</span><br><span class="line">      errorCallback()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, 500)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; 关闭ws连接</span><br><span class="line">function websocketclose (e) &#123;  </span><br><span class="line">  &#x2F;&#x2F; e.code &#x3D;&#x3D;&#x3D; 1000  表示正常关闭。 无论为何目的而创建, 该链接都已成功完成任务。</span><br><span class="line">  &#x2F;&#x2F; e.code !&#x3D;&#x3D; 1000  表示非正常关闭。</span><br><span class="line">  if (e &amp;&amp; e.code !&#x3D;&#x3D; 1000) &#123;</span><br><span class="line">    reconnect(wsUrl);    &#x2F;&#x2F;异常关闭，自动重连</span><br><span class="line">    &#x2F;&#x2F; Message.error(&#39;ws连接异常，请稍候重试&#39;)</span><br><span class="line">    errorCallback(e)</span><br><span class="line">    &#x2F;&#x2F; &#x2F;&#x2F; 如果需要设置异常重连则可替换为下面的代码，自行进行测试</span><br><span class="line">    &#x2F;&#x2F; if (tryTime &lt; 10) &#123;</span><br><span class="line">    &#x2F;&#x2F;   setTimeout(function() &#123;</span><br><span class="line">    &#x2F;&#x2F;    websock &#x3D; null</span><br><span class="line">    &#x2F;&#x2F;    tryTime++</span><br><span class="line">    &#x2F;&#x2F;    initWebSocket()</span><br><span class="line">    &#x2F;&#x2F;    console.log(&#96;第$&#123;tryTime&#125;次重连&#96;)</span><br><span class="line">    &#x2F;&#x2F;  &#125;, 3 * 1000)</span><br><span class="line">    &#x2F;&#x2F;&#125; else &#123;</span><br><span class="line">    &#x2F;&#x2F;  Message.error(&#39;重连失败！请稍后重试&#39;)</span><br><span class="line">    &#x2F;&#x2F;&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 建立ws连接</span><br><span class="line">function websocketOpen (e) &#123;</span><br><span class="line">  &#x2F;&#x2F; console.log(&#39;ws连接成功&#39;)</span><br><span class="line">  heartCheck.reset().start();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; 初始化weosocket</span><br><span class="line">function initWebSocket () &#123; </span><br><span class="line">  console.log(&#39;重连重连&#39;)</span><br><span class="line">  if (typeof (WebSocket) &#x3D;&#x3D;&#x3D; &#39;undefined&#39;) &#123;</span><br><span class="line">    Message.error(&#39;您的浏览器不支持WebSocket，无法获取数据&#39;)</span><br><span class="line">    return false</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  &#x2F;&#x2F; const token &#x3D; &#39;JWT&#x3D;&#39; + getToken()</span><br><span class="line">  &#x2F;&#x2F; ws请求完整地址</span><br><span class="line">  const requstWsUrl &#x3D; wsUrl &#x2F;&#x2F; .&#x2F;&#x2F; + &#39;?&#39; + token</span><br><span class="line">  websock &#x3D; new WebSocket(requstWsUrl)</span><br><span class="line"></span><br><span class="line">  websock.onmessage &#x3D; function (e) &#123;</span><br><span class="line">    websocketonmessage(e)</span><br><span class="line">  &#125; </span><br><span class="line">  websock.onopen &#x3D; function () &#123;</span><br><span class="line">    </span><br><span class="line">    websocketOpen()</span><br><span class="line">  &#125;</span><br><span class="line">  websock.onerror &#x3D; function () &#123;</span><br><span class="line">    &#x2F;&#x2F; Message.error(&#39;ws连接异常，请稍候重试&#39;)</span><br><span class="line">    errorCallback()</span><br><span class="line">    reconnect(wsUrl);</span><br><span class="line">  &#125;</span><br><span class="line">  websock.onclose &#x3D; function (e) &#123;</span><br><span class="line">   </span><br><span class="line">    websocketclose(e)</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;**</span><br><span class="line"> * 发起websocket请求函数</span><br><span class="line"> * @param &#123;string&#125; url ws连接地址</span><br><span class="line"> * @param &#123;Object&#125; agentData 传给后台的参数</span><br><span class="line"> * @param &#123;function&#125; successCallback 接收到ws数据，对数据进行处理的回调函数</span><br><span class="line"> * @param &#123;function&#125; errCallback ws连接错误的回调函数</span><br><span class="line"> *&#x2F;</span><br><span class="line">export function sendWebsocket (url,agentData, successCallback, errCallback) &#123; </span><br><span class="line">  wsUrl &#x3D; url</span><br><span class="line">  initWebSocket()</span><br><span class="line">  messageCallback &#x3D; successCallback</span><br><span class="line">  errorCallback &#x3D; errCallback</span><br><span class="line">  websocketSend(agentData)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 关闭websocket函数</span><br><span class="line"> *&#x2F;</span><br><span class="line">export function closeWebsocket () &#123;</span><br><span class="line">  if (websock) &#123;</span><br><span class="line">    websock.close() &#x2F;&#x2F; 关闭websocket</span><br><span class="line">    websock.onclose() &#x2F;&#x2F; 关闭websocket</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function reconnect() &#123;</span><br><span class="line">  </span><br><span class="line">    if(lockReconnect) return;</span><br><span class="line">    lockReconnect &#x3D; true;</span><br><span class="line">    &#x2F;&#x2F;没连接上会一直重连，设置延迟避免请求过多</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">      </span><br><span class="line">      initWebSocket();</span><br><span class="line">        lockReconnect &#x3D; false;</span><br><span class="line">    &#125;, 2000);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;心跳检测</span><br><span class="line">var heartCheck &#x3D; &#123;</span><br><span class="line">    timeout: 6000,&#x2F;&#x2F;60秒</span><br><span class="line">    timeoutObj: null,</span><br><span class="line">    serverTimeoutObj: null,</span><br><span class="line">    reset: function()&#123;</span><br><span class="line">        clearTimeout(this.timeoutObj);</span><br><span class="line">        clearTimeout(this.serverTimeoutObj);</span><br><span class="line">        return this;</span><br><span class="line">    &#125;,</span><br><span class="line">    start: function()&#123;</span><br><span class="line">        var self &#x3D; this;</span><br><span class="line">        this.timeoutObj &#x3D; setTimeout(function()&#123;</span><br><span class="line">            &#x2F;&#x2F;这里发送一个心跳，后端收到后，返回一个心跳消息，</span><br><span class="line">            &#x2F;&#x2F;onmessage拿到返回的心跳就说明连接正常</span><br><span class="line">            websock.send(&quot;HeartBeat&quot;);</span><br><span class="line">            self.serverTimeoutObj &#x3D; setTimeout(function()&#123;&#x2F;&#x2F;如果超过一定时间还没重置，说明后端主动断开了</span><br><span class="line">              websock.close();&#x2F;&#x2F;如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次</span><br><span class="line">            &#125;, self.timeout)</span><br><span class="line">        &#125;, this.timeout)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="ckpgky4vo002708dx8k9i9td2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="ckpnewglr001jj0dx3c3sbxk2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -253,11 +101,11 @@ var heartCheck = {
     
 <nav id="article-nav">
   
-    <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          webSocket封装
+          web 代码编辑器
         
       </div>
     </a>
@@ -309,11 +157,11 @@ var heartCheck = {
       <ul>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
+            <a href="/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/">web 代码编辑器</a>
           </li>
         
           <li>
-            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装/websocket</a>
+            <a href="/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/">webSocket封装</a>
           </li>
         
           <li>
