@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>js知识体系,js 语言的三大特性 | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="封装  JavaScript 是一种基于对象的语言，我们所遇到的东西几乎都是对象。  在 JS中，封装的过程就是把一些属性和方法放到对象中 “包裹” 起来，  封装：就是把事务封装成类，隐藏事物的属性和方法的实现细节，仅对外公开接口。  封装的好处：使用封装，可以达到代码的复用，使代码更加简洁  将属性和方法组成一个类的过程就是封装  通过构造函数添加JavaScript 提供了一个构造函数模式，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js知识体系,js 语言的三大特性">
+<meta property="og:url" content="http://yoursite.com/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="封装  JavaScript 是一种基于对象的语言，我们所遇到的东西几乎都是对象。  在 JS中，封装的过程就是把一些属性和方法放到对象中 “包裹” 起来，  封装：就是把事务封装成类，隐藏事物的属性和方法的实现细节，仅对外公开接口。  封装的好处：使用封装，可以达到代码的复用，使代码更加简洁  将属性和方法组成一个类的过程就是封装  通过构造函数添加JavaScript 提供了一个构造函数模式，">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2021-06-24T07:18:35.662Z">
+<meta property="article:modified_time" content="2021-06-29T03:06:40.939Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js知识体系/三大特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" class="article-date">
+  <time datetime="2021-06-24T07:18:35.662Z" itemprop="datePublished">2021-06-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a>►<a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js知识体系,js 语言的三大特性
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>  JavaScript 是一种基于对象的语言，我们所遇到的东西几乎都是对象。<br>  在 JS中，封装的过程就是把一些属性和方法放到对象中 “包裹” 起来，<br>  封装：就是把事务封装成类，隐藏事物的属性和方法的实现细节，仅对外公开接口。<br>  封装的好处：使用封装，可以达到代码的复用，使代码更加简洁<br>  <code>将属性和方法组成一个类的过程就是封装</code></p>
+<ul>
+<li><p>通过构造函数添加<br>JavaScript 提供了一个构造函数模式，用来创建对象时初始化对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">functuon Cat(name,color) &#123;</span><br><span class="line">  this.name &#x3D; name</span><br><span class="line">  this.colot &#x3D; color</span><br><span class="line">  this.eat &#x3D; ( () &#x3D;&gt; &#123;</span><br><span class="line">    console.log(&#39;🐟&#39;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 生成实例</span><br><span class="line">var cat1 &#x3D; new Cat(&#39;tom&#39;,&#39;gray&#39;)</span><br></pre></td></tr></table></figure></li>
+<li><p>通过原型 prototype 封装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function Cat(name,color) &#123;</span><br><span class="line">  this.name &#x3D; name</span><br><span class="line">  this.color &#x3D; color</span><br><span class="line">&#125;</span><br><span class="line">Cat.prototype.type &#x3D; &#39;英短&#39;</span><br><span class="line">Cat.prototype.eat &#x3D; ( () &#x3D;&gt; &#123;</span><br><span class="line">  alert(&#39;🐟&#39;)</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; 生成实例</span><br><span class="line">var cat1 &#x3D; new Cat(&#39;Tom&#39;,&#39;gray&#39;)</span><br><span class="line">var cat2 &#x3D; new Cat(&#39;Kobe&#39;,&#39;purple&#39;)</span><br><span class="line">console.log(cat1.type)</span><br><span class="line">cat2.eat()</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>继承：我们想要一个对象能够访问另一个对象的属性，同时，这个对象还能够添加新的属性或者覆盖可访问的另一个对象的属性。<br>继承就是子类可以使用父类的所有功能，并且对这些功能进行扩展。</p>
+<ul>
+<li><p>类式继承<br>就是使用原型的方式，将方法添加在父类的原型上，然后子类的原型是父类的一个实例化对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 声明父类</span><br><span class="line">var SuperClass &#x3D; function() &#123;</span><br><span class="line">  let id &#x3D; 1</span><br><span class="line">  this.name &#x3D; [&#39;java&#39;]</span><br><span class="line">  this.superValue &#x3D; function() &#123;</span><br><span class="line">    console.log(&#39;this is superValue&#39;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 为父类添加共有方法</span><br><span class="line">SuperClass.prototype.getSuperVlaue &#x3D; function() &#123;</span><br><span class="line">  return this.superValue()</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 声明子类</span><br><span class="line">var SubClass &#x3D; function() &#123;</span><br><span class="line">  this.subValue &#x3D; (() &#x3D;&gt; &#123;</span><br><span class="line">    console.log(&#39;this is subValue)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 继承父类</span><br><span class="line">SubClass.prototype &#x3D; new SuperClass()</span><br><span class="line">&#x2F;&#x2F; 为子类添加共有方法</span><br><span class="line">SubClass.prototype.getSubValue &#x3D; function()&#123;</span><br><span class="line">  return this.subValue()</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 生成实例</span><br><span class="line">var sub1 &#x3D; new SubClass()</span><br><span class="line">var sub2 &#x3D; new SubClass()</span><br><span class="line">sub1.getSuperValue() &#x2F;&#x2F; this is superValue</span><br><span class="line">sub1.getSubValue()   &#x2F;&#x2F; this is subValue</span><br><span class="line"></span><br><span class="line">console.log(sub1.id)   &#x2F;&#x2F; undefined</span><br><span class="line">console.log(sub1.name) &#x2F;&#x2F; [&#39;java&#39;]</span><br><span class="line"></span><br><span class="line">sub1.name.push(&#39;php&#39;)</span><br><span class="line">console.log(sub1.name) &#x2F;&#x2F;[&#39;java&#39;,&#39;php&#39;]</span><br><span class="line">console.log(sub1.name) &#x2F;&#x2F;[&#39;java&#39;,&#39;php&#39;]</span><br></pre></td></tr></table></figure>
+
+<p><code>使用类继承的方法缺陷，如果父类的构造函数中有引用数据类型，就会在子类中被所有实例共用，因此一个子类的实例如果更改了这个引用数据类型，就会影响到其他子类的实例</code></p>
+</li>
+<li><p>构造函数继承<br>构造函数继承的核心思想就是 直接改变this的指向，使通过this创建的属性和方法在子类中复制一份，因为是单独复制，所以各个实例的子类互不影响。但是会造成内存浪费的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 声明父类</span><br><span class="line">  function SuperClass(id) &#123;</span><br><span class="line">    var name &#x3D; &#39;js&#39;</span><br><span class="line">    this.languages &#x3D; [&#39;JavaScript&#39;,&#39;Python&#39;]</span><br><span class="line">    this.id &#x3D; id</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明子类</span><br><span class="line">  function SubClass(id) &#123;</span><br><span class="line">    SuperClass.call(this,id)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成实例</span><br><span class="line">  var sub1 &#x3D; new SubClass(1)</span><br><span class="line">  var sub2 &#x3D; new SubClass(2)</span><br><span class="line"></span><br><span class="line">  console.log(sub2.id)   &#x2F;&#x2F; 2</span><br><span class="line">  console.log(sub2.name) &#x2F;&#x2F; undefined</span><br><span class="line"></span><br><span class="line">  sub1.languages.push(&#39;node&#39;) </span><br><span class="line">  console.log(sub1.languages)  &#x2F;&#x2F; [&#39;JavaScript&#39;,&#39;Python&#39;,&#39;node&#39;]</span><br><span class="line">  console.log(sub2.languages)  &#x2F;&#x2F; [&#39;JavaScript&#39;,&#39;Python&#39;]</span><br></pre></td></tr></table></figure></li>
+<li><p>组合继承<br>组合继承是汲取了类继承和构造函数继承的优点，即避免了内存浪费，又使得每个实例化的子类互不影响</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 声明父类</span><br><span class="line"></span><br><span class="line">function SuperClass(name) &#123;</span><br><span class="line">  this.languages &#x3D; [&#39;js&#39;,&#39;python&#39;]</span><br><span class="line">  this.name &#x3D; name</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; 声明父类原型方法</span><br><span class="line">SuperClass.prototype.showlangs &#x3D; function ()&#123;</span><br><span class="line">  console.log(this.languages)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 声明子类</span><br><span class="line">function SubClass(name)&#123;</span><br><span class="line">  SuperClass.call(this,name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 子类继承父类(链式继承)</span><br><span class="line">SubClass.prototype &#x3D; new SuperClass()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成实例</span><br><span class="line">var sub1 &#x3D; new SubClass(&#39;node&#39;)</span><br><span class="line">var subw &#x3D; new SubClass(&#39;go&#39;)</span><br><span class="line"></span><br><span class="line">sub2.showlangs()  &#x2F;&#x2F; [&#39;js&#39;,&#39;python&#39;]</span><br><span class="line">sub1.languages.push(sub1.name)</span><br><span class="line">sub1.languages    &#x2F;&#x2F; [&#39;js&#39;,&#39;python&#39;,&#39;node&#39;]</span><br><span class="line">sub.languages     &#x2F;&#x2F; [&#39;js&#39;,&#39;python&#39;,&#39;go&#39;]</span><br></pre></td></tr></table></figure>
+<p><code>组合继承的问题，父类的构造函数会被创建两次，一次是call的时候，一次是new的时候</code></p>
+</li>
+<li><p>寄生组合继承</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 原型式继承</span><br><span class="line">  function inheritObject(o)&#123;</span><br><span class="line">    &#x2F;&#x2F; 声明一个过度函数</span><br><span class="line">    function F() &#123;&#125;</span><br><span class="line">    F.prototype &#x3D; 0</span><br><span class="line">    return new F()</span><br><span class="line">  &#125;</span><br><span class="line">&#x2F;&#x2F; 寄生式继承</span><br><span class="line">  function inheritPrototype(subClass,superClass)&#123;</span><br><span class="line">    var p &#x3D; inheritObject(superClass.prototype)</span><br><span class="line">    p.constructor &#x3D; subClass</span><br><span class="line">    subClass.prototype &#x3D; p</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义父类</span><br><span class="line">  function SuperClass(name) &#123;</span><br><span class="line">    this.name &#x3D; name</span><br><span class="line">    this.languages &#x3D; [&#39;js&#39;]</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义父类原型方法</span><br><span class="line">  SuperClass.prototype.showLangs &#x3D; function() &#123;</span><br><span class="line">    console.log(this.languages)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 定义子类</span><br><span class="line">  function SubClass(name) &#123;</span><br><span class="line">    SuperClass.call(this.name)</span><br><span class="line">  &#125;</span><br><span class="line">  inheritPrototype(SubClass, SuperClass);</span><br><span class="line">  var sub1 &#x3D; new SubClass(&#39;go&#39;);</span><br></pre></td></tr></table></figure>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态：同一操作作用于不同的对象，可以用不同的解释，产生不同的执行结果。本质上就是将做什么和谁去做以及怎么做分开，就是消除不同对象的耦合关系。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" data-id="ckqreurkr0022wkdxeywy8ehb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/06/29/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          js知识体系,js 代码执行过程分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/06/23/import%E5%92%8Cexport/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">import 和 export</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/07/06/TCP%E7%9F%A5%E8%AF%86/">TCP知识</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/29/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js知识体系,js 代码执行过程分析</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js知识体系,js 语言的三大特性</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/23/import%E5%92%8Cexport/">import 和 export</a>
+          </li>
+        
+          <li>
+            <a href="/2021/06/23/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">js知识体系,事件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
