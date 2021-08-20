@@ -64,6 +64,192 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-浏览器渲染涉及的知识/http" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/" class="article-date">
+  <time datetime="2021-05-27T06:47:53.305Z" itemprop="datePublished">2021-05-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/">HTTP 知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是-HTTP"><a href="#什么是-HTTP" class="headerlink" title="什么是 HTTP"></a>什么是 HTTP</h2><p>超文本传输协议，是一个基于请求与响应，无状态的，应用层的协议，常基于 TCP/IP 协议传输数据，互联网上应用最为广泛的一种网络协议，所有的 WWWW 文件都必须遵守这个标准。</p>
+<h2 id="HTTP-的基本优化"><a href="#HTTP-的基本优化" class="headerlink" title="HTTP 的基本优化"></a>HTTP 的基本优化</h2><p>影响一个　HTTP网络请求的因素主要有两个带宽和延迟<br>　＿带宽＿：当我们停留在拨号上网的阶段，带宽可能会成为一个比较严重影响请求的问题。<br>　＿延迟＿：<br>    - 浏览器阻塞：浏览器对于同一个域名，同时只能有4 个连接，超过浏览器最大数限制，后续请求就会被阻塞。<br>    - DNS 查询：浏览器需要知道目标服务器的IP 才能建立连接。将域名解析为IP。通常可以利用DNS缓存结果来达到减少查询的时间的目的。<br>    - 建立链接：HTTP 是基于TCP 协议的，浏览器最快也要在第三次握手时才能捎带 HTTP 请求报文，达到真正的建立连接。但是这些连接无法复用会导致每次请求都经历三次握手和慢启动。三次握手在高延迟的场景下影响比较明显，慢启动则对文件类请求影响较大。</p>
+<h2 id="HTTP-1-0-和-HTTP-1-1-的区别"><a href="#HTTP-1-0-和-HTTP-1-1-的区别" class="headerlink" title="HTTP 1.0  和 HTTP 1.1 的区别"></a>HTTP 1.0  和 HTTP 1.1 的区别</h2><p>http 1.1 是当前使用最为广泛的 HTTP 协议。主要区别是：<br>    - 缓存处理：在HTTP 1.0 中主要使用header 里的 if-Modified-Since,Expires 来作为缓存判断的标准。http 1.1 则引入更多的缓存控制策略 例如：Entity tag if-Unmodified-Since,if-Match,if-None-Match等更多可供选择的缓存头来控制缓存策略。<br>    - 带宽优化及网络连接的使用，http 1.1 在请求头引入 rang 头域，它允许只请求资源的某个部分，方便开发者自由的选择以便于充分利用带宽和连接。<br>    - 错误通知的管理，在 http 1.1 中新增了24个错误状态响应码。<br>    - Host头处理：在HTTP 1.0 中认为每台服务器都绑定一个唯一的ip地址，因此，请求消息中的 URL 并没有传递主机名。因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）<br>    - 长连接：HTTP1.1支持长连接 和请求的流水线处理，在一个TCP连接上可以传送多个 HTTP 请求和响应，减少了建立和关闭连接的消耗和延迟，在 HTTP1.1中默认开启Connection:keep-alive,一定程度上弥补了HTTP1.0每次请求都要创建连接的缺点。</p>
+<h2 id="HTTPS与HTTP的一些区别"><a href="#HTTPS与HTTP的一些区别" class="headerlink" title="HTTPS与HTTP的一些区别"></a>HTTPS与HTTP的一些区别</h2><pre><code>- HTTPS 协议需要到CA申请证书，
+- HTTP 协议运行在TCP之上，所有传输的内容都是明文，HTTPS 运行在 SSL/TLS之上，SSL/TLS运行在TCP 之上，所有传输的内容都经过加密的。
+- HTTP 和 HTTPS 使用的是完全不同的连接方式，用的端口也不一样。
+- HTTPS可以有效的防止运营商劫持。</code></pre><h3 id="什么是多路复用"><a href="#什么是多路复用" class="headerlink" title="什么是多路复用"></a>什么是多路复用</h3><p>多路复用：通过单一的 HTTP/2链接请求发起多重的请求-响应消息，多个请求stream 共享一个TCP连接，实现</p>
+<h2 id="http-状态码"><a href="#http-状态码" class="headerlink" title="http 状态码"></a>http 状态码</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/05/27/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86/http/" data-id="cksjtyq9f003to0dxehsfc7c7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-渲染流水线" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/05/27/%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" class="article-date">
+  <time datetime="2021-05-27T06:40:29.237Z" itemprop="datePublished">2021-05-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/27/%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/">渲染流水线</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="渲染流水线"><a href="#渲染流水线" class="headerlink" title="渲染流水线"></a>渲染流水线</h2><p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210519171828121.png" alt></p>
+<h3 id="加载主页面"><a href="#加载主页面" class="headerlink" title="加载主页面"></a>加载主页面</h3><p>加载主页面，调用网络进程，下载HTML文件。</p>
+<p>下载完成之后，渲染进程解析HTML，而后构建DOM。</p>
+<p>在解析HTML的时候，浏览器会预先下载HTML文件内需要的JS资源和CSS资源。</p>
+<p>这里JS会阻塞DOM的解析，必然也会影响渲染吗，</p>
+<p>另外的，JS的执行，需要CSSOM构建完毕之后才能执行，</p>
+<p>所以CSS会阻塞JS的执行，JS会阻塞DOM的解析，所以，CSS也间接的会阻塞DOM的解析，这里的阻塞不是必然的，是一种可能性。</p>
+<p>CSS会阻塞浏览器的渲染。</p>
+<p>所以，CSS放在最前边，JS放在最后边。</p>
+<h3 id="构建DOM"><a href="#构建DOM" class="headerlink" title="构建DOM"></a>构建DOM</h3><p>HTML文件浏览器是不认识的，需要转换为浏览器能够处理的结构 ———— <strong>DOM</strong></p>
+<h3 id="样式计算"><a href="#样式计算" class="headerlink" title="样式计算"></a>样式计算</h3><p>样式计算是在CSS文件获取完成之后进行的，主要作用是计算出每一个DOM节点中，每一个元素的样式，这个过程分为下图所示的三样：</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210519171905175.png" alt="样式计算"></p>
+<h5 id="第一，将CSS文件转换为浏览器能识别的形式—styleSheets"><a href="#第一，将CSS文件转换为浏览器能识别的形式—styleSheets" class="headerlink" title="第一，将CSS文件转换为浏览器能识别的形式—styleSheets"></a>第一，将CSS文件转换为浏览器能识别的形式—styleSheets</h5><p>CSS样式来源主要有三种：1、<style> 标签内的CSS。 2、link标签引入的。3、内嵌入HTML标签的CSS</p>
+<p>CSS文件，和HTML文件一样，浏览器本身是理解不了的，需要将其转换为浏览器可以理解的结构—styleSheets。 styleSheets 也叫做 CSSOM</p>
+<h5 id="第二，转换样式表中的属性值，使其标准化"><a href="#第二，转换样式表中的属性值，使其标准化" class="headerlink" title="第二，转换样式表中的属性值，使其标准化"></a>第二，转换样式表中的属性值，使其标准化</h5><p>比如，CSS中又很多 2rem,blue,bold 值。</p>
+<p>就需要将其标准化为一个值，比如 2rem 就是  32px，blue 被解析为rgb, bold被解析为700.</p>
+<h5 id="第三，计算出DOM树中每个节点的具体样式"><a href="#第三，计算出DOM树中每个节点的具体样式" class="headerlink" title="第三，计算出DOM树中每个节点的具体样式"></a>第三，计算出DOM树中每个节点的具体样式</h5><p>这里涉及CSS的继承规则和层叠规则。</p>
+<p>首先是CSS继承，CSS继承就是每个DOM节点都包含有父节点的样式。比如，html设定了font-size:20px.</p>
+<p>其他的文本，没有设定 font-size 就会默认继承 html的字体。</p>
+<p>层叠规则主要是根据CSS权重来处理。</p>
+<p>样式计算阶段的目的是为了计算出DOM节点中，每个元素的具体样式，根据CSS的继承和层叠两个规则。</p>
+<h3 id="布局阶段"><a href="#布局阶段" class="headerlink" title="布局阶段"></a>布局阶段</h3><p>到了现在，我们有了DOM树和CSSOM树，有了元素，有了样式，唯一缺少的是DOM元素的几何信息，接下来要做的就是计算出DOM树中 <strong>可见元素</strong> 的位置信息。</p>
+<p>布局阶段，主要完成两件是 <strong>创建布局树</strong> 和 <strong>布局计算</strong></p>
+<h5 id="创建布局树"><a href="#创建布局树" class="headerlink" title="创建布局树"></a>创建布局树</h5><p>DOM树种包含了很多不可见的元素，比如head标签，display：none 属性的元素，所以还要额外的构建一棵可见元素的布局树。</p>
+<p>核心是遍历DOM树，可见的就放在布局树上，不可见的就放弃。</p>
+<h5 id="布局计算"><a href="#布局计算" class="headerlink" title="布局计算"></a>布局计算</h5><p>计算布局树的坐标位置，这个过程很复杂。</p>
+<p>计算完成之后，每一个元素的几何坐标信息就存储在布局树中。</p>
+<p>这时候，布局树就包含了布局的多数信息。</p>
+<h3 id="分层"><a href="#分层" class="headerlink" title="分层"></a>分层</h3><p>布局阶段，计算了元素的位置信息，按道理来说，有了元素，有了元素的位置信息，已经可以绘制页面了，但是，直接进行绘制的话，会有很大的性能问题，这里，浏览器做了另外的操作  ————  <strong>分层</strong></p>
+<p>为什么要分层？</p>
+<p>页面上会有很多的效果，比如 3D变换，页面的滚动，横向的元素运动等。</p>
+<p>如果所有的元素，在一个层面内，元素的变化必然引整个页面的重新布局计算。</p>
+<p>而分层就可以解决这个问题，将这些变换的元素单独的分为一层，一些特殊的效果在这些层上去做，将影响降为最小。</p>
+<p>最终，将多个分层合并在一起，最终合成一个页面，展示出来。</p>
+<p>分层阶段，渲染引擎还需要为特定的节点生成专用的图层，并生成一棵对应的———— <strong>图层树</strong></p>
+<h5 id="如何成为一层"><a href="#如何成为一层" class="headerlink" title="如何成为一层"></a>如何成为一层</h5><p>第一：拥有层叠上下文属性的元素会被单独提升为一层</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">position: absolute|releative  并且 z-index值不为auto</span><br><span class="line">flex 容器的子元素  z-index 不为auto</span><br><span class="line">grid 容器的子元素，z-index不为auto</span><br><span class="line">opacity 属性值小于<span class="number">1</span> </span><br><span class="line">transform/filter 等属性值不为none</span><br><span class="line"></span><br><span class="line">如上，拥有这些属性的元素被称之为拥有层叠上下文属性</span><br></pre></td></tr></table></figure>
+
+
+
+<p>第二：需要裁剪的地方会被创建为图层,举个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">    div &#123;</span><br><span class="line">        width: <span class="number">200</span>;</span><br><span class="line">        height: <span class="number">200</span>;</span><br><span class="line">        overflow: auto;</span><br><span class="line">        background: gray;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;<span class="regexp">/style&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;body&gt;</span></span><br><span class="line"><span class="regexp">    &lt;div&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt; 所以元素有了层叠上下文的属性或者需要被剪裁，那么就会被提升成为单独一层，你可以参看下</span></span><br><span class="line"><span class="regexp">        &lt;p&gt; 从上图我们可以看到，document 层上有 A 和 B 层，而 B 层之上又有两个图层。这些图层组</span></span><br><span class="line"><span class="regexp">        &lt;p&gt; 图层树是基于布局树来创建的，为了找出哪些元素需要在哪些层中，渲染引擎会遍历布局树来创</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">&lt;<span class="regexp">/body&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如上所示，div宽高都是200，超出之后浏览器会自动滚动。出现这种剪裁情况的时候，渲染引擎会为文字部分单独创建一个层，出现滚动的话，滚动条会被提升为单独的层。</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520114909460.png" alt="分层"></p>
+<p>如上图文字被单独提升为一层，有滚动的情况下，滚动条也会被单独提升为一层。</p>
+<p>到这里，分层完成，分层树构建完成。接下来就是绘制</p>
+<h3 id="图层绘制"><a href="#图层绘制" class="headerlink" title="图层绘制"></a>图层绘制</h3><p>渲染引擎会把一个图层的绘制拆分成很多的小的 <strong>绘制指令</strong>，然后再把这些指令按照顺序组成一个待绘制列表。</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520120237554.png" alt="绘制列表"></p>
+<p>图层绘制阶段，输出的内容就是这些待绘制的列表。</p>
+<h3 id="栅格化"><a href="#栅格化" class="headerlink" title="栅格化"></a>栅格化</h3><p>绘制列表记录的是绘制顺序，和绘制指令的列表，真正的绘制操作是由渲染引擎中的<strong>合成线程</strong>来完成的。</p>
+<p>渲染引擎可以认为是一个进程，从加载页面到计算样式再到布局阶段再到分层都是运行在主线程上的。</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520142913259.png" alt="渲染进程"></p>
+<p>如图所示，当图层的绘制列表准备好之后，主线程会把改绘制列表  <strong>提交（commit）</strong>给合成线程.</p>
+<h3 id="光栅化"><a href="#光栅化" class="headerlink" title="光栅化"></a>光栅化</h3><p>合成线程，首先是要注意一个概念 ———— <strong>视口</strong></p>
+<h5 id="视口"><a href="#视口" class="headerlink" title="视口"></a>视口</h5><p>视口就是用户能看到的一部分，一个页面可能很大，大到超出当前的屏幕，有时候需要滚动很久才能到底部，用户能看到的就是屏幕那么大的空间。</p>
+<p>如果一个页面很大，完全绘制的话是没有意义的，毕竟用户都看不到，性能开销也很大。</p>
+<h5 id="图块"><a href="#图块" class="headerlink" title="图块"></a>图块</h5><p>图块是栅格化执行的最小单位。</p>
+<p>合成线程会将图层划分为图块，一般这些图块大小都是256x256 或者是 512x512</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520145517614.png" alt="分块"></p>
+<p>如图，每一个小块儿就是图块，黑色框就是视口，或者是叫做屏幕，当前需要展示的图块就是 红线画的那些。</p>
+<p>视口附近的图块来优先生成位图，实际生成位图的操作是由栅格化来执行的，栅格化是指将图块转换为位图。</p>
+<p>渲染进程维护了一个栅格化线程池，所有的图块栅格化都是在线程池内执行的，如下：</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520151012247.png" alt="渲染进程"></p>
+<p>记得一点，栅格化线程将图块转换为位图。一般这个过程会有GPU的参与，用来快速的栅格化，GPU栅格化的位图都保存在GPU中。</p>
+<p>GPU是运行在GPU进程中的，这里使用了GPU来快速栅格化，就涉及到跨进程操作了。</p>
+<p>操作的流程如下所示：</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520152755253.png" alt="加GPU进程"></p>
+<p>这里虽然也叫做栅格化，但是和前边我们说额栅格化不是一回事，比较常见的说法这里的栅格化也可以叫做光栅化。</p>
+<h5 id="位图"><a href="#位图" class="headerlink" title="位图"></a>位图</h5><p>位图也叫做点阵图，像素图，光栅图等。</p>
+<p>由被称作像素的单个点组成的，这些点可以进行不同的排列组合，比如使用RGB编码，用红绿蓝三原色的光学强度来表示一种颜色</p>
+<p>比如 RGB(0,0,0) 表示一个黑色的块儿，不同的RGB拼接在一起就可以形成一幅画。</p>
+<p>最常见的，比如 色盲图谱，一个个的点会组成不同的图像或者是数字，这些也可以称之为位图。</p>
+<h3 id="合成"><a href="#合成" class="headerlink" title="合成"></a>合成</h3><p>光栅化的最后就生成位图，每一个图层对应一个位图或者是一张图片，最后这些图片会根据层叠的顺序合并为一张图片。</p>
+<p>最终生成的图片发送到后缓冲区。</p>
+<p>简单的来说，一旦所有的图块都被光栅化了，合成线程就会生成一个绘制图块的命令，该命令会被提交给浏览器进程。</p>
+<p>浏览器进程里的有专门的组件来接收这个命令，而后负责将页面内容绘制到内存中。</p>
+<h3 id="显示"><a href="#显示" class="headerlink" title="显示"></a>显示</h3><p>页面的显示依靠的是显示器，显示器显示图像的核心是显卡，显示器上的页面（其实是图片）来自于显卡的一个叫做  <strong>前缓冲区</strong>  的地方。</p>
+<p>显示器要做的事情很简单，就是每秒钟读取60张图片，并将读取的图片显示在浏览器上。</p>
+<h5 id="显卡的职责"><a href="#显卡的职责" class="headerlink" title="显卡的职责"></a>显卡的职责</h5><p>显卡的职责就是不断的合成新的图像，并保存在 <strong>后缓冲区</strong> ，一旦写入完成，系统就会让前后缓冲区对调，保证显示器总是读取最新的图像。一般而言，显卡的更新频率和显示器的刷新频率是一致的，但是，有些时候，在一些复杂的场景中，显卡处理图片会很慢，就会造成卡顿。</p>
+<h5 id="帧和帧率"><a href="#帧和帧率" class="headerlink" title="帧和帧率"></a>帧和帧率</h5><p>渲染流水线生成的一张图片，被称之为一帧，每秒钟渲染流水线制造了多少张图片，被称之为帧率。</p>
+<p>如果渲染引擎生成某些帧的时间过长了，用户就会觉得卡顿。</p>
+<h5 id="如何生成一帧图像"><a href="#如何生成一帧图像" class="headerlink" title="如何生成一帧图像"></a>如何生成一帧图像</h5><p>有三种方式来生成一帧图像</p>
+<p>第一：重排</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">首先说说第一种，在首次加载一个网站的时候，这三种方式都会被使用。</span><br><span class="line"></span><br><span class="line">重排很简单，就是修改了元素的几何信息，比如朝DOM里添加一个元素，或者是删除一个元素等，都会触发重排，继而生成一帧图像，这个过程需要 重新构建布局树，而后的渲染阶段都要重新来一遍，这个过程是很耗性能的</span><br></pre></td></tr></table></figure>
+
+
+
+<p>第二： 重绘</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">重绘不会影响布局阶段，操作效率要比重排要高一些，但是，依旧需要计算绘制信息，触发绘制操作之后的所有操作。 包括 绘制 分块，光栅化，合成，显示等</span><br></pre></td></tr></table></figure>
+
+
+
+<p>第三：合成</p>
+<p>在合成线程中完成的任务都不会涉及图层内容的改变，一般都是图层的运动操作，比如滚动，动画，旋转等。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">相对而言，合成的效率就明显高了很多，合成操作不需要触发布局和绘制操作，而且合成是在合成线程上运行的，不会阻塞主线程，如果合成还采用了GPU的话，效率就更高了。</span><br><span class="line">.box &#123;</span><br><span class="line"> will-change: transform, opacity;</span><br><span class="line"> &#125;</span><br><span class="line">如上，这是告诉渲染进程这个元素要做一些比较秀的操作，transform 或者是 opacity，渲染引擎将该元素单独实现为一层，等变换发生的时候，渲染引擎会通过合成线程直接去处理变换，这些变换并没有涉及到主线程，就大大的提升了渲染的效率。</span><br><span class="line"></span><br><span class="line">但是，虽然will-change 好用，但是用的多了也会影响效率的。</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>最后来一张总结的图</p>
+<p><img src="https://raw.githubusercontent.com/wqxc/Picture/main/chrome/image-20210520181235864.png" alt="全部的渲染"></p>
+</style></p>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/05/27/%E6%B8%B2%E6%9F%93%E6%B5%81%E6%B0%B4%E7%BA%BF/" data-id="cksjtyq6e0021o0dxbna254fh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-element使用不常用方法总结/element使用不常用方法总结" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/04/22/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" class="article-date">
@@ -94,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="ckqrgwwvq001u10dx58qxe18n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" data-id="cksjtyq7g0024o0dxcf0dd9kc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -135,7 +321,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="ckqrgwwwp003h10dxh4av8hie" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="cksjtyq83002oo0dxdsos2vfp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -278,7 +464,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="ckqrgwwwi003d10dx5z0o5rw2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="cksjtyq81002mo0dxe2nm6ppd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -420,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" data-id="ckqrgwww5002a10dx5p5r60om" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" data-id="cksjtyq7y002jo0dx2gh4383d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -506,7 +692,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="ckqrgwww7002c10dxfksb3mpk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="cksjtyq80002lo0dxamuc9vxk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -554,7 +740,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/" data-id="ckqrgwww1002710dxf4bh5scy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/" data-id="cksjtyq7u002go0dxc2ed2cm2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -609,7 +795,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="ckqrgwww4002910dx5o95b6si" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="cksjtyq7x002io0dx3dms07d2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -688,254 +874,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" data-id="ckqrgwww0002610dx8ar3bi9e" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-面试/vue原理&amp;MVVM" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.474Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/">双向数据绑定原理&amp; MVVM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="几种实现双向数据绑定的做法"><a href="#几种实现双向数据绑定的做法" class="headerlink" title="几种实现双向数据绑定的做法"></a>几种实现双向数据绑定的做法</h2><p>实现数据绑定的做法有大致有：</p>
-<ul>
-<li>发布者-订阅者模式<br>一般通过 sub、pub 的方式实现数据和视图的绑定监听，更新数据的方式通常做法是 vm.set(‘property’,value)</li>
-<li>脏值检查 (angular.js)<br>是通过脏值检测的方式比对数据是否有变更，来决定是否更新视图，最简单的方式是通过 setInterval() 定时轮询检测数据变动，angular 只有在指定的事件触发时进入脏值检测，大致流程<ul>
-<li>DOM 事件，例如用户输入文本点击按钮等</li>
-<li>XHR 响应事件($http)</li>
-<li>浏览器 Location 变更事件($location)</li>
-<li>Timer 事件($timeout,$interval)</li>
-<li>执行 $digest() 或 $apply()</li>
-</ul>
-</li>
-<li>数据劫持 (vue.js)<br>vue.js 是数据劫持结合发布者-订阅者模式的方式，通过 Object.defineProperty() 来劫持各个属性的 setter，getter,在数据变动时发布消息给订阅者，触发相应的监听回调。</li>
-</ul>
-<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>要实现 mvvm 的双向绑定，就必须要实现以下几点：</p>
-<ul>
-<li>实现一个数据监听 Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者</li>
-<li>实现一个指令解析器 Compile,对每一个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数。</li>
-<li>实现一个 Watcher,作为连接 Observer 和 Compile 的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图。</li>
-</ul>
-<p><img src="https://segmentfault.com/img/bVBQYu?w=730&h=390" alt></p>
-<h3 id="实现-Observer"><a href="#实现-Observer" class="headerlink" title="实现 Observer"></a>实现 Observer</h3><p>利用 Object.defineProperty() 来监听属性变动，那么将需要监听的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter 和 getter, 这样给这个对象的某个值赋值，就会触发 setter，那么就能监听到了数据变化</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function observe(data) &#123;</span><br><span class="line">    if (!data || typeof data !&#x3D;&#x3D; &#39;object&#39;) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 取出所有属性遍历</span><br><span class="line">    Object.keys(data).forEach(function(key) &#123;</span><br><span class="line">        defineReactive(data, key, data[key]);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">function defineReactive(data, key, val) &#123;</span><br><span class="line">    observe(val); &#x2F;&#x2F; 监听子属性</span><br><span class="line">    Object.defineProperty(data, key, &#123;</span><br><span class="line">        enumerable: true, &#x2F;&#x2F; 可枚举</span><br><span class="line">        configurable: false, &#x2F;&#x2F; 不能再define</span><br><span class="line">        get: function() &#123;</span><br><span class="line">            return val;</span><br><span class="line">        &#125;,</span><br><span class="line">        set: function(newVal) &#123;</span><br><span class="line">            console.log(&#39;哈哈哈，监听到值变化了 &#39;, val, &#39; --&gt; &#39;, newVal);</span><br><span class="line">            val &#x3D; newVal;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样我们就可以监听每个数据的变化了，监听到变化之后就是怎么通知订阅者了，接下来我们需要实现一个消息订阅器，就是维护一个数组，用来收集订阅者，数据变动触发 notify,再调用订阅者的 update 方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">  function defineReactive(data, key, val) &#123;</span><br><span class="line">    var dep &#x3D; new Dep();</span><br><span class="line">    observe(val); &#x2F;&#x2F; 监听子属性</span><br><span class="line"></span><br><span class="line">    Object.defineProperty(data, key, &#123;</span><br><span class="line">        &#x2F;&#x2F; ... 省略</span><br><span class="line">        set: function(newVal) &#123;</span><br><span class="line">            if (val &#x3D;&#x3D;&#x3D; newVal) return;</span><br><span class="line">            console.log(&#39;哈哈哈，监听到值变化了 &#39;, val, &#39; --&gt; &#39;, newVal);</span><br><span class="line">            val &#x3D; newVal;</span><br><span class="line">            dep.notify(); &#x2F;&#x2F; 通知所有订阅者</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Dep() &#123;</span><br><span class="line">    this.subs &#x3D; [];</span><br><span class="line">&#125;</span><br><span class="line">Dep.prototype &#x3D; &#123;</span><br><span class="line">    addSub: function(sub) &#123;</span><br><span class="line">        this.subs.push(sub);</span><br><span class="line">    &#125;,</span><br><span class="line">    notify: function() &#123;</span><br><span class="line">        this.subs.forEach(function(sub) &#123;</span><br><span class="line">            sub.update();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>who 是订阅者？怎么往订阅器添加订阅者？<br>订阅者就是 Watcher 而且 var dep = new Dep() 是在 defineReactive 方法内部定义的，所以想通过 dep 添加订阅者，是在 getter 里面</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  Object.defineProperty(data, key, &#123;</span><br><span class="line">    get: function() &#123;</span><br><span class="line">        &#x2F;&#x2F; 由于需要在闭包内添加watcher，所以通过Dep定义一个全局target属性，暂存watcher, 添加完移除</span><br><span class="line">        Dep.target &amp;&amp; dep.addSub(Dep.target);</span><br><span class="line">        return val;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; ... 省略</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Watcher.js</span><br><span class="line">Watcher.prototype &#x3D; &#123;</span><br><span class="line">    get: function(key) &#123;</span><br><span class="line">        Dep.target &#x3D; this;</span><br><span class="line">        this.value &#x3D; data[key];    &#x2F;&#x2F; 这里会触发属性的getter，从而添加订阅者</span><br><span class="line">        Dep.target &#x3D; null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现-Compile"><a href="#实现-Compile" class="headerlink" title="实现 Compile"></a>实现 Compile</h3><p>compile 主要做的事情是解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图。<br><img src="https://segmentfault.com/img/bVBQY3?w=625&h=259" alt></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  function Compile(el) &#123;</span><br><span class="line">    this.$el &#x3D; this.isElementNode(el) ? el : document.querySelector(el);</span><br><span class="line">    if (this.$el) &#123;</span><br><span class="line">        this.$fragment &#x3D; this.node2Fragment(this.$el);</span><br><span class="line">        this.init();</span><br><span class="line">        this.$el.appendChild(this.$fragment);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Compile.prototype &#x3D; &#123;</span><br><span class="line">    init: function() &#123; this.compileElement(this.$fragment); &#125;,</span><br><span class="line">    node2Fragment: function(el) &#123;</span><br><span class="line">        var fragment &#x3D; document.createDocumentFragment(), child;</span><br><span class="line">        &#x2F;&#x2F; 将原生节点拷贝到fragment</span><br><span class="line">        while (child &#x3D; el.firstChild) &#123;</span><br><span class="line">            fragment.appendChild(child);</span><br><span class="line">        &#125;</span><br><span class="line">        return fragment;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;a</span><br></pre></td></tr></table></figure>
-
-<h3 id="实现-Watcher"><a href="#实现-Watcher" class="headerlink" title="实现 Watcher"></a>实现 Watcher</h3><p>Watcher 订阅者作为 Observer 和 Compile 之间的通信的桥梁，主要做的事情是：</p>
-<ul>
-<li>在自身实例化时往属性订阅器(dep)里添加自己</li>
-<li>自身必须有一个 updata()方法</li>
-<li>待属性变动 dep.notice() 时，能调用自身的 update() 方法并触发 Compile 中绑定的函数。</li>
-</ul>
-<h3 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h3><p>View: 视图层(UI 用户界面)<br>ViewModel: 业务逻辑层(一切 js 可视为业务逻辑层)<br>Model: 数据层(存储数据及对数据的处理如增删改查)</p>
-<ul>
-<li>MVVM 将数据双向绑定作为核心思想，View 和 Model 之间没有联系它们通过 ViewModel 这个桥梁进行交互。</li>
-<li>Model 和 ViewModel 之间的交互是双向的，因此 View 的变化会自动同步到 Model，而 Model 的变化也会立即反映到 View 上显示。</li>
-<li>用户操作 View， ViewModel 感知到变化，然后通知 Model 发生相应改变；反之当 Model 发生改变，ViewModel 也能感知到变化，使 View 做出相应更新。</li>
-<li>ViewModel 通过双向数据绑定把 View 层和 Model 层连接起来，而 View 和 Model 之间的同步完全是自动的，无需人为干涉，开发者只需关注业务逻辑，不需要手动操作 DOM。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" data-id="ckqrgwxip003p10dxgu504ult" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-浏览器缓存" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.473Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>浏览器对于请求资源，拥有一些成熟的缓存策略，按照发生的时间顺序分别为 <code>存储策略、过期策略、协商策略</code>。其中 <code>存储策略</code> 在收到响应后应用，<code>过期策略、协商策略</code> 在发送请求前应用</p>
-<p><img src="https://lc-gold-cdn.xitu.io/54a021d766b64e993d39.png" alt="浏览器缓存机制剖析图"></p>
-<h3 id="http-header-中与缓存有关的-key"><a href="#http-header-中与缓存有关的-key" class="headerlink" title="http header 中与缓存有关的 key"></a>http header 中与缓存有关的 key</h3><table>
-<thead>
-<tr>
-<th>key</th>
-<th>描述</th>
-<th>策略类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Cache-Control</td>
-<td>指定缓存机制，覆盖其它设置</td>
-<td>存储策略</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>http1.0 字段，指定缓存机制</td>
-<td>存储策略</td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>http1.0 字段，指定缓存的过期时间</td>
-<td>过期策略</td>
-</tr>
-<tr>
-<td>Last-Modified</td>
-<td>资源最后一次的修改时间</td>
-<td>协商策略</td>
-</tr>
-<tr>
-<td>ETag</td>
-<td>唯一标识请求资源的字符串</td>
-<td>协商策略</td>
-</tr>
-</tbody></table>
-<h3 id="缓存协商策略用于重新验证缓存资源是否有效"><a href="#缓存协商策略用于重新验证缓存资源是否有效" class="headerlink" title="缓存协商策略用于重新验证缓存资源是否有效"></a>缓存协商策略用于重新验证缓存资源是否有效</h3><table>
-<thead>
-<tr>
-<th>key</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>if-Modified-Since</td>
-<td>缓存校验字段，值为资源最后一次修改的时间，即上次收到的 Last-Modified 值</td>
-</tr>
-<tr>
-<td>if-Unmodifed-Since</td>
-<td>与上面相同，处理方式与上面相反</td>
-</tr>
-<tr>
-<td>if-Match</td>
-<td>缓存校验字段，值为唯一标识请求资源的字符串，即上次的 ETag 值。</td>
-</tr>
-<tr>
-<td>if-None-Match</td>
-<td>同上，处理方式与之相反</td>
-</tr>
-</tbody></table>
-<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>浏览器缓存里，<code>Cache-Control</code> 是金字塔顶尖的规则，它藐视一切其他设置，只要其他设置与其抵触，一律覆盖，它还是一个复合规则，包含多种值，横跨 <code>存储策略、过期策略</code> 两种,同时在请求头和响应头都可设置。<br>语法 <code>Cache-Control:cache-directive</code></p>
-<table>
-<thead>
-<tr>
-<th>Cache-directive</th>
-<th>描述</th>
-<th>存储策略</th>
-<th>过期策略</th>
-<th>请求字段</th>
-<th>响应字段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public</td>
-<td>资源将被客户端和代理服务器缓存</td>
-<td>是</td>
-<td>否</td>
-<td>否</td>
-<td>是</td>
-</tr>
-<tr>
-<td>private</td>
-<td>资源仅被客户端缓存，代理服务器不缓存</td>
-<td>是</td>
-<td>否</td>
-<td>否</td>
-<td>是</td>
-</tr>
-<tr>
-<td>no-store</td>
-<td>请求和响应都不缓存</td>
-<td>是</td>
-<td>否</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>no-cache</td>
-<td>相当于 max-age:0,must-revalidate 即资源被缓存，但是缓存立刻过期，同时下次访问时强制验证资源有效性。</td>
-<td>是</td>
-<td>是</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>max-age</td>
-<td>缓存资源，但是指定时间(单位为秒)后缓存过期</td>
-<td>是</td>
-<td>是</td>
-<td>是</td>
-<td>是</td>
-</tr>
-</tbody></table>
-<h3 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h3><p>http1.0 字段，通常设置为 Pragma:no-cache,作用同 Cache-Control:no-cache,当一个 no-cache 请求发送给一个不遵循 HTTP/1.1 的服务器时，客户端应该包含 pragma 指令。</p>
-<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p>即将到期时间，以服务器时间为参考系，其优先级比 Cache-Control:max-age 低，两者同时出现在响应头时， Expires 将被后者覆盖，如果 Expires, Cache-Control:max-age 或 Cache-Control:s-maxage 都没有在响应头中出现，并且也没有其它缓存的设置，那么浏览器默认会采用一个启发式算法，通常会取响应头的 Date_value -Last-Modified_value 值的 10%作为缓存时间。</p>
-<h3 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h3><p>实体标签，服务器资源的唯一标识符，浏览器可以根据 ETag 值缓存数据，节省宽带，如果资源已经改变，etag 可以帮助防止同步更新资源的相互覆盖，ETag 优先级比 Last-Modified 高。</p>
-<h3 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h3><p>语法：if-Match:ETag_value 或者 if-match:ETag_value,ETag_value<br>缓存校验字段，其值为上次收到的一个或多个 etag 值，常用于判断条件是否满足</p>
-<h3 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h3><p>用于标记请求资源的最后一次修改时间，格式为 GMT(格林尼治标准时间)。优先级比 ETag 低，且只能精确到秒，因此不适合短时间内频繁的改动的资源，服务器端的静态资源，通常需要编译打包，可能出现资源内容没有改变，而 Last-Modified 却改变的情况。</p>
-<h3 id="If-Modified-Since"><a href="#If-Modified-Since" class="headerlink" title="If-Modified-Since"></a>If-Modified-Since</h3><p>缓存校验字段，其值为上次响应头的 Last-Modified 值，若与请求资源当前的 Last-Modified 值相同，那么将返回 304 状态码的响应，反之将返回 200 状态码响应。</p>
-<h3 id="If-Unmodified-Since"><a href="#If-Unmodified-Since" class="headerlink" title="If-Unmodified-Since"></a>If-Unmodified-Since</h3><p>缓存校验字段，表示资源未修改则正常执行更新，否则返回 412 状态码的响应。</p>
-<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>一旦资源命中强缓存，浏览器便不会向服务器发送请求，而是直接读取缓存。对于常规请求，只要存在该资源的缓存，且 Cache-Control:max-age 或者 expires 没有过期，那么就命中强缓存。</p>
-<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>协商缓存的响应结果，不仅验证了资源的有效性，同时还更新了浏览器缓存。<br>缓存过期后，继续请求该资源。有两种做法。</p>
-<ul>
-<li>根据上次响应中的 ETag_value,自动往 request header 中添加 If-None-Match 字段的值与资源的 ETag 值进行比较，若相同，则命中协商缓存，返回 304 响应。</li>
-<li>根据上次响应中的 Last-Modified_vlaue,自动往 request header 中添加 If-Modified-Since 字段，服务器收到请求后，拿 If-Modified-Since 字段的值与资源的 Last-Modified 值进行比较，若相同，则命中协商缓存，返回 304 响应。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="ckqrgwwux000r10dxcn72bs25" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" data-id="cksjtyq7n0029o0dx6vg621ny" class="article-share-link">Share</a>
       
       
     </footer>
@@ -960,7 +899,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
     </div>
   </div>
 
@@ -975,7 +914,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
     </div>
   </div>
 
@@ -988,6 +927,14 @@
       <ul>
         
           <li>
+            <a href="/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式,</a>
+          </li>
+        
+          <li>
+            <a href="/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/">请求到达web服务器</a>
+          </li>
+        
+          <li>
             <a href="/2021/07/06/TCP/">TCP</a>
           </li>
         
@@ -997,14 +944,6 @@
         
           <li>
             <a href="/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/23/import%E5%92%8Cexport/">import 和 export</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/23/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">JS 事件</a>
           </li>
         
       </ul>
