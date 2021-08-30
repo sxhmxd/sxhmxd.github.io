@@ -91,11 +91,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="匹配小括号里面的内容"><a href="#匹配小括号里面的内容" class="headerlink" title="匹配小括号里面的内容"></a>匹配小括号里面的内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let reg &#x3D;  &#x2F;[^(][a-zA-Z0-9]+(?&#x3D;\))&#x2F;g</span><br><span class="line">let str &#x3D; &quot;(9001)(9002)(9003)&quot;</span><br><span class="line">str.match(reg)</span><br><span class="line"> &#x2F;&#x2F; [&#39;9001&#39;,&#39;9002&#39;,&#39;9003&#39;]</span><br></pre></td></tr></table></figure>
-
+<h3 id="将中括号替换为点"><a href="#将中括号替换为点" class="headerlink" title="将中括号替换为点"></a>将中括号替换为点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let str &#x3D; &#39;a[12][334]&#39;</span><br><span class="line">&#x2F;&#x2F; 方法一</span><br><span class="line">  str.replace(&#x2F;\[&#x2F;g, &quot;.&quot;).replace(&#x2F;\]&#x2F;g, &quot;&quot;);</span><br><span class="line">    &#x2F;&#x2F; a.12.334</span><br><span class="line">&#x2F;&#x2F; 方法二</span><br><span class="line">  str.replace(&#x2F;\[([^\[\]]*)\]&#x2F;g, &quot;.$1&quot;);</span><br><span class="line">    &#x2F;&#x2F; a.12.334</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" data-id="cksjtyq5n001mo0dx3dk0bzor" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" data-id="cksydol6z000m14dxe65p3l4d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -137,7 +137,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" data-id="cksjtyq63001to0dx5h10hvgi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" data-id="cksydol7d000x14dx880hcoeu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -178,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/07/06/TCP/" data-id="cksjtyq66001wo0dxg9nafw2e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/07/06/TCP/" data-id="cksydol5t000514dxeycn159s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -272,7 +272,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/29/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" data-id="cksjtyq7j0025o0dx60tjaytt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/29/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" data-id="cksydol8l002314dx6luz2lli" class="article-share-link">Share</a>
       
       
     </footer>
@@ -341,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" data-id="cksjtyq7r002co0dx8k7j3zcb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" data-id="cksydol8m002514dx7tibdajv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -432,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/23/import%E5%92%8Cexport/" data-id="cksjtyq1g0003o0dxeifr7265" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/23/import%E5%92%8Cexport/" data-id="cksydol7c000w14dx44ouao5g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/23/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/" data-id="cksjtyq7l0027o0dxda37evye" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/23/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/" data-id="cksydolup003o14dx56i05h8c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -565,7 +565,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/22/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/" data-id="cksjtyq5w001po0dxdmxufmp2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/22/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81/" data-id="cksydol78000t14dx9p642ld1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -601,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cksjtyq6a001yo0dx18dk9rg2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/08/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cksydol77000s14dxdg0rboj8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -637,7 +637,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="cksjtyq7p002bo0dx25vabh8o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/06/03/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="cksydol95002l14dx6gie5qz7" class="article-share-link">Share</a>
       
       
     </footer>
