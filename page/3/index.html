@@ -64,6 +64,274 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-面试/作用域-作用域链" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.476Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><p>作用域是运行时代码的某些特定部分中变量，函数和对象的可访问性。即作用域决定了代码区块中变量和其他资源的可见性。<br>函数作用域在函数定义的时候就决定了。函数内部有个内部属性[[scope]],当函数创建的时候，就会保存所有父变量对象到其中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function outFun2()&#123;</span><br><span class="line">  var inVariable &#x3D; &#39;内层变量2&#39;</span><br><span class="line">&#125;</span><br><span class="line">outFun2()</span><br><span class="line">console.log(inVariable)  &#x2F;&#x2F; Uncaught ReferenceError: inVariable is not defined</span><br></pre></td></tr></table></figure>
+
+<p>作用域最大的用处是隔离变量，不同作用域下同名变量不会有冲突。Es6 之前 JavaScript 没有块级作用域，只有全局作用域和函数作用域。</p>
+<h2 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h2><ul>
+<li><p>最外层的函数和在最外层函数外面定义的变量拥有全局作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var outVariable &#x3D; &#39;我是最外层变量&#39;</span><br><span class="line">function outFun() &#123;</span><br><span class="line">  var inVariable &#x3D; &#39;内层变量&#39;;</span><br><span class="line">  function innerFun() &#123;</span><br><span class="line">    console.log(inVariable)</span><br><span class="line">  &#125;</span><br><span class="line">  innerFun()</span><br><span class="line">&#125;</span><br><span class="line">console.log(outVariable)   &#x2F;&#x2F; 我是外层变量</span><br><span class="line">outFun()                   &#x2F;&#x2F; 内层变量</span><br><span class="line">console.log(inVariable)    &#x2F;&#x2F; inVariable is not defined</span><br><span class="line">innerFun()                 &#x2F;&#x2F; innerFun is not defined</span><br></pre></td></tr></table></figure></li>
+<li><p>所有未定义直接赋值的变量自动声明为拥有全局作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function outFun2()&#123;</span><br><span class="line">  variable &#x3D; &#39;未定义直接赋值的变量&#39;;</span><br><span class="line">  var inVariable2 &#x3D; &#39;内层变量2&#39;</span><br><span class="line">&#125;</span><br><span class="line">outFun2()</span><br><span class="line">console.log(variable)      &#x2F;&#x2F; 未定义直接赋值的变量</span><br><span class="line">console.log(inVariable2)   &#x2F;&#x2F; inVariable2 is not defined</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>所有 window 对象的属性拥有全局作用域<br>一般情况下，window 对象的内置属性都拥有全局作用域，eg:window.name、window.location 等。</p>
+</li>
+</ul>
+<p>全局作用域有个弊端：如果我们写了很多行 JS 代码，变量定义都没有用函数包括，那么他们就全部都在全局作用域中。这样就会污染全局命名空间，容易起命名冲突。</p>
+<p>注意：全局作用域在页面打开时被创建，页面关闭时被销毁。</p>
+<h2 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h2><p>函数作用域，是指声明在函数内部的变量，和全局作用域相反，局部作用域一般只在固定的代码片段内可以访问到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function doSomeThing()&#123;</span><br><span class="line">  var blogName &#x3D; &#39;blogName&#39;</span><br><span class="line">  function innerSay()&#123;</span><br><span class="line">    alert(blogName)</span><br><span class="line">  &#125;</span><br><span class="line">  innerSay()</span><br><span class="line">&#125;</span><br><span class="line">console.log(blogName) &#x2F;&#x2F; blogName is not defined</span><br><span class="line">innerSay()            &#x2F;&#x2F; innerSay is not defined</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用函数时，函数作用域被创建，函数执行完毕，函数作用域被销毁。</li>
+<li>每调用一次函数就会创建一个新的函数作用域，他们之间是互相独立的。</li>
+<li>函数作用域中可以访问到全局作用域的变量，在函数外部无法访问函数内部的变量。</li>
+<li>在函数作用域中访问变量、函数会先在自身作用域中寻找，若是没有找到会到函数上一级作用域中寻找，一直到全局作用域，若是还没有找到返回 undefined。</li>
+<li>函数作用域中也有声明提前的特性，对于变量和函数都起作用。</li>
+<li>在函数中定义形参，等同于声明变量。</li>
+</ul>
+<p>作用域是分层的，内层作用域可以访问外层作用域的变量。</p>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p>块级作用域可通过新增命令 let 和 const 声明，所声明的变量在指定块的作用域外无法被访问。</p>
+<ul>
+<li>块级作用域的特点<ul>
+<li>变量声明不会提前到代码顶部<br>let/const 声明并不会被提升到当前代码块的顶部，因此需要手动将 let/const 声明放置到顶部，以便让变量在整个代码块内部可用。</li>
+<li>禁止重复声明，如果一个标识符已经在代码块内声明过，那么在此代码块内使用同一个标进行 let 声明就会抛出错误。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var count &#x3D; 30</span><br><span class="line">let count &#x3D; 40  &#x2F;&#x2F; Uncaught SyntaxError: Identifier &#39;count&#39; has already been declare</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h1><h2 id="Scopr-Chain-作用域链"><a href="#Scopr-Chain-作用域链" class="headerlink" title="[[Scopr Chain]] 作用域链"></a>[[Scopr Chain]] 作用域链</h2><p>当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到就会从父级执行上下文的变量对象中查找，一直找到全局上下文的变量对象(全局对象)。这样由多个执行上下文的变量对象构成的链表就是作用域链。<br>根据在内部函数可以访问外部函数变量的这种机制，用链式查找决定哪些数据能被内部函数访问，这就时作用域链。</p>
+<h1 id="JS-执行环境"><a href="#JS-执行环境" class="headerlink" title="JS 执行环境"></a>JS 执行环境</h1><p>执行环境(Execution context，EC) 或执行上下文。分为三种( 全局执行环境、函数执行环境、eval()执行环境)<br>js 为每一个执行环境关联了一个变量对象。环境中定义的所有变量和函数都保存在这个对象中。</p>
+<h2 id="EC-的组成"><a href="#EC-的组成" class="headerlink" title="EC 的组成"></a>EC 的组成</h2><p>当 JavaScript 代码执行的时候，会进入不同的执行环境(执行上下文)，这些执行环境会构成了一个执行环境栈(执行上下文栈)(Execution context stack,ECS)<br><img src="https://segmentfault.com/img/bVbenRf?w=881&h=466" alt="执行环境"></p>
+<h3 id="变量对象-VO-和-活动对象-AO"><a href="#变量对象-VO-和-活动对象-AO" class="headerlink" title="变量对象(VO) 和 活动对象(AO)"></a>变量对象(VO) 和 活动对象(AO)</h3><p><code>变量对象(VO)</code>: 变量对象即包含变量的对象，除了我们无法访问它外，和普通对象没有区别。变量对象存储了在<code>上下文中定义的变量</code>和<code>函数声明</code>。</p>
+<p><code>活动对象(AO)</code>: 活动对象和变量对象是一个东西，变量对象是规范上的或者说是引擎上实现的，不可在 JavaScript 环境中访问，只有到当进入一个执行上下文中，这个执行上下文的变量对象才会被激活，activation object <code>只有被激活的变量对象，也就是活动对象上的各种属性才能被访问</code>。<br>活动对象是在进入函数执行环境时刻被创建的，它通过函数的 argument 属性初始化</p>
+<h3 id="执行环境"><a href="#执行环境" class="headerlink" title="执行环境"></a>执行环境</h3><p>全局执行环境是最外围的执行环境，全局执行环境被认为是 window 对象，因此所有的全局变量和函数都作为 window 对象的属性和方法创建的。<br>js 的执行顺序是根据函数的调用来决定的，当一个函数被调用时，该函数环境变量对象就被压入一个环境栈中。在函数执行之后，栈将该函数的变量对象弹出，把控制权交给之前的执行环境变量对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var scope &#x3D; &#39;global&#39;</span><br><span class="line">  function fn1()&#123;</span><br><span class="line">    return scope</span><br><span class="line">  &#125;</span><br><span class="line">  function fn2()&#123;</span><br><span class="line">    return scope</span><br><span class="line">  &#125;</span><br><span class="line">  fn1()</span><br><span class="line">  fn2()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://segmentfault.com/img/bVbenRt?w=1042&h=436" alt></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="ckwg4q5md002mwkdxg12s87n7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/vue生命周期知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.475Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>var app = new Vue({})</p>
+<p>第一个钩子函数就是 beforeCreate，在这之前组件还没有真正的初始化。<br>在 beforeCreate 之后，Vue 对 data 对象作了 getter/setter 处理，并且将对象放在一个 Observe 里面以便监控对象。还使用 initEvents 绑定事件。</p>
+<p><code>此时不能访问data的属性以及绑定的事件</code></p>
+<p>组件初始化完成后，遇到 created。在这个阶段我们可以访问到了 data 的属性以及绑定的事件。</p>
+<p>通过 created 阶段后组件的生命周期到了 beforemount,在这个阶段 DOM 结构还没有生成。但是已经创建了 el，组件挂载的根节点。在 beforemount 执行之后开始渲染 DOM。执行_render 方法，_mount 方法，然后会有 new 出一个 watcher 对象，形成 VNode 节点，然后更新 DOM。</p>
+<p>渲染完毕后组件就会到下一个声明周期 mounted，一般的异步请求都会写在这里。这个阶段 DOM 已经渲染出来了。</p>
+<p>Q: 什么是生命周期</p>
+<p>A: Vue 实例从创建到销毁的过程，就是生命周期。也就是从开始创建、初始化数据、编译模板、挂载 DOM-&gt;渲染、更新-&gt;渲染、卸载等一系列过程。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/" data-id="ckwg4q5ma002iwkdxh4hl32d7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/vue路由模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.475Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/">路由模式原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="路由的实现"><a href="#路由的实现" class="headerlink" title="路由的实现"></a>路由的实现</h2><p>前端路由的实现：本质上是检测 url 的变化，截获 url 地址，然后解析来匹配路由规则。但是 url 每次变化都会刷新页面，页面刷新 JavaScript 怎么检测和截获 url?2014 年之前，大家是通过 hash 来实现路由 url hash 类似于 <code>https://ssss.com/a/#file</code> <code>#</code> 后面 hash 值的变化，并不会导致浏览器向服务器发出请求，也就不会刷新页面，而 hash 值的变化都会触发 <code>hashchange</code>事件，通过这个事件我们就可以知道 hash 值发生了那些改变。</p>
+<p>14 年后，HTML5 标准发布，多了两个 API <code>pushState 和 replaceState</code>,通过两个 API 可以改变 url 地址且不会发送请求。还有 <code>onpopstate</code>事件。用了 HTMl5 的实现，单页路由的 url 就不会多出一个 <code>#</code> 变得更加美观。但没有 # 所以当用户刷新页面之类的操作时，浏览器还是会给服务器发送请求，需要后台配置支持因为是单页面应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>htpp://oursit.com/user/id</code>就会返回 404</p>
+<p>所以要在服务端增加一个覆盖所有情况的候选资源：如果 url 匹配不到任何静态资源，则应该返回一个 <code>index.html</code> ,这个 页面就是你 app 依赖的页面。</p>
+<h2 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a>hash 模式</h2><p>hash 模式的工作原理是 hashchange 事件，可以在 window 监听 hash 的变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.onhashchange &#x3D; function(event)&#123;</span><br><span class="line">  console.log(event)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有两个属性 newURL 和 oldURL。根据 hash 值的变化加载对应的动态页面数据。</p>
+<h2 id="history-模式"><a href="#history-模式" class="headerlink" title="history 模式"></a>history 模式</h2><p>HTML5 新增的 API</p>
+<ul>
+<li>history.pushState():往历史记录堆栈顶部添加一条记录</li>
+<li>history.replaceState():更改当前的历史记录。</li>
+<li>history.state: 用于存储以上方法的 data 数据</li>
+<li>window.onpopstate : 响应 pushState 或 replaceState 的调用</li>
+</ul>
+<p>当使用 history 模式时，还需要后台配置支持，因为我们的应用是单页面应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>http://www.xxxxxx/detail</code> 就会返回 404 。所以需要在服务器增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html。服务器就不在返回 404 错误页面，因为会对所有路径返回 index.html 文件。为了避免这种情况，应该在 Vue 应用里面覆盖所有的路由情况，然后给出一个 404 页面。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="ckwg4q5mb002jwkdxgtl78np9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/SPA" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" class="article-date">
+  <time datetime="2021-04-22T07:51:22.474Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/">SPA单页面</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="SPA-单页面，优缺点是"><a href="#SPA-单页面，优缺点是" class="headerlink" title="SPA 单页面，优缺点是"></a>SPA 单页面，优缺点是</h3><p>SPA ( single-page-application ) 仅在页面初始化时加载相应的 HTML、JavaScript 和 CSS。页面加载完成，SPA 不会因为用户的操作而进行页面的重新加载或者跳转;取而代之的是利用路由机制实现 HTML 内容的变换，UI 与用户的交互，避免页面的重新加载。</p>
+<p>单页面</p>
+<p><code>单页面应用，就是只有一个页面的应用，页面的刷新和内部子页面的跳转完全由js来控制。</code></p>
+<ul>
+<li><p>单页面应用的特点</p>
+<ul>
+<li>本地路由，由 js 定义路由、根据路由渲染页面、控制页面的跳转。</li>
+<li>所有的文件只会加载一次，最大限度重用文件，并且极大提升加载速度。</li>
+<li>按需加载<br>根据业务逻辑拆分代码为独立的异步 js 文件(不存在于 html 的 Script 中)，在触发对应逻辑(如路由跳转，组件使用等)时通过 js 代码进行下载并使用。</li>
+</ul>
+</li>
+<li><p>优点：</p>
+<ul>
+<li>有良好的交互体验<br>能提升页面切换体验，用户在访问应用页面是不会频繁的去切换浏览页面，从而避免了页面的重新加载。</li>
+<li>前后端分离开发<br>前端进行交互逻辑，后端负责数据处理。</li>
+<li>减轻服务器压力<br>服务器只用出数据就可以，不用管展示逻辑和页面合成。</li>
+<li>共有一套后端代码<br>不用修改后端程序代码就可以同时用于多种客户端。</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>初次加载很耗时多<br>为实现单页面 Web 应用功能及显示效果，需要在加载页面的时候将 JavaScript、CSS 统一加载，部分页面可以在需要的时候加载</li>
+<li>SEO 难度较高<br>由于所有的内容都会在一个页面中动态替换显示，</li>
+<li>前进后退路由管理<br>由于单页面应用在一个页面显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理。</li>
+</ul>
+</li>
+<li><p>性能优化</p>
+<ul>
+<li>加载优化<br>通常一开始就会加载所必需的的代码(JavaScript HTML CSS),首屏加载太慢会按需加载。<br><code>按需加载</code>就是按照当前呈现的不同页面加载不同的文件，<br>当首屏加载完毕后，设备&amp;网络处于空闲状态，可以对其他路由组件进行预加载。<br>根据路由拆分减少初始化加载体积，利用异步加载方式，在路由注册时提供拉取组件的方法，仅在需要进入对应路由时，组件才会被加载进来。</li>
+<li>SEO 优化</li>
+</ul>
+</li>
+<li><p>体验优化</p>
+<ul>
+<li>构建骨架图。</li>
+<li>页面切换<br>页面切换前：在确保组件数据加载完毕前，可保证页面可交互，减少用户阻塞感。<br>切换时增加动画</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/SPA/" data-id="ckwg4q5m9002fwkdx8ojq0d83" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-面试/vue原理&amp;MVVM" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" class="article-date">
@@ -139,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" data-id="cksydol9c002p14dxaqmubs31" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E9%9D%A2%E8%AF%95/vue%E5%8E%9F%E7%90%86&MVVM/" data-id="ckwg4q5m9002gwkdx8u608oz5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +569,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="cksydol74000q14dx5b2619f5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="ckwg4q5kl000twkdx9ikpf22x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +676,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="cksydol70000n14dx05s66tgc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="ckwg4q5kh000owkdxco397x9l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -488,7 +756,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" data-id="cksydol71000p14dxf0hj3f2p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" data-id="ckwg4q5kj000rwkdx4hm10ri9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -527,51 +795,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="cksydol6y000k14dx5w6z2hp3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码名词" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.470Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/">Vue.js 源码解读,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="虚拟-DOM"><a href="#虚拟-DOM" class="headerlink" title="虚拟 DOM"></a>虚拟 DOM</h3><ul>
-<li>什么是虚拟 DOM<br>所谓的虚拟 DOM ,就是一个 js 对象来描述一个 DOM 节点。<br>我们把组成一个 DOM 节点的必要东西通过一个 JS 对象表示出来，那么这个 JS 对象就可以用来描述 DOM 节点，我们把这个 JS 对象就称为是这个真实 DOM 节点的虚拟 DOM 节点。</li>
-<li>为什么要有虚拟 DOM<br>vue 是数据驱动视图的，数据发生变化视图就要随之更新，随之就要操作 DOM,操作 DOM 又是非常耗费性能。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" data-id="cksydol6w000h14dxb0nth6s6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="ckwg4q5ki000qwkdx4awl773p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -648,452 +872,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="cksydol6x000j14dx3u98dp64" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码6" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%816/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.469Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%816/">Vue.js 源码解读,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="初始化-initState-函数"><a href="#初始化-initState-函数" class="headerlink" title="初始化 initState 函数"></a>初始化 initState 函数</h2><p>该函数是用来初始化实例状态的，例如：props、 data、 methods 、computed 、watch</p>
-<h3 id="initState-函数分析"><a href="#initState-函数分析" class="headerlink" title="initState 函数分析"></a>initState 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export function initState (vm: Component) &#123;</span><br><span class="line">  vm._watchers &#x3D; []</span><br><span class="line">  const opts &#x3D; vm.$options</span><br><span class="line">  if (opts.props) initProps(vm, opts.props)</span><br><span class="line">  if (opts.methods) initMethods(vm, opts.methods)</span><br><span class="line">  if (opts.data) &#123;</span><br><span class="line">    initData(vm)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    observe(vm._data &#x3D; &#123;&#125;, true &#x2F;* asRootData *&#x2F;)</span><br><span class="line">  &#125;</span><br><span class="line">  if (opts.computed) initComputed(vm, opts.computed)</span><br><span class="line">  if (opts.watch &amp;&amp; opts.watch !&#x3D;&#x3D; nativeWatch) &#123;</span><br><span class="line">    initWatch(vm, opts.watch)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>代码分析</p>
-<ul>
-<li><p>首先给实例增加一个属性 _watchers,用来存储当前实例中所有的 watcher 实例，无论是使用 vm.$watch 注册的 watcher 实例还是使用 watch 选项注册的 watcher 实例，都会保存到该属性中。</p>
-</li>
-<li><p>先判断实例中是否有 props 选项，如果有，就调用 props 选项初始化函数 initProps 去初始化 props 选项。</p>
-</li>
-<li><p>再判断实例中是否有 methods 选项，如果有，就调用 methods 选项初始化函数 initMethods 去初始化 methods 选项；</p>
-</li>
-<li><p>接着再判断实例中是否有 data 选项，如果有，就调用 data 选项初始化函数 initData 去初始化 data 选项；如果没有，就把 data 当作空对象并将其转换成响应式；</p>
-</li>
-<li><p>接着再判断实例中是否有 computed 选项，如果有，就调用 computed 选项初始化函数 initComputed 去初始化 computed 选项；</p>
-</li>
-<li><p>最后判断实例中是否有 watch 选项，如果有，就调用 watch 选项初始化函数 initWatch 去初始化 watch 选项；</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="初始化-props"><a href="#初始化-props" class="headerlink" title="初始化 props"></a>初始化 props</h3><p>props 选项通常是由当前组件的父级组件传入的，当父组件在调用子组件的时候，通常会把 props 属性值作为标签属性添加到子组件的标签上。<br>在模板编译的时候，当解析到组件标签的时会将所有的标签属性都解析出来然后在子组件实例化的时候给子组件。(props 数据包含其中)</p>
-<h4 id="规范化数据"><a href="#规范化数据" class="headerlink" title="规范化数据"></a>规范化数据</h4><p>vue 给用户提供的 props 选项写法非常自由，根据 vue 的惯例，写法虽然有多种但是最终处理的时候肯定只处理一种写法，处理之前先对数据进行规范化，将所有写法都转化成一种写法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function normalizeProps (options, vm) &#123;</span><br><span class="line">  const props &#x3D; options.props</span><br><span class="line">  if (!props) return</span><br><span class="line">  const res &#x3D; &#123;&#125;</span><br><span class="line">  let i, val, name</span><br><span class="line">  if (Array.isArray(props)) &#123;</span><br><span class="line">    i &#x3D; props.length</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">      val &#x3D; props[i]</span><br><span class="line">      if (typeof val &#x3D;&#x3D;&#x3D; &#39;string&#39;) &#123;</span><br><span class="line">        name &#x3D; camelize(val)</span><br><span class="line">        res[name] &#x3D; &#123; type: null &#125;</span><br><span class="line">      &#125; else if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">        warn(&#39;props must be strings when using array syntax.&#39;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (isPlainObject(props)) &#123;</span><br><span class="line">    for (const key in props) &#123;</span><br><span class="line">      val &#x3D; props[key]</span><br><span class="line">      name &#x3D; camelize(key)</span><br><span class="line">      res[name] &#x3D; isPlainObject(val)</span><br><span class="line">        ? val</span><br><span class="line">        : &#123; type: val &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#96;Invalid value for option &quot;props&quot;: expected an Array or an Object, &#96; +</span><br><span class="line">      &#96;but got $&#123;toRawType(props)&#125;.&#96;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  options.props &#x3D; res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先拿到实例中的 props 选项，如果不存在，则直接返回。</li>
-<li>判断如果是 props: [‘name’] 这样的写法，则遍历数组中的每一项元素，如果该元素是字符串，将该元素统一转化成驼峰式命名，然后将该元素作为 key，将 {type:null} 作为 value 存入 res 中;如果该元素不是字符串，则抛出异常。</li>
-<li>判断如果不是数组，则判断是不是对象，如果是对象，那就遍历对象中的每一对键值，拿到每一对键值后，将键名统一转化成驼峰式命名，然后判断值是否还是一个对象，如果还是一个对象，那么将该键值对存入 res 中；如果值不是对象，那么就将键名作为 key,将 {type:null} 作为 value 存入 res 中。</li>
-</ul>
-</li>
-</ul>
-<h4 id="initProps-函数分析"><a href="#initProps-函数分析" class="headerlink" title="initProps 函数分析"></a>initProps 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">function initProps (vm: Component, propsOptions: Object) &#123;</span><br><span class="line">  const propsData &#x3D; vm.$options.propsData || &#123;&#125;</span><br><span class="line">  const props &#x3D; vm._props &#x3D; &#123;&#125;</span><br><span class="line">  &#x2F;&#x2F; cache prop keys so that future props updates can iterate using Array</span><br><span class="line">  &#x2F;&#x2F; instead of dynamic object key enumeration.</span><br><span class="line">  const keys &#x3D; vm.$options._propKeys &#x3D; []</span><br><span class="line">  const isRoot &#x3D; !vm.$parent</span><br><span class="line">  &#x2F;&#x2F; root instance props should be converted</span><br><span class="line">  if (!isRoot) &#123;</span><br><span class="line">    toggleObserving(false)</span><br><span class="line">  &#125;</span><br><span class="line">  for (const key in propsOptions) &#123;</span><br><span class="line">    keys.push(key)</span><br><span class="line">    const value &#x3D; validateProp(key, propsOptions, propsData, vm)</span><br><span class="line">    &#x2F;* istanbul ignore else *&#x2F;</span><br><span class="line">    if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">      const hyphenatedKey &#x3D; hyphenate(key)</span><br><span class="line">      if (isReservedAttribute(hyphenatedKey) ||</span><br><span class="line">          config.isReservedAttr(hyphenatedKey)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          &#96;&quot;$&#123;hyphenatedKey&#125;&quot; is a reserved attribute and cannot be used as component prop.&#96;,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      defineReactive(props, key, value, () &#x3D;&gt; &#123;</span><br><span class="line">        if (vm.$parent &amp;&amp; !isUpdatingChildComponent) &#123;</span><br><span class="line">          warn(</span><br><span class="line">            &#96;Avoid mutating a prop directly since the value will be &#96; +</span><br><span class="line">            &#96;overwritten whenever the parent component re-renders. &#96; +</span><br><span class="line">            &#96;Instead, use a data or computed property based on the prop&#39;s &#96; +</span><br><span class="line">            &#96;value. Prop being mutated: &quot;$&#123;key&#125;&quot;&#96;,</span><br><span class="line">            vm</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      defineReactive(props, key, value)</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; static props are already proxied on the component&#39;s prototype</span><br><span class="line">    &#x2F;&#x2F; during Vue.extend(). We only need to proxy props defined at</span><br><span class="line">    &#x2F;&#x2F; instantiation here.</span><br><span class="line">    if (!(key in vm)) &#123;</span><br><span class="line">      proxy(vm, &#96;_props&#96;, key)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  toggleObserving(true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>该函数接收两个参数：当前 Vue 实例和当前实例规范化后的 props 选项。</li>
-<li>函数内部定义四个变量<ul>
-<li>propsData:父组件传入的真实 props 数据。</li>
-<li>props: 指向 vm._props 的指针，所有设置到 props 变量中的属性都会保存到 vm._props 中。</li>
-<li>keys:指向 vm.$options._propKeys 的指针，缓存 props 对象中的 key,将来更新 props 时只需遍历 vm.$options._propKeys 数组即可得多所有 props 的 key .</li>
-<li>isRoot:当前组件是否为根组件。</li>
-</ul>
-</li>
-<li>判断当前组件是否为根组件，如果不是不需要将 props 数组转换成响应式的，toggleObserving(false) 用来控制是否将数据转换成响应式。</li>
-<li>遍历 props 选项拿到每一对键值，先将键名添加到 keys 中然后调用 validateProp 函数校验父组件传入的 props 数据类型是否匹配并获取到传入的值 value, 然后通过将键名和值通过 defineReactive 函数添加到 props (即 vm._props)中。</li>
-</ul>
-</li>
-</ul>
-<h4 id="validateProp-函数分析"><a href="#validateProp-函数分析" class="headerlink" title="validateProp 函数分析"></a>validateProp 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">export function validateProp (key,propOptions,propsData,vm) &#123;</span><br><span class="line">  const prop &#x3D; propOptions[key]</span><br><span class="line">  const absent &#x3D; !hasOwn(propsData, key)</span><br><span class="line">  let value &#x3D; propsData[key]</span><br><span class="line">  &#x2F;&#x2F; boolean casting</span><br><span class="line">  const booleanIndex &#x3D; getTypeIndex(Boolean, prop.type)</span><br><span class="line">  if (booleanIndex &gt; -1) &#123;</span><br><span class="line">    if (absent &amp;&amp; !hasOwn(prop, &#39;default&#39;)) &#123;</span><br><span class="line">      value &#x3D; false</span><br><span class="line">    &#125; else if (value &#x3D;&#x3D;&#x3D; &#39;&#39; || value &#x3D;&#x3D;&#x3D; hyphenate(key)) &#123;</span><br><span class="line">      &#x2F;&#x2F; only cast empty string &#x2F; same name to boolean if</span><br><span class="line">      &#x2F;&#x2F; boolean has higher priority</span><br><span class="line">      const stringIndex &#x3D; getTypeIndex(String, prop.type)</span><br><span class="line">      if (stringIndex &lt; 0 || booleanIndex &lt; stringIndex) &#123;</span><br><span class="line">        value &#x3D; true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; check default value</span><br><span class="line">  if (value &#x3D;&#x3D;&#x3D; undefined) &#123;</span><br><span class="line">    value &#x3D; getPropDefaultValue(vm, prop, key)</span><br><span class="line">    &#x2F;&#x2F; since the default value is a fresh copy,</span><br><span class="line">    &#x2F;&#x2F; make sure to observe it.</span><br><span class="line">    const prevShouldObserve &#x3D; shouldObserve</span><br><span class="line">    toggleObserving(true)</span><br><span class="line">    observe(value)</span><br><span class="line">    toggleObserving(prevShouldObserve)</span><br><span class="line">  &#125;</span><br><span class="line">  if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">    assertProp(prop, key, value, vm, absent)</span><br><span class="line">  &#125;</span><br><span class="line">  return value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>代码分析</p>
-<ul>
-<li><p>该函数接收四个参数</p>
-<ul>
-<li>key:遍历 propOptions 时拿到的每个属性名。</li>
-<li>propOptions:当前实例规范化后的 props 选项。</li>
-<li>propsData:父组件传入的真实 props 数据。</li>
-<li>vm:当前实例。</li>
-</ul>
-</li>
-<li><p>函数内部定义三个变量</p>
-<ul>
-<li>prop:当前 key 在 propOptions 中对应的值。</li>
-<li>absent:当前 key 是否在 propsData 中存在，即父组件是否传入了该属性。</li>
-<li>value:当前 key 在 propsData 中对应的值，即父组件对于该属性传入的真实值。</li>
-</ul>
-</li>
-<li><p>判断 prop 的 type 属性是否是布尔类型(Boolean), getTypeIndex 函数用于判断 prop 的 type 属性中是否存在某种类型，如果存在则返回在 type 属性中的索引，如果不存在则返回 -1。</p>
-<ul>
-<li><p>如果是布尔类型，有两种情况需要单独处理</p>
-<ul>
-<li>如果 absent 为 true 即父组件没有传入该 prop 属性并且该属性也没有默认值的时候，将该属性设置为 false</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(absent &amp;&amp; !hasOwn(prop,&#39;default&#39;))&#123;</span><br><span class="line">  value &#x3D; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>如果父组件传入了该 prop 属性，那么需要满足以下几点，则将该属性值设为 true<ul>
-<li>该属性值为空字符串或者属性值与属性名相等;</li>
-<li>prop 的 type 属性中不存在 String 类型;</li>
-<li>如果 prop 的 type 属性中存在 String 类型，那么 Boolean 类型在 type 属性中的索引必须小于 String 类型的索引，即 Boolean 类型的优先级更高。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (value &#x3D;&#x3D;&#x3D; &#39;&#39; || value &#x3D;&#x3D;&#x3D; hyphenate(key)) &#123;</span><br><span class="line">  cosnt stringIndex &#x3D; getTypeIndex(String, prop.type)</span><br><span class="line">  if (stringIndex &lt; 0 || booleanIndex&lt; stringIndex) &#123;</span><br><span class="line">    value &#x3D; true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>如果不是布尔类型，是其他类型则只需判断父组件是否传入该属性即可，如果没有传入，则该属性值为 undefined。</p>
-</li>
-<li><p>如果父组件传入了该属性并且也有对应的真实值，那么在非生产环境下会调用 assertProp 函数，校验该属性值是否与要求类型匹配。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="getPropDefaultValue-函数分析"><a href="#getPropDefaultValue-函数分析" class="headerlink" title="getPropDefaultValue 函数分析"></a>getPropDefaultValue 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">function getPropDefaultValue (vm, prop, key)&#123;</span><br><span class="line">  &#x2F;&#x2F; no default, return undefined</span><br><span class="line">  if (!hasOwn(prop, &#39;default&#39;)) &#123;</span><br><span class="line">    return undefined</span><br><span class="line">  &#125;</span><br><span class="line">  const def &#x3D; prop.default</span><br><span class="line">  &#x2F;&#x2F; warn against non-factory defaults for Object &amp; Array</span><br><span class="line">  if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; isObject(def)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#39;Invalid default value for prop &quot;&#39; + key + &#39;&quot;: &#39; +</span><br><span class="line">      &#39;Props with type Object&#x2F;Array must use a factory function &#39; +</span><br><span class="line">      &#39;to return the default value.&#39;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; the raw prop value was also undefined from previous render,</span><br><span class="line">  &#x2F;&#x2F; return previous default value to avoid unnecessary watcher trigger</span><br><span class="line">  if (vm &amp;&amp; vm.$options.propsData &amp;&amp;</span><br><span class="line">    vm.$options.propsData[key] &#x3D;&#x3D;&#x3D; undefined &amp;&amp;</span><br><span class="line">    vm._props[key] !&#x3D;&#x3D; undefined</span><br><span class="line">  ) &#123;</span><br><span class="line">    return vm._props[key]</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; call factory function for non-Function types</span><br><span class="line">  &#x2F;&#x2F; a value is Function if its prototype is function even across different execution context</span><br><span class="line">  return typeof def &#x3D;&#x3D;&#x3D; &#39;function&#39; &amp;&amp; getType(prop.type) !&#x3D;&#x3D; &#39;Function&#39;</span><br><span class="line">    ? def.call(vm)</span><br><span class="line">    : def</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>该函数接收三个参数<ul>
-<li>vm:当前实例；</li>
-<li>prop:子组件 props 选项中的每个 key 对应的值；</li>
-<li>key:子组件 props 选项中的每个 key；<br>作用是根据子组件 props 选项中的 key 获取对应的默认值。</li>
-</ul>
-</li>
-<li>首先判断 prop 中是否有 default 属性，如果没有，则表示没有默认值，直接返回。如果有则取出 default 属性，赋值给变量 def。接着判断在非生产环境下 def 是否是一个对象，如果是，则抛出警告。</li>
-<li>接着判断如果父组件没有传入 props 属性，但是在 vm._props 中有该属性值，这说明 vm._props 中的该属性值就是默认值。</li>
-<li>最后，判断 def 是否为函数并且 prop.type 不为 Function ，如果是的话表明 def 是一个返回对象或数组的工厂函数，那么将函数的返回值作为默认值返回；如果 def 不是函数，则将 def 作为默认值返回。</li>
-</ul>
-</li>
-</ul>
-<h4 id="assertProp-函数分析"><a href="#assertProp-函数分析" class="headerlink" title="assertProp 函数分析"></a>assertProp 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">function assertProp (prop,name,value,vm,absent) &#123;</span><br><span class="line">  if (prop.required &amp;&amp; absent) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#39;Missing required prop: &quot;&#39; + name + &#39;&quot;&#39;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  if (value &#x3D;&#x3D; null &amp;&amp; !prop.required) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  let type &#x3D; prop.type</span><br><span class="line">  let valid &#x3D; !type || type &#x3D;&#x3D;&#x3D; true</span><br><span class="line">  const expectedTypes &#x3D; []</span><br><span class="line">  if (type) &#123;</span><br><span class="line">    if (!Array.isArray(type)) &#123;</span><br><span class="line">      type &#x3D; [type]</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i &#x3D; 0; i &lt; type.length &amp;&amp; !valid; i++) &#123;</span><br><span class="line">      const assertedType &#x3D; assertType(value, type[i])</span><br><span class="line">      expectedTypes.push(assertedType.expectedType || &#39;&#39;)</span><br><span class="line">      valid &#x3D; assertedType.valid</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  if (!valid) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#96;Invalid prop: type check failed for prop &quot;$&#123;name&#125;&quot;.&#96; +</span><br><span class="line">      &#96; Expected $&#123;expectedTypes.map(capitalize).join(&#39;, &#39;)&#125;&#96; +</span><br><span class="line">      &#96;, got $&#123;toRawType(value)&#125;.&#96;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  const validator &#x3D; prop.validator</span><br><span class="line">  if (validator) &#123;</span><br><span class="line">    if (!validator(value)) &#123;</span><br><span class="line">      warn(</span><br><span class="line">        &#39;Invalid prop: custom validator check failed for prop &quot;&#39; + name + &#39;&quot;.&#39;,</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>该函数接收五个参数<ul>
-<li>prop: prop 选项</li>
-<li>name: props 中 prop 选项的 key</li>
-<li>value: 父组件传入的 propsData 中 key 对应的真实数据。</li>
-<li>vm: 当前实例。</li>
-<li>absent: 当前 key 是否在 propsData 中存在，即父组件是否传入了该属性<br>作用：是校验父组件传来的真实值是否与 prop 的 type 类型相匹配，如果不匹配则在非生产环境下抛出警告。</li>
-</ul>
-</li>
-<li>定义 3 个变量<ul>
-<li>type: prop 中的 type 类型。</li>
-<li>valid: 校验是否成功。</li>
-<li>expectedTypes: 保存期望类型的数组，当校验失败抛出警告时，提示用户该属性所期望的类型是什么</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="初始化-methods"><a href="#初始化-methods" class="headerlink" title="初始化 methods"></a>初始化 methods</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function initMethods (vm, methods) &#123;</span><br><span class="line">  const props &#x3D; vm.$options.props</span><br><span class="line">  for (const key in methods) &#123;</span><br><span class="line">    if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">      if (methods[key] &#x3D;&#x3D; null) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          &#96;Method &quot;$&#123;key&#125;&quot; has an undefined value in the component definition. &#96; +</span><br><span class="line">          &#96;Did you reference the function correctly?&#96;,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      if (props &amp;&amp; hasOwn(props, key)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          &#96;Method &quot;$&#123;key&#125;&quot; has already been defined as a prop.&#96;,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      if ((key in vm) &amp;&amp; isReserved(key)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          &#96;Method &quot;$&#123;key&#125;&quot; conflicts with an existing Vue instance method. &#96; +</span><br><span class="line">          &#96;Avoid defining component methods that start with _ or $.&#96;</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vm[key] &#x3D; methods[key] &#x3D;&#x3D; null ? noop : bind(methods[key], vm)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先遍历 methods 选项中的每一个对象，在非生产环境下判断如果 methods 中某个方法只有 key 而没有 value，即只有方法名没有方法体时，抛出异常：提示用户方法未定义。</li>
-<li>接着判断如果 methods 中某个方法名与 props 中某个属性名重复了，就抛出异常：提示用户方法名重复。</li>
-<li>接着判断如果 methods 中某个方法名如果在实例 vm 中已经存在并且方法名是以 _ 或 $ 开头的，就抛出异常：提示用户方法名命名不规范。</li>
-<li>最后，如果上述判断没有问题，那就 method 绑定到 实例 vm 上，可以通过 this.fun() 来访问 methods 选项中的 fun 方法。<br>总起来：初始化 methods 就做了三件事情，判断 method 有没有，method 的命名符不符合命名规范，method 既有又符合命名规范就把它挂载到 vm 实例上。</li>
-</ul>
-</li>
-</ul>
-<h3 id="初始化-data"><a href="#初始化-data" class="headerlink" title="初始化 data"></a>初始化 data</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function initData (vm) &#123;</span><br><span class="line">    let data &#x3D; vm.$options.data</span><br><span class="line">    data &#x3D; vm._data &#x3D; typeof data &#x3D;&#x3D;&#x3D; &#39;function&#39;</span><br><span class="line">        ? getData(data, vm)</span><br><span class="line">    : data || &#123;&#125;</span><br><span class="line">    if (!isPlainObject(data)) &#123;</span><br><span class="line">        data &#x3D; &#123;&#125;</span><br><span class="line">        process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">            &#39;data functions should return an object:\n&#39; +</span><br><span class="line">            &#39;https:&#x2F;&#x2F;vuejs.org&#x2F;v2&#x2F;guide&#x2F;components.html##data-Must-Be-a-Function&#39;,</span><br><span class="line">            vm</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; proxy data on instance</span><br><span class="line">    const keys &#x3D; Object.keys(data)</span><br><span class="line">    const props &#x3D; vm.$options.props</span><br><span class="line">    const methods &#x3D; vm.$options.methods</span><br><span class="line">    let i &#x3D; keys.length</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">        const key &#x3D; keys[i]</span><br><span class="line">        if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">            if (methods &amp;&amp; hasOwn(methods, key)) &#123;</span><br><span class="line">                warn(</span><br><span class="line">                    &#96;Method &quot;$&#123;key&#125;&quot; has already been defined as a data property.&#96;,</span><br><span class="line">                    vm</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (props &amp;&amp; hasOwn(props, key)) &#123;</span><br><span class="line">            process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">                &#96;The data property &quot;$&#123;key&#125;&quot; is already declared as a prop. &#96; +</span><br><span class="line">                &#96;Use prop default value instead.&#96;,</span><br><span class="line">                vm</span><br><span class="line">            )</span><br><span class="line">        &#125; else if (!isReserved(key)) &#123;</span><br><span class="line">            proxy(vm, &#96;_data&#96;, key)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; observe data</span><br><span class="line">    observe(data, true &#x2F;* asRootData *&#x2F;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先获取到用户传入的 data 选项，赋值给变量 data,同时将变量 data 作为指针指向 vm._data, 然后判断 data 是不是一个函数，如果是函数调用 getData 函数获取其返回值，将其保存到 vm._data 中，如果不是，就将其本身保存到 vm._data 中。</li>
-<li>接下来遍历 data 对象中的每一项，在非生产环境下判断 data 对象中是否存在某一项的 key 与 method 中某个属性名重复，如果重复，就抛出警告：提示用户属性名重复。</li>
-<li>接着再判断是否存在某一项的 key 与 prop 中某个属性名重复，如果存在重复，就抛出警告：提示用户属性名重复。<br>如果都没有重复，则调用 proxy 函数将 data 对象中 key 不以_或$开头的属性代理到实例 vm 上，这样，我们就可以通过 this.xxx 来访问 data 选项中的 xxx 数据了</li>
-<li>最后，调用 observe 函数将 data 中的数据转化成响应式。</li>
-</ul>
-</li>
-</ul>
-<h3 id="初始化-computed"><a href="#初始化-computed" class="headerlink" title="初始化 computed"></a>初始化 computed</h3><p>计算属性有一个很大的特点：计算属性的结果会被缓存，除非依赖的响应属性发生变化才会重新计算。</p>
-<h4 id="initComputed-函数分析"><a href="#initComputed-函数分析" class="headerlink" title="initComputed 函数分析"></a>initComputed 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">function initComputed (vm: Component, computed: Object) &#123;</span><br><span class="line">    const watchers &#x3D; vm._computedWatchers &#x3D; Object.create(null)</span><br><span class="line">    const isSSR &#x3D; isServerRendering()</span><br><span class="line"></span><br><span class="line">    for (const key in computed) &#123;</span><br><span class="line">        const userDef &#x3D; computed[key]</span><br><span class="line">        const getter &#x3D; typeof userDef &#x3D;&#x3D;&#x3D; &#39;function&#39; ? userDef : userDef.get</span><br><span class="line">        if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; getter &#x3D;&#x3D; null) &#123;</span><br><span class="line">            warn(</span><br><span class="line">                &#96;Getter is missing for computed property &quot;$&#123;key&#125;&quot;.&#96;,</span><br><span class="line">                vm</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!isSSR) &#123;</span><br><span class="line">            &#x2F;&#x2F; create internal watcher for the computed property.</span><br><span class="line">            watchers[key] &#x3D; new Watcher(</span><br><span class="line">                vm,</span><br><span class="line">                getter || noop,</span><br><span class="line">                noop,</span><br><span class="line">                computedWatcherOptions</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!(key in vm)) &#123;</span><br><span class="line">            defineComputed(vm, key, userDef)</span><br><span class="line">        &#125; else if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">            if (key in vm.$data) &#123;</span><br><span class="line">                warn(&#96;The computed property &quot;$&#123;key&#125;&quot; is already defined in data.&#96;, vm)</span><br><span class="line">            &#125; else if (vm.$options.props &amp;&amp; key in vm.$options.props) &#123;</span><br><span class="line">                warn(&#96;The computed property &quot;$&#123;key&#125;&quot; is already defined as a prop.&#96;, vm)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先定义一个变量 watchers 并将其赋值为空对象，同时将其作为指针指向 vm.computedWatchers</li>
-<li>接着遍历 computed 选项中的每一项属性，首先获取到每一项的属性值，记作 userDef,然后判断 userDef 是不是一个函数，如果是函数，则该函数默认为取值器 getter,将其赋值给变量 getter; 如果不是函数，则说明是一个对象，则对象中的 get 属性作为取值器赋给变量 getter。</li>
-<li>接着判断在非生产环境下如果上面的两种情况取到的取值器不存在，则抛出警告：提示用户计算属性必须有取值器。</li>
-<li>接着判断如果不是在服务端渲染环境下，则创建一个 watcher 实例，并将当前循环到的属性名作为键，创建的 watcher 实例作为值存入 watcher 对象中。</li>
-<li>最后判断当前循环到的属性名是否存在于当前实例 vm 上，如果存在，则在非生产环境下抛出警告；如果不存在，则调用 defineComputed 函数为实例 vm 上设置计算属性。</li>
-</ul>
-</li>
-</ul>
-<h4 id="defineComputed-函数分析"><a href="#defineComputed-函数分析" class="headerlink" title="defineComputed 函数分析"></a>defineComputed 函数分析</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const sharedPropertyDefinition &#x3D; &#123;</span><br><span class="line">  enumerable: true,</span><br><span class="line">  configurable: true,</span><br><span class="line">  get: noop,</span><br><span class="line">  set: noop</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function defineComputed (target,key,userDef) &#123;</span><br><span class="line">  const shouldCache &#x3D; !isServerRendering()</span><br><span class="line">  if (typeof userDef &#x3D;&#x3D;&#x3D; &#39;function&#39;) &#123;</span><br><span class="line">    sharedPropertyDefinition.get &#x3D; shouldCache</span><br><span class="line">      ? createComputedGetter(key)</span><br><span class="line">      : userDef</span><br><span class="line">    sharedPropertyDefinition.set &#x3D; noop</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    sharedPropertyDefinition.get &#x3D; userDef.get</span><br><span class="line">      ? shouldCache &amp;&amp; userDef.cache !&#x3D;&#x3D; false</span><br><span class="line">        ? createComputedGetter(key)</span><br><span class="line">        : userDef.get</span><br><span class="line">      : noop</span><br><span class="line">    sharedPropertyDefinition.set &#x3D; userDef.set</span><br><span class="line">      ? userDef.set</span><br><span class="line">      : noop</span><br><span class="line">  &#125;</span><br><span class="line">  if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp;</span><br><span class="line">      sharedPropertyDefinition.set &#x3D;&#x3D;&#x3D; noop) &#123;</span><br><span class="line">    sharedPropertyDefinition.set &#x3D; function () &#123;</span><br><span class="line">      warn(</span><br><span class="line">        &#96;Computed property &quot;$&#123;key&#125;&quot; was assigned to but it has no setter.&#96;,</span><br><span class="line">        this</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  Object.defineProperty(target, key, sharedPropertyDefinition)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>-</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%816/" data-id="cksydol6v000g14dx1ma51g5u" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码5" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%815/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.468Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%815/">Vue.js 源码解读,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="生命周期是什么"><a href="#生命周期是什么" class="headerlink" title="生命周期是什么"></a>生命周期是什么</h2><p>在 Vue 中，每个 Vue 实例从被创建出来到最终销毁都会经历一个过程，在这一过程里会发生许许多多的事情，如：设置数据监听，编译模板，组件挂载等，在 Vue 中，把 Vue 实例从被创建出来到最终被销毁的这一过程称为 Vue 实例的生命周期。</p>
-<p>生命周期流程图</p>
-<p><img src="https://vue-js.com/learn-vue/assets/img/1.6e1e57be.jpg" alt="生命周期流程图"></p>
-<ul>
-<li><p>Vue 实例的生命周期大致可分为 4 个阶段</p>
-<ul>
-<li>初始阶段：为 Vue 实例上初始化一些属性，事件已经响应式数据；</li>
-<li>模板编译阶段：将模板编译成渲染函数；</li>
-<li>挂载阶段：将实例挂载到指定的 DOM 上，即将模板渲染到真实 DOM 中；</li>
-<li>销毁阶段：将实例自身从父组件中删除，并取消依赖追踪及事件监听器；</li>
-</ul>
-</li>
-</ul>
-<h2 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h2><p>初始化阶段所做的工作大致分为两部分: 第一部分是 new Vue(),即创建一个 Vue 实例; 第二部分是为创建好的 Vue 实例初始化一些事件、属性、响应式数据等。</p>
-<h3 id="new-Vue-都做了什么事"><a href="#new-Vue-都做了什么事" class="headerlink" title="new Vue() 都做了什么事"></a>new Vue() 都做了什么事</h3><p>new Vue() 实际上是执行了一个 Vue 类的构造函数，构造函数内部执行 <code>_init</code> 方法。<code>_init</code> 方法所作的事情就是 new Vue() 所作的事情。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">export function initMixin (Vue) &#123;</span><br><span class="line">  Vue.prototype._init &#x3D; function (options) &#123;</span><br><span class="line">    const vm &#x3D; this</span><br><span class="line">    vm.$options &#x3D; mergeOptions(</span><br><span class="line">        resolveConstructorOptions(vm.constructor),</span><br><span class="line">        options || &#123;&#125;,</span><br><span class="line">        vm</span><br><span class="line">    )</span><br><span class="line">    vm._self &#x3D; vm</span><br><span class="line">    initLifecycle(vm)</span><br><span class="line">    initEvents(vm)</span><br><span class="line">    initRender(vm)</span><br><span class="line">    callHook(vm, &#39;beforeCreate&#39;)</span><br><span class="line">    initInjections(vm) &#x2F;&#x2F; resolve injections before data&#x2F;props</span><br><span class="line">    initState(vm)</span><br><span class="line">    initProvide(vm) &#x2F;&#x2F; resolve provide after data&#x2F;props</span><br><span class="line">    callHook(vm, &#39;created&#39;)</span><br><span class="line"></span><br><span class="line">    if (vm.$options.el) &#123;</span><br><span class="line">      vm.$mount(vm.$options.el)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><code>_init</code> 方法都做了些什么事情。</p>
-<ul>
-<li>首先把 Vue 实例赋值给变量 vm,并且把用户传递的 <code>options</code> 选项与当前构造函数的 <code>options</code> 属性及其父级构造函数的 <code>options</code> 属性进行合并，得到一个新的 <code>options</code> 选项赋值给 <code>$options</code> 属性，并将 <code>$options</code> 属性挂载到 <code>Vue</code> 实例上。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vm.$options &#x3D; mergeOptions(</span><br><span class="line">  resolveConstructorOptions(vm.constructor),</span><br><span class="line">  options || &#123;&#125;,</span><br><span class="line">  vm</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>接着，通过调用一些初始化函数来为 <code>Vue</code> 实例初始化一些属性，事件，响应是数据等。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">initLifecycle(vm)       &#x2F;&#x2F; 初始化生命周期</span><br><span class="line">initEvents(vm)        &#x2F;&#x2F; 初始化事件</span><br><span class="line">initRender(vm)         &#x2F;&#x2F; 初始化渲染</span><br><span class="line">callHook(vm, &#39;beforeCreate&#39;)  &#x2F;&#x2F; 调用生命周期钩子函数</span><br><span class="line">initInjections(vm)   &#x2F;&#x2F;初始化injections</span><br><span class="line">initState(vm)    &#x2F;&#x2F; 初始化props,methods,data,computed,watch</span><br><span class="line">initProvide(vm) &#x2F;&#x2F; 初始化 provide</span><br><span class="line">callHook(vm, &#39;created&#39;)  &#x2F;&#x2F; 调用生命周期钩子函数</span><br></pre></td></tr></table></figure>
-
-<p>除了调用初始化函数来进行相关数据的初始化之外，还会再合适的时机调用了 callHook 函数来触发生命周期的钩子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (vm.$options.el) &#123;</span><br><span class="line">    vm.$mount(vm.$options.el)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后，会判断用户是否传入了 el 选项，如果传入了则调用 $mount 函数进入模板编译与挂载阶段，如果没有传入 el 选项，则不进入下一个生命周期阶段，需要用户手动执行 vm.$mount 方法才进入下一个生命周期阶段。</p>
-</li>
-</ul>
-<h3 id="合并属性"><a href="#合并属性" class="headerlink" title="合并属性"></a>合并属性</h3><h2 id="初始化阶段-initLifecycle-函数分析"><a href="#初始化阶段-initLifecycle-函数分析" class="headerlink" title="初始化阶段 initLifecycle 函数分析"></a>初始化阶段 initLifecycle 函数分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">export function initLifecycle (vm: Component) &#123;</span><br><span class="line">  const options &#x3D; vm.$options</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; locate first non-abstract parent</span><br><span class="line">  let parent &#x3D; options.parent</span><br><span class="line">  if (parent &amp;&amp; !options.abstract) &#123;</span><br><span class="line">    while (parent.$options.abstract &amp;&amp; parent.$parent) &#123;</span><br><span class="line">      parent &#x3D; parent.$parent</span><br><span class="line">    &#125;</span><br><span class="line">    parent.$children.push(vm)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  vm.$parent &#x3D; parent</span><br><span class="line">  vm.$root &#x3D; parent ? parent.$root : vm</span><br><span class="line"></span><br><span class="line">  vm.$children &#x3D; []</span><br><span class="line">  vm.$refs &#x3D; &#123;&#125;</span><br><span class="line"></span><br><span class="line">  vm._watcher &#x3D; null</span><br><span class="line">  vm._inactive &#x3D; null</span><br><span class="line">  vm._directInactive &#x3D; false</span><br><span class="line">  vm._isMounted &#x3D; false</span><br><span class="line">  vm._isDestroyed &#x3D; false</span><br><span class="line">  vm._isBeingDestroyed &#x3D; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先是给实例上挂载 <code>$parent</code> 属性。<ul>
-<li>逻辑：如果当前组件不是抽象组件并且存在父级，就通过 while 循环来向上循环，如果当前组件的父级是抽象组件并且也存在父级，那就继续向上查找当前组件的父级，直到找到第一个不是抽象类型的父级时，将其赋值 vm.$parent 同时把该实例自身添加进找到的父级的 $children 属性中。</li>
-</ul>
-</li>
-<li>接着是给实例挂载 <code>$root</code> 属性。<ul>
-<li>实例的 $root 属性表示当前实例的根实例，挂载该属性时，首先会判断如果当前实例存在于父级，那么当前实例的根实例 $root 属性就是其父级根实例 $root 属性，如果不存在，那么根实例 $root 属性就是它自己。</li>
-<li>最后，在初始化一些其它属性，</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="初始化阶段-initEvents-函数分析"><a href="#初始化阶段-initEvents-函数分析" class="headerlink" title="初始化阶段 initEvents 函数分析"></a>初始化阶段 initEvents 函数分析</h2><p>initEvents 是生命周期初始化阶段所调用的第二个初始化函数。这个初始化函数是初始化实例的事件系统。在 <code>Vue</code> 中，当我们在父组件中使用子组件时可以给子组件上注册一些事件，即 v-on 或 @ 注册的自定义事件，也包括注册的浏览器原生事件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;child @select&#x3D;&quot;selectHandler&quot; 	@click.native&#x3D;&quot;clickHandler&quot;&gt;&lt;&#x2F;child&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="解析事件"><a href="#解析事件" class="headerlink" title="解析事件"></a>解析事件</h3><p>模板编译解析中，当遇到开始标签的时候，除了会解析开始标签，会调用 processAttrs 方法解析标签中的属性，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export const onRE &#x3D; &#x2F;^@|^v-on:&#x2F;</span><br><span class="line">export const dirRE &#x3D; &#x2F;^v-|^@|^:&#x2F;</span><br><span class="line"></span><br><span class="line">function processAttrs (el) &#123;</span><br><span class="line">const list &#x3D; el.attrsList</span><br><span class="line">let i, l, name, value, modifiers</span><br><span class="line">for (i &#x3D; 0, l &#x3D; list.length; i &lt; l; i++) &#123;</span><br><span class="line">  name  &#x3D; list[i].name</span><br><span class="line">  value &#x3D; list[i].value</span><br><span class="line">  if (dirRE.test(name)) &#123;</span><br><span class="line">    &#x2F;&#x2F; 解析修饰符</span><br><span class="line">    modifiers &#x3D; parseModifiers(name)</span><br><span class="line">    if (modifiers) &#123;</span><br><span class="line">      name &#x3D; name.replace(modifierRE, &#39;&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">    if (onRE.test(name)) &#123; &#x2F;&#x2F; v-on</span><br><span class="line">      name &#x3D; name.replace(onRE, &#39;&#39;)</span><br><span class="line">      addHandler(el, name, value, modifiers, false, warn)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在对标签属性进行解析的时，判断如果属性时指令，首先通过 parseModifiers 解析出属性的修饰符，然后判断如果时事件的指令，则执行 addHandler(el,name,value,modifiers.false,warn) 方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">export function addHandler (el,name,value,modifiers) &#123;</span><br><span class="line"> modifiers &#x3D; modifiers || emptyObject</span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F; check capture modifier 判断是否有capture修饰符</span><br><span class="line"> if (modifiers.capture) &#123;</span><br><span class="line">   delete modifiers.capture</span><br><span class="line">   name &#x3D; &#39;!&#39; + name &#x2F;&#x2F; 给事件名前加&#39;!&#39;用以标记capture修饰符</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F; 判断是否有once修饰符</span><br><span class="line"> if (modifiers.once) &#123;</span><br><span class="line">   delete modifiers.once</span><br><span class="line">   name &#x3D; &#39;~&#39; + name &#x2F;&#x2F; 给事件名前加&#39;~&#39;用以标记once修饰符</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F; 判断是否有passive修饰符</span><br><span class="line"> if (modifiers.passive) &#123;</span><br><span class="line">   delete modifiers.passive</span><br><span class="line">   name &#x3D; &#39;&amp;&#39; + name &#x2F;&#x2F; 给事件名前加&#39;&amp;&#39;用以标记passive修饰符</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> let events</span><br><span class="line"> if (modifiers.native) &#123;</span><br><span class="line">   delete modifiers.native</span><br><span class="line">   events &#x3D; el.nativeEvents || (el.nativeEvents &#x3D; &#123;&#125;)</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">   events &#x3D; el.events || (el.events &#x3D; &#123;&#125;)</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> const newHandler: any &#x3D; &#123;</span><br><span class="line">   value: value.trim()</span><br><span class="line"> &#125;</span><br><span class="line"> if (modifiers !&#x3D;&#x3D; emptyObject) &#123;</span><br><span class="line">   newHandler.modifiers &#x3D; modifiers</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> const handlers &#x3D; events[name]</span><br><span class="line"> if (Array.isArray(handlers)) &#123;</span><br><span class="line">   handlers.push(newHandler)</span><br><span class="line"> &#125; else if (handlers) &#123;</span><br><span class="line">   events[name] &#x3D; [handlers, newHandler]</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">   events[name] &#x3D; newHandler</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> el.plain &#x3D; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>该方法做了三件事</p>
-<ul>
-<li>根据 modifier 修饰符对事件名 name 做处理。</li>
-<li>根据 modifier.native 判断事件是一个浏览器原生事件还是自定义事件，分别对应 el.nativeEvents 和 el.events。</li>
-<li>按照 name 对事件做归类，并把回调函数的字符串保留到对应的事件中。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 形成的事件对象</span><br><span class="line">el.events &#x3D; &#123;</span><br><span class="line">  select: &#123;</span><br><span class="line">    value:&#39;selectHandler&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">el.nativeEvents &#x3D; &#123;</span><br><span class="line">  click: &#123;</span><br><span class="line">    value: &#39;clickHandler&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在模板编译的代码生成阶段，会 genData 函数中根据 AST 元素节点上的 events 和 nativeEvents 生成 _c(tagName,data,children) 函数中所需要的 data 数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">export function genData (el state) &#123;</span><br><span class="line">  let data &#x3D; &#39;&#123;&#39;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  if (el.events) &#123;</span><br><span class="line">    data +&#x3D; &#96;$&#123;genHandlers(el.events, false,state.warn)&#125;,&#96;</span><br><span class="line">  &#125;</span><br><span class="line">  if (el.nativeEvents) &#123;</span><br><span class="line">    data +&#x3D; &#96;$&#123;genHandlers(el.nativeEvents, true, state.warn)&#125;,&#96;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过上面的方法生成的 data 数据</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  on: &#123;&quot;select&quot;: selectHandler&#125;,</span><br><span class="line">  nativeOn: &#123;&quot;click&quot;: function($event) &#123;</span><br><span class="line">      return clickHandler($event)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，最开始的模板中标签上注册的事件最终会被解析成用于创建元素型 VNode 的 _c(tagName,data,children) 函数中 data 数据中的两个对象，自定义事件对象 on，浏览器原生事件 nativeOn。</p>
-<p>模板编译的最终目的是创建 render 函数供挂载的时候调用生成虚拟 DOM, 那么在挂载阶段，如果被挂载的节点是一个组件节点，则通过 createComponent 函数创建一个组件 vnode 源码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">export function createComponent (</span><br><span class="line">  Ctor: Class&lt;Component&gt; | Function | Object | void,</span><br><span class="line">  data: ?VNodeData,</span><br><span class="line">  context: Component,</span><br><span class="line">  children: ?Array&lt;VNode&gt;,</span><br><span class="line">  tag?: string</span><br><span class="line">): VNode | Array&lt;VNode&gt; | void &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  const listeners &#x3D; data.on</span><br><span class="line"></span><br><span class="line">  data.on &#x3D; data.nativeOn</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  const name &#x3D; Ctor.options.name || tag</span><br><span class="line">  const vnode &#x3D; new VNode(</span><br><span class="line">    &#96;vue-component-$&#123;Ctor.cid&#125;$&#123;name ? &#96;-$&#123;name&#125;&#96; : &#39;&#39;&#125;&#96;,</span><br><span class="line">    data, undefined, undefined, undefined, context,</span><br><span class="line">    &#123; Ctor, propsData, listeners, tag, children &#125;,</span><br><span class="line">    asyncFactory</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  return vnode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>父组件给子组件的注册事件中，把自定义事件传给子组件，在子组件实例化的时候进行初始化；而浏览器原生事件是在父组件中处理。</code></p>
-<p><code>实例初始化阶段调用的初始化事件函数 initEvents 实际上初始化的是父组件在模板中使用 v-on 或 @ 注册的监听子组件内触发的事件。</code></p>
-<h3 id="initEvents-函数分析"><a href="#initEvents-函数分析" class="headerlink" title="initEvents 函数分析"></a>initEvents 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export function initEvents (vm: Component) &#123;</span><br><span class="line">  vm._events &#x3D; Object.create(null)</span><br><span class="line">  &#x2F;&#x2F; init parent attached events</span><br><span class="line">  const listeners &#x3D; vm.$options._parentListeners</span><br><span class="line">  if (listeners) &#123;</span><br><span class="line">    updateComponentListeners(vm, listeners)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>在 vm 上新增 <code>_events</code> 属性并将其赋值为空对象，用来存储事件。</li>
-<li>然后、获取父组件注册的事件赋值给 listeners，如果 listeners 不为空，则调用 updataComponentsListeners 函数，将父组件向子组件注册的事件注册到子组件的实例中。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export function updateComponentListeners (</span><br><span class="line">  vm: Component,</span><br><span class="line">  listeners: Object,</span><br><span class="line">  oldListeners: ?Object</span><br><span class="line">) &#123;</span><br><span class="line">  target &#x3D; vm</span><br><span class="line">  updateListeners(listeners, oldListeners || &#123;&#125;, add, remove, vm)</span><br><span class="line">  target &#x3D; undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add (event, fn, once) &#123;</span><br><span class="line">  if (once) &#123;</span><br><span class="line">    target.$once(event, fn)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    target.$on(event, fn)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function remove (event, fn) &#123;</span><br><span class="line">  target.$off(event, fn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>内部调用 updataListeners 函数，并把 listeners 以及 add 和 remove 这两个函数传入。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">export function updateListeners (</span><br><span class="line">  on: Object,</span><br><span class="line">  oldOn: Object,</span><br><span class="line">  add: Function,</span><br><span class="line">  remove: Function,</span><br><span class="line">  vm: Component</span><br><span class="line">) &#123;</span><br><span class="line">  let name, def, cur, old, event</span><br><span class="line">  for (name in on) &#123;</span><br><span class="line">    def &#x3D; cur &#x3D; on[name]</span><br><span class="line">    old &#x3D; oldOn[name]</span><br><span class="line">    event &#x3D; normalizeEvent(name)</span><br><span class="line">    if (isUndef(cur)) &#123;</span><br><span class="line">      process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">        &#96;Invalid handler for event &quot;$&#123;event.name&#125;&quot;: got &#96; + String(cur),</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125; else if (isUndef(old)) &#123;</span><br><span class="line">      if (isUndef(cur.fns)) &#123;</span><br><span class="line">        cur &#x3D; on[name] &#x3D; createFnInvoker(cur)</span><br><span class="line">      &#125;</span><br><span class="line">      add(event.name, cur, event.once, event.capture, event.passive, event.params)</span><br><span class="line">    &#125; else if (cur !&#x3D;&#x3D; old) &#123;</span><br><span class="line">      old.fns &#x3D; cur</span><br><span class="line">      on[name] &#x3D; old</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  for (name in oldOn) &#123;</span><br><span class="line">    if (isUndef(on[name])) &#123;</span><br><span class="line">      event &#x3D; normalizeEvent(name)</span><br><span class="line">      remove(event.name, oldOn[name], event.capture)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>代码分析</p>
-<ul>
-<li>对比 listeners 和 oldListeners 的不同，并调用参数中提供的 add 和 remove 进行相应的注册事件和卸载事件。<br>对比的思想：如果 listeners 对象中存在某个 key 而 oldListeners 中不存在，则说明这个事件是需要新增的；反之，如果 oldListeners 对象中存在某个 key(事件名) 而 listeners 中不存在，则说明这个事件是需要从事件系统中卸载。</li>
-<li>函数接收 5 个参数，分别是 on、oldOn、add、remove、vm,其中 on 对应 listeners, oldOn 对应 oldListeners。</li>
-<li>首先对 on 进行遍历， 获得每一个事件名，然后调用 normalizeEvent 函数（关于该函数下面会介绍）处理， 处理完事件名后， 判断事件名对应的值是否存在，如果不存在则抛出警告，</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">for (name in on) &#123;</span><br><span class="line">  def &#x3D; cur &#x3D; on[name]</span><br><span class="line">  old &#x3D; oldOn[name]</span><br><span class="line">  event &#x3D; normalizeEvent(name)</span><br><span class="line">  if (isUndef(cur)) &#123;</span><br><span class="line">    process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">      &#96;Invalid handler for event &quot;$&#123;event.name&#125;&quot;: got &#96; + String(cur),</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>如果存在，则继续判断该事件名在 oldOn 中是否存在，如果不存在，则调用 add 注册事件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">if (isUndef(old)) &#123;</span><br><span class="line">  if (isUndef(cur.fns)) &#123;</span><br><span class="line">    cur &#x3D; on[name] &#x3D; createFnInvoker(cur)</span><br><span class="line">  &#125;</span><br><span class="line">  add(event.name, cur, event.once, event.capture, event.passive, event.params)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function createFnInvoker (fns) &#123;</span><br><span class="line">  function invoker () &#123;</span><br><span class="line">    const fns &#x3D; invoker.fns</span><br><span class="line">    if (Array.isArray(fns)) &#123;</span><br><span class="line">      const cloned &#x3D; fns.slice()</span><br><span class="line">      for (let i &#x3D; 0; i &lt; cloned.length; i++) &#123;</span><br><span class="line">        cloned[i].apply(null, arguments)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      &#x2F;&#x2F; return handler return value for single handlers</span><br><span class="line">      return fns.apply(null, arguments)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">invoker.fns &#x3D; fns</span><br><span class="line">return invoker</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="初始化阶段-initInjections"><a href="#初始化阶段-initInjections" class="headerlink" title="初始化阶段 initInjections"></a>初始化阶段 initInjections</h2><p>该函数是用来初始化实例中的 inject 选项。inject 和 provide 选项，这两个选项都是成对出现，左右是：允许一个祖先组件向其它子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。provide 选项应该返回一个对象或返回一个对象的函数。该对象包含可注入其子孙的属性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var Parent &#x3D; &#123;</span><br><span class="line">  provide:&#123;</span><br><span class="line">    foo:&#39;bar&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var Child &#x3D; &#123;</span><br><span class="line">  inject:[&#39;foo&#39;],</span><br><span class="line">  created () &#123;</span><br><span class="line">    console.log(this.foo) &#x2F;&#x2F; bar</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="initInjections-函数分析"><a href="#initInjections-函数分析" class="headerlink" title="initInjections 函数分析"></a>initInjections 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export function initInjections (vm: Component) &#123;</span><br><span class="line">  const result &#x3D; resolveInject(vm.$options.inject, vm)</span><br><span class="line">  if (result) &#123;</span><br><span class="line">    toggleObserving(false)</span><br><span class="line">    Object.keys(result).forEach(key &#x3D;&gt; &#123;</span><br><span class="line">      defineReactive(vm, key, result[key])</span><br><span class="line">    &#125;</span><br><span class="line">    toggleObserving(true)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export let shouldObserve: boolean &#x3D; true</span><br><span class="line">export function toggleObserving (value: boolean) &#123;</span><br><span class="line">  shouldObserve &#x3D; value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先调用 resolveInject 把 inject 选项中的数据转化成键值对的形式赋值给 result 。</li>
-<li>遍历 result 中的每一对键值，调用 defineReactive 将数据转换成可观测的数据。</li>
-</ul>
-</li>
-<li>注意点：<br>在把 result 中的键值对添加到当前实例上之前，会先调用 toggleObserving(false),而这个函数内部是把 shouldObserver = false, 是告诉 defineReactive 函数仅仅是把键值添加到当前实例上而不需要将其转换成响应式。</li>
-</ul>
-<h3 id="resolveInject-函数分析"><a href="#resolveInject-函数分析" class="headerlink" title="resolveInject 函数分析"></a>resolveInject 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">export function resolveInject (inject: any, vm: Component): ?Object &#123;</span><br><span class="line">  if (inject) &#123;</span><br><span class="line">    const result &#x3D; Object.create(null)</span><br><span class="line">    const keys &#x3D;  Object.keys(inject)</span><br><span class="line"></span><br><span class="line">    for (let i &#x3D; 0; i &lt; keys.length; i++) &#123;</span><br><span class="line">      const key &#x3D; keys[i]</span><br><span class="line">      const provideKey &#x3D; inject[key].from</span><br><span class="line">      let source &#x3D; vm</span><br><span class="line">      while (source) &#123;</span><br><span class="line">        if (source._provided &amp;&amp; hasOwn(source._provided, provideKey)) &#123;</span><br><span class="line">          result[key] &#x3D; source._provided[provideKey]</span><br><span class="line">          break</span><br><span class="line">        &#125;</span><br><span class="line">        source &#x3D; source.$parent</span><br><span class="line">      &#125;</span><br><span class="line">      if (!source) &#123;</span><br><span class="line">        if (&#39;default&#39; in inject[key]) &#123;</span><br><span class="line">          const provideDefault &#x3D; inject[key].default</span><br><span class="line">          result[key] &#x3D; typeof provideDefault &#x3D;&#x3D;&#x3D; &#39;function&#39;</span><br><span class="line">            ? provideDefault.call(vm)</span><br><span class="line">            : provideDefault</span><br><span class="line">        &#125; else if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">          warn(&#96;Injection &quot;$&#123;key&#125;&quot; not found&#96;, vm)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>代码分析<ul>
-<li>首先创建一个空对象 result,用来存储 inject 选项中的数据 key 及其对应的值，作为最后的返回结果。</li>
-<li>获取当前 inject 选项中的所有 key，然后遍历每一个 key,拿到每一个 key 的 from 属性记作 provideKey，provideKey 就是上游父级组件提供的源属性，然后开启一个 while 循环，从当前组件起，不断的向上游父级组件的_provided 属性中（父级组件使用 provide 选项注入数据时会将注入的数据存入自己的实例的_provided 属性中）查找，直到查找到源属性的对应的值，将其存入 result 中。如果没有找到，就看 inject 选项中当前数据 key 是否设置了默认值，如果有，则拿这个默认值。如果没有默认值就，就抛出异常。</li>
-<li>最后返回 result</li>
-</ul>
-</li>
-</ul>
-<h2 id><a href="#" class="headerlink" title></a></h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%815/" data-id="cksydol6f000e14dxgllvbjxt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/04/22/vue%E6%BA%90%E7%A0%814/" class="article-date">
-  <time datetime="2021-04-22T07:51:22.467Z" itemprop="datePublished">2021-04-22</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/vue%E6%BA%90%E7%A0%814/">Vue.js 源码解读, 模板编译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是模板编译"><a href="#什么是模板编译" class="headerlink" title="什么是模板编译"></a>什么是模板编译</h2><p><code>Vue</code> 会把用户在<code>&lt;template&gt;&lt;/template&gt;</code>标签中写的类似于原生 HTML 的内容进行编译，把原生 HTML 的内容找出来，再把非原生 HTML 找出来，经过一系列的逻辑处理生成渲染函数，也就是 render 函数，而 render 函数会将模板内容生成对应的 VNode，而 VNode 再经过前几篇文章介绍的 patch 过程从而得到将要渲染的视图中的 VNode，最后根据 VNode 创建真实的 DOM 节点并插入到视图中， 最终完成视图的渲染更新。<br>而把用户在<template></template>标签中写的类似于原生 HTML 的内容进行编译，把原生 HTML 的内容找出来，再把非原生 HTML 找出来，经过一系列的逻辑处理生成渲染函数，也就是 render 函数的这一段过程称之为模板编译过程。</p>
-<h2 id="整体渲染流程"><a href="#整体渲染流程" class="headerlink" title="整体渲染流程"></a>整体渲染流程</h2><p>渲染流程，就是把用户写的类似于原生 HTML 的模板经过一系列处理最终反应到视图中称之为整个渲染流程。</p>
-<p><img src="https://vue-js.com/learn-vue/assets/img/1.f0570125.png" alt="渲染流程"></p>
-<h2 id="模板编译内部流程"><a href="#模板编译内部流程" class="headerlink" title="模板编译内部流程"></a>模板编译内部流程</h2><h3 id="抽象语法树-AST"><a href="#抽象语法树-AST" class="headerlink" title="抽象语法树 AST"></a>抽象语法树 AST</h3><p>抽象语法树，在计算机科学中，抽象语法树（AbstractSyntaxTree，AST），或简称语法树（Syntax tree），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构。之所以说语法是“抽象”的，是因为这里的语法并不会表示出真实语法中出现的每个细节。</p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>分为三个阶段:</p>
-<ul>
-<li>模板解析阶段:将一堆模板字符串用正则等方式解析成抽象语法树 AST</li>
-<li>优化阶段: 遍历 AST ,找出其中的静态节点, 并打上标记;</li>
-<li>代码生成阶段：将 AST 转换成渲染函数;</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/3.15d9566b.png" alt="模板内部流程图"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/04/22/vue%E6%BA%90%E7%A0%814/" data-id="cksydol6d000d14dxf0fwemue" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2021/04/22/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="ckwg4q5k6000lwkdx8m8o0ljf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1107,7 +886,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
   </nav>
 
 </section>
@@ -1118,7 +897,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
     </div>
   </div>
 
@@ -1133,7 +912,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
     </div>
   </div>
 
@@ -1146,23 +925,23 @@
       <ul>
         
           <li>
+            <a href="/2021/11/26/es6/Symbol/">Symbol,</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/es6/%E6%96%B0%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/">运算符的扩展,</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/29/async,await/">async await,</a>
+          </li>
+        
+          <li>
+            <a href="/2021/09/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/">项目中常用的js操作,</a>
+          </li>
+        
+          <li>
             <a href="/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式,</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/">请求到达web服务器</a>
-          </li>
-        
-          <li>
-            <a href="/2021/07/06/TCP/">TCP</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/29/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">JS代码执行过程分析</a>
-          </li>
-        
-          <li>
-            <a href="/2021/06/24/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a>
           </li>
         
       </ul>
