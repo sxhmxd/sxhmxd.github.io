@@ -304,6 +304,7 @@ categories: [TypeScript]
       age:18
     }
   ```
+  上面例子，我们通过交叉类型，使得IntersectionType 同时拥有了id name age 所有属性，这里我们可以试着将合并接口类型理解为求并集。
 
 
 ## object Object 和 {}
