@@ -169,66 +169,67 @@ categories: [TypeScript]
 ### 枚举 interFace
  是一个完全抽象的对象，一个interface 可以对应多个class 对其内部的未实现方法进行实现，ts 中，interface 主要用于类型描述。
 
-```ts 
-  interface User{
-    name:string
-    age:number
-    sex:string
-  }
-  let obj:User ={
-    name:string
-    age:number
-    sex:string
-  }
-  //是强约束 约定该对象必须包含name,age,sex 这几个属性，不能有其他对象
-  interface Us{
-    readonly name:string,  // 表示该属性只读，不可以修改
-    age:number,
-    [props:string]:any
-  }
-  // 可以有约定以外的其他属性
-  interface Func{
-    (name):string
-  }
-  // 定义函数的接口
-  let fun:Func = function(name:string):string {
-    return name
-  }
+  ```ts 
+    interface User{
+      name:string
+      age:number
+      sex:string
+    }
+    let obj:User ={
+      name:string
+      age:number
+      sex:string
+    }
+    //是强约束 约定该对象必须包含name,age,sex 这几个属性，不能有其他对象
+    interface Us{
+      readonly name:string,  // 表示该属性只读，不可以修改
+      age:number,
+      [props:string]:any
+    }
+    // 可以有约定以外的其他属性
+    interface Func{
+      (name):string
+    }
+    // 定义函数的接口
+    let fun:Func = function(name:string):string {
+      return name
+    }
 
-  interface User {
-    name:string,
-    age:number,
-    sex:string
-  }
-  interface Admin{
-    name:string,
-    age:number
-  }
-  type Person = User | Admin
-  let userobj =  Array<Person> = [
-    {name:'',age:'',sex:''},
-    {name:"",age:""}
-  ]
+    interface User {
+      name:string,
+      age:number,
+      sex:string
+    }
+    interface Admin{
+      name:string,
+      age:number
+    }
+    type Person = User | Admin
+    let userobj =  Array<Person> = [
+      {name:'',age:'',sex:''},
+      {name:"",age:""}
+    ]
 
-``` 
+  ``` 
+
 ### 泛型
  泛型是静态类型语言的另一灵魂工具，这里体现于静态类型的语言在定义类型时必须明确类型而造成的问题。
  当函数的参数和返回类型明确时，相同结构的函数需要根据不同的类型定义多个，这种情况很容易将代码的复杂度提高降低可维护性
 
-``` ts
- function test<T>(arg:T):T{
-   return arg
- }
+  ``` ts
+  function test<T>(arg:T):T{
+    return arg
+  }
 
-```
+  ```
 ### 类型推断
 
 在很多情况下，Typescript会根据上下文环境自动推断出变量的类型，无需我们再写明类型注解。
-```ts
-  let str = 'ss'
-  let num = 1
-  let bool = true
-```
+  ```ts
+    let str = 'ss'
+    let num = 1
+    let bool = true
+  ```
 我们把TypeScript 这种基于赋值表达式推断类型的能力称之为 `类型推断`
 
 ### 类型断言
