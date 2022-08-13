@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Vue.js 源码解读, | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="生命周期是什么在 Vue 中，每个 Vue 实例从被创建出来到最终销毁都会经历一个过程，在这一过程里会发生许许多多的事情，如：设置数据监听，编译模板，组件挂载等，在 Vue 中，把 Vue 实例从被创建出来到最终被销毁的这一过程称为 Vue 实例的生命周期。 生命周期流程图   Vue 实例的生命周期大致可分为 4 个阶段  初始阶段：为 Vue 实例上初始化一些属性，事件已经响应式数据； 模板编">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js 源码解读,">
+<meta property="og:url" content="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%815/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="生命周期是什么在 Vue 中，每个 Vue 实例从被创建出来到最终销毁都会经历一个过程，在这一过程里会发生许许多多的事情，如：设置数据监听，编译模板，组件挂载等，在 Vue 中，把 Vue 实例从被创建出来到最终被销毁的这一过程称为 Vue 实例的生命周期。 生命周期流程图   Vue 实例的生命周期大致可分为 4 个阶段  初始阶段：为 Vue 实例上初始化一些属性，事件已经响应式数据； 模板编">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://vue-js.com/learn-vue/assets/img/1.6e1e57be.jpg">
+<meta property="article:published_time" content="2022-04-13T07:41:31.029Z">
+<meta property="article:modified_time" content="2022-04-13T07:41:31.029Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://vue-js.com/learn-vue/assets/img/1.6e1e57be.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-vue源码5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/vue%E6%BA%90%E7%A0%815/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.029Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue.js 源码解读,
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="生命周期是什么"><a href="#生命周期是什么" class="headerlink" title="生命周期是什么"></a>生命周期是什么</h2><p>在 Vue 中，每个 Vue 实例从被创建出来到最终销毁都会经历一个过程，在这一过程里会发生许许多多的事情，如：设置数据监听，编译模板，组件挂载等，在 Vue 中，把 Vue 实例从被创建出来到最终被销毁的这一过程称为 Vue 实例的生命周期。</p>
+<p>生命周期流程图</p>
+<p><img src="https://vue-js.com/learn-vue/assets/img/1.6e1e57be.jpg" alt="生命周期流程图"></p>
+<ul>
+<li><p>Vue 实例的生命周期大致可分为 4 个阶段</p>
+<ul>
+<li>初始阶段：为 Vue 实例上初始化一些属性，事件已经响应式数据；</li>
+<li>模板编译阶段：将模板编译成渲染函数；</li>
+<li>挂载阶段：将实例挂载到指定的 DOM 上，即将模板渲染到真实 DOM 中；</li>
+<li>销毁阶段：将实例自身从父组件中删除，并取消依赖追踪及事件监听器；</li>
+</ul>
+</li>
+</ul>
+<h2 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h2><p>初始化阶段所做的工作大致分为两部分: 第一部分是 new Vue(),即创建一个 Vue 实例; 第二部分是为创建好的 Vue 实例初始化一些事件、属性、响应式数据等。</p>
+<h3 id="new-Vue-都做了什么事"><a href="#new-Vue-都做了什么事" class="headerlink" title="new Vue() 都做了什么事"></a>new Vue() 都做了什么事</h3><p>new Vue() 实际上是执行了一个 Vue 类的构造函数，构造函数内部执行 <code>_init</code> 方法。<code>_init</code> 方法所作的事情就是 new Vue() 所作的事情。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">export function initMixin (Vue) &#123;</span><br><span class="line">  Vue.prototype._init &#x3D; function (options) &#123;</span><br><span class="line">    const vm &#x3D; this</span><br><span class="line">    vm.$options &#x3D; mergeOptions(</span><br><span class="line">        resolveConstructorOptions(vm.constructor),</span><br><span class="line">        options || &#123;&#125;,</span><br><span class="line">        vm</span><br><span class="line">    )</span><br><span class="line">    vm._self &#x3D; vm</span><br><span class="line">    initLifecycle(vm)</span><br><span class="line">    initEvents(vm)</span><br><span class="line">    initRender(vm)</span><br><span class="line">    callHook(vm, &#39;beforeCreate&#39;)</span><br><span class="line">    initInjections(vm) &#x2F;&#x2F; resolve injections before data&#x2F;props</span><br><span class="line">    initState(vm)</span><br><span class="line">    initProvide(vm) &#x2F;&#x2F; resolve provide after data&#x2F;props</span><br><span class="line">    callHook(vm, &#39;created&#39;)</span><br><span class="line"></span><br><span class="line">    if (vm.$options.el) &#123;</span><br><span class="line">      vm.$mount(vm.$options.el)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>_init</code> 方法都做了些什么事情。</p>
+<ul>
+<li>首先把 Vue 实例赋值给变量 vm,并且把用户传递的 <code>options</code> 选项与当前构造函数的 <code>options</code> 属性及其父级构造函数的 <code>options</code> 属性进行合并，得到一个新的 <code>options</code> 选项赋值给 <code>$options</code> 属性，并将 <code>$options</code> 属性挂载到 <code>Vue</code> 实例上。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vm.$options &#x3D; mergeOptions(</span><br><span class="line">  resolveConstructorOptions(vm.constructor),</span><br><span class="line">  options || &#123;&#125;,</span><br><span class="line">  vm</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接着，通过调用一些初始化函数来为 <code>Vue</code> 实例初始化一些属性，事件，响应是数据等。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">initLifecycle(vm)       &#x2F;&#x2F; 初始化生命周期</span><br><span class="line">initEvents(vm)        &#x2F;&#x2F; 初始化事件</span><br><span class="line">initRender(vm)         &#x2F;&#x2F; 初始化渲染</span><br><span class="line">callHook(vm, &#39;beforeCreate&#39;)  &#x2F;&#x2F; 调用生命周期钩子函数</span><br><span class="line">initInjections(vm)   &#x2F;&#x2F;初始化injections</span><br><span class="line">initState(vm)    &#x2F;&#x2F; 初始化props,methods,data,computed,watch</span><br><span class="line">initProvide(vm) &#x2F;&#x2F; 初始化 provide</span><br><span class="line">callHook(vm, &#39;created&#39;)  &#x2F;&#x2F; 调用生命周期钩子函数</span><br></pre></td></tr></table></figure>
+
+<p>除了调用初始化函数来进行相关数据的初始化之外，还会再合适的时机调用了 callHook 函数来触发生命周期的钩子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (vm.$options.el) &#123;</span><br><span class="line">    vm.$mount(vm.$options.el)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，会判断用户是否传入了 el 选项，如果传入了则调用 $mount 函数进入模板编译与挂载阶段，如果没有传入 el 选项，则不进入下一个生命周期阶段，需要用户手动执行 vm.$mount 方法才进入下一个生命周期阶段。</p>
+</li>
+</ul>
+<h3 id="合并属性"><a href="#合并属性" class="headerlink" title="合并属性"></a>合并属性</h3><h2 id="初始化阶段-initLifecycle-函数分析"><a href="#初始化阶段-initLifecycle-函数分析" class="headerlink" title="初始化阶段 initLifecycle 函数分析"></a>初始化阶段 initLifecycle 函数分析</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">export function initLifecycle (vm: Component) &#123;</span><br><span class="line">  const options &#x3D; vm.$options</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; locate first non-abstract parent</span><br><span class="line">  let parent &#x3D; options.parent</span><br><span class="line">  if (parent &amp;&amp; !options.abstract) &#123;</span><br><span class="line">    while (parent.$options.abstract &amp;&amp; parent.$parent) &#123;</span><br><span class="line">      parent &#x3D; parent.$parent</span><br><span class="line">    &#125;</span><br><span class="line">    parent.$children.push(vm)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  vm.$parent &#x3D; parent</span><br><span class="line">  vm.$root &#x3D; parent ? parent.$root : vm</span><br><span class="line"></span><br><span class="line">  vm.$children &#x3D; []</span><br><span class="line">  vm.$refs &#x3D; &#123;&#125;</span><br><span class="line"></span><br><span class="line">  vm._watcher &#x3D; null</span><br><span class="line">  vm._inactive &#x3D; null</span><br><span class="line">  vm._directInactive &#x3D; false</span><br><span class="line">  vm._isMounted &#x3D; false</span><br><span class="line">  vm._isDestroyed &#x3D; false</span><br><span class="line">  vm._isBeingDestroyed &#x3D; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先是给实例上挂载 <code>$parent</code> 属性。<ul>
+<li>逻辑：如果当前组件不是抽象组件并且存在父级，就通过 while 循环来向上循环，如果当前组件的父级是抽象组件并且也存在父级，那就继续向上查找当前组件的父级，直到找到第一个不是抽象类型的父级时，将其赋值 vm.$parent 同时把该实例自身添加进找到的父级的 $children 属性中。</li>
+</ul>
+</li>
+<li>接着是给实例挂载 <code>$root</code> 属性。<ul>
+<li>实例的 $root 属性表示当前实例的根实例，挂载该属性时，首先会判断如果当前实例存在于父级，那么当前实例的根实例 $root 属性就是其父级根实例 $root 属性，如果不存在，那么根实例 $root 属性就是它自己。</li>
+<li>最后，在初始化一些其它属性，</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="初始化阶段-initEvents-函数分析"><a href="#初始化阶段-initEvents-函数分析" class="headerlink" title="初始化阶段 initEvents 函数分析"></a>初始化阶段 initEvents 函数分析</h2><p>initEvents 是生命周期初始化阶段所调用的第二个初始化函数。这个初始化函数是初始化实例的事件系统。在 <code>Vue</code> 中，当我们在父组件中使用子组件时可以给子组件上注册一些事件，即 v-on 或 @ 注册的自定义事件，也包括注册的浏览器原生事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;child @select&#x3D;&quot;selectHandler&quot; 	@click.native&#x3D;&quot;clickHandler&quot;&gt;&lt;&#x2F;child&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解析事件"><a href="#解析事件" class="headerlink" title="解析事件"></a>解析事件</h3><p>模板编译解析中，当遇到开始标签的时候，除了会解析开始标签，会调用 processAttrs 方法解析标签中的属性，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export const onRE &#x3D; &#x2F;^@|^v-on:&#x2F;</span><br><span class="line">export const dirRE &#x3D; &#x2F;^v-|^@|^:&#x2F;</span><br><span class="line"></span><br><span class="line">function processAttrs (el) &#123;</span><br><span class="line">const list &#x3D; el.attrsList</span><br><span class="line">let i, l, name, value, modifiers</span><br><span class="line">for (i &#x3D; 0, l &#x3D; list.length; i &lt; l; i++) &#123;</span><br><span class="line">  name  &#x3D; list[i].name</span><br><span class="line">  value &#x3D; list[i].value</span><br><span class="line">  if (dirRE.test(name)) &#123;</span><br><span class="line">    &#x2F;&#x2F; 解析修饰符</span><br><span class="line">    modifiers &#x3D; parseModifiers(name)</span><br><span class="line">    if (modifiers) &#123;</span><br><span class="line">      name &#x3D; name.replace(modifierRE, &#39;&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">    if (onRE.test(name)) &#123; &#x2F;&#x2F; v-on</span><br><span class="line">      name &#x3D; name.replace(onRE, &#39;&#39;)</span><br><span class="line">      addHandler(el, name, value, modifiers, false, warn)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在对标签属性进行解析的时，判断如果属性时指令，首先通过 parseModifiers 解析出属性的修饰符，然后判断如果时事件的指令，则执行 addHandler(el,name,value,modifiers.false,warn) 方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">export function addHandler (el,name,value,modifiers) &#123;</span><br><span class="line"> modifiers &#x3D; modifiers || emptyObject</span><br><span class="line"></span><br><span class="line"> &#x2F;&#x2F; check capture modifier 判断是否有capture修饰符</span><br><span class="line"> if (modifiers.capture) &#123;</span><br><span class="line">   delete modifiers.capture</span><br><span class="line">   name &#x3D; &#39;!&#39; + name &#x2F;&#x2F; 给事件名前加&#39;!&#39;用以标记capture修饰符</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F; 判断是否有once修饰符</span><br><span class="line"> if (modifiers.once) &#123;</span><br><span class="line">   delete modifiers.once</span><br><span class="line">   name &#x3D; &#39;~&#39; + name &#x2F;&#x2F; 给事件名前加&#39;~&#39;用以标记once修饰符</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F; 判断是否有passive修饰符</span><br><span class="line"> if (modifiers.passive) &#123;</span><br><span class="line">   delete modifiers.passive</span><br><span class="line">   name &#x3D; &#39;&amp;&#39; + name &#x2F;&#x2F; 给事件名前加&#39;&amp;&#39;用以标记passive修饰符</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> let events</span><br><span class="line"> if (modifiers.native) &#123;</span><br><span class="line">   delete modifiers.native</span><br><span class="line">   events &#x3D; el.nativeEvents || (el.nativeEvents &#x3D; &#123;&#125;)</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">   events &#x3D; el.events || (el.events &#x3D; &#123;&#125;)</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> const newHandler: any &#x3D; &#123;</span><br><span class="line">   value: value.trim()</span><br><span class="line"> &#125;</span><br><span class="line"> if (modifiers !&#x3D;&#x3D; emptyObject) &#123;</span><br><span class="line">   newHandler.modifiers &#x3D; modifiers</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> const handlers &#x3D; events[name]</span><br><span class="line"> if (Array.isArray(handlers)) &#123;</span><br><span class="line">   handlers.push(newHandler)</span><br><span class="line"> &#125; else if (handlers) &#123;</span><br><span class="line">   events[name] &#x3D; [handlers, newHandler]</span><br><span class="line"> &#125; else &#123;</span><br><span class="line">   events[name] &#x3D; newHandler</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> el.plain &#x3D; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>该方法做了三件事</p>
+<ul>
+<li>根据 modifier 修饰符对事件名 name 做处理。</li>
+<li>根据 modifier.native 判断事件是一个浏览器原生事件还是自定义事件，分别对应 el.nativeEvents 和 el.events。</li>
+<li>按照 name 对事件做归类，并把回调函数的字符串保留到对应的事件中。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 形成的事件对象</span><br><span class="line">el.events &#x3D; &#123;</span><br><span class="line">  select: &#123;</span><br><span class="line">    value:&#39;selectHandler&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">el.nativeEvents &#x3D; &#123;</span><br><span class="line">  click: &#123;</span><br><span class="line">    value: &#39;clickHandler&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在模板编译的代码生成阶段，会 genData 函数中根据 AST 元素节点上的 events 和 nativeEvents 生成 _c(tagName,data,children) 函数中所需要的 data 数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">export function genData (el state) &#123;</span><br><span class="line">  let data &#x3D; &#39;&#123;&#39;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  if (el.events) &#123;</span><br><span class="line">    data +&#x3D; &#96;$&#123;genHandlers(el.events, false,state.warn)&#125;,&#96;</span><br><span class="line">  &#125;</span><br><span class="line">  if (el.nativeEvents) &#123;</span><br><span class="line">    data +&#x3D; &#96;$&#123;genHandlers(el.nativeEvents, true, state.warn)&#125;,&#96;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  return data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的方法生成的 data 数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  on: &#123;&quot;select&quot;: selectHandler&#125;,</span><br><span class="line">  nativeOn: &#123;&quot;click&quot;: function($event) &#123;</span><br><span class="line">      return clickHandler($event)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，最开始的模板中标签上注册的事件最终会被解析成用于创建元素型 VNode 的 _c(tagName,data,children) 函数中 data 数据中的两个对象，自定义事件对象 on，浏览器原生事件 nativeOn。</p>
+<p>模板编译的最终目的是创建 render 函数供挂载的时候调用生成虚拟 DOM, 那么在挂载阶段，如果被挂载的节点是一个组件节点，则通过 createComponent 函数创建一个组件 vnode 源码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">export function createComponent (</span><br><span class="line">  Ctor: Class&lt;Component&gt; | Function | Object | void,</span><br><span class="line">  data: ?VNodeData,</span><br><span class="line">  context: Component,</span><br><span class="line">  children: ?Array&lt;VNode&gt;,</span><br><span class="line">  tag?: string</span><br><span class="line">): VNode | Array&lt;VNode&gt; | void &#123;</span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  const listeners &#x3D; data.on</span><br><span class="line"></span><br><span class="line">  data.on &#x3D; data.nativeOn</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; ...</span><br><span class="line">  const name &#x3D; Ctor.options.name || tag</span><br><span class="line">  const vnode &#x3D; new VNode(</span><br><span class="line">    &#96;vue-component-$&#123;Ctor.cid&#125;$&#123;name ? &#96;-$&#123;name&#125;&#96; : &#39;&#39;&#125;&#96;,</span><br><span class="line">    data, undefined, undefined, undefined, context,</span><br><span class="line">    &#123; Ctor, propsData, listeners, tag, children &#125;,</span><br><span class="line">    asyncFactory</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  return vnode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>父组件给子组件的注册事件中，把自定义事件传给子组件，在子组件实例化的时候进行初始化；而浏览器原生事件是在父组件中处理。</code></p>
+<p><code>实例初始化阶段调用的初始化事件函数 initEvents 实际上初始化的是父组件在模板中使用 v-on 或 @ 注册的监听子组件内触发的事件。</code></p>
+<h3 id="initEvents-函数分析"><a href="#initEvents-函数分析" class="headerlink" title="initEvents 函数分析"></a>initEvents 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">export function initEvents (vm: Component) &#123;</span><br><span class="line">  vm._events &#x3D; Object.create(null)</span><br><span class="line">  &#x2F;&#x2F; init parent attached events</span><br><span class="line">  const listeners &#x3D; vm.$options._parentListeners</span><br><span class="line">  if (listeners) &#123;</span><br><span class="line">    updateComponentListeners(vm, listeners)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>在 vm 上新增 <code>_events</code> 属性并将其赋值为空对象，用来存储事件。</li>
+<li>然后、获取父组件注册的事件赋值给 listeners，如果 listeners 不为空，则调用 updataComponentsListeners 函数，将父组件向子组件注册的事件注册到子组件的实例中。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export function updateComponentListeners (</span><br><span class="line">  vm: Component,</span><br><span class="line">  listeners: Object,</span><br><span class="line">  oldListeners: ?Object</span><br><span class="line">) &#123;</span><br><span class="line">  target &#x3D; vm</span><br><span class="line">  updateListeners(listeners, oldListeners || &#123;&#125;, add, remove, vm)</span><br><span class="line">  target &#x3D; undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add (event, fn, once) &#123;</span><br><span class="line">  if (once) &#123;</span><br><span class="line">    target.$once(event, fn)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    target.$on(event, fn)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function remove (event, fn) &#123;</span><br><span class="line">  target.$off(event, fn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>内部调用 updataListeners 函数，并把 listeners 以及 add 和 remove 这两个函数传入。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">export function updateListeners (</span><br><span class="line">  on: Object,</span><br><span class="line">  oldOn: Object,</span><br><span class="line">  add: Function,</span><br><span class="line">  remove: Function,</span><br><span class="line">  vm: Component</span><br><span class="line">) &#123;</span><br><span class="line">  let name, def, cur, old, event</span><br><span class="line">  for (name in on) &#123;</span><br><span class="line">    def &#x3D; cur &#x3D; on[name]</span><br><span class="line">    old &#x3D; oldOn[name]</span><br><span class="line">    event &#x3D; normalizeEvent(name)</span><br><span class="line">    if (isUndef(cur)) &#123;</span><br><span class="line">      process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">        &#96;Invalid handler for event &quot;$&#123;event.name&#125;&quot;: got &#96; + String(cur),</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125; else if (isUndef(old)) &#123;</span><br><span class="line">      if (isUndef(cur.fns)) &#123;</span><br><span class="line">        cur &#x3D; on[name] &#x3D; createFnInvoker(cur)</span><br><span class="line">      &#125;</span><br><span class="line">      add(event.name, cur, event.once, event.capture, event.passive, event.params)</span><br><span class="line">    &#125; else if (cur !&#x3D;&#x3D; old) &#123;</span><br><span class="line">      old.fns &#x3D; cur</span><br><span class="line">      on[name] &#x3D; old</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  for (name in oldOn) &#123;</span><br><span class="line">    if (isUndef(on[name])) &#123;</span><br><span class="line">      event &#x3D; normalizeEvent(name)</span><br><span class="line">      remove(event.name, oldOn[name], event.capture)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>代码分析</p>
+<ul>
+<li>对比 listeners 和 oldListeners 的不同，并调用参数中提供的 add 和 remove 进行相应的注册事件和卸载事件。<br>对比的思想：如果 listeners 对象中存在某个 key 而 oldListeners 中不存在，则说明这个事件是需要新增的；反之，如果 oldListeners 对象中存在某个 key(事件名) 而 listeners 中不存在，则说明这个事件是需要从事件系统中卸载。</li>
+<li>函数接收 5 个参数，分别是 on、oldOn、add、remove、vm,其中 on 对应 listeners, oldOn 对应 oldListeners。</li>
+<li>首先对 on 进行遍历， 获得每一个事件名，然后调用 normalizeEvent 函数（关于该函数下面会介绍）处理， 处理完事件名后， 判断事件名对应的值是否存在，如果不存在则抛出警告，</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">for (name in on) &#123;</span><br><span class="line">  def &#x3D; cur &#x3D; on[name]</span><br><span class="line">  old &#x3D; oldOn[name]</span><br><span class="line">  event &#x3D; normalizeEvent(name)</span><br><span class="line">  if (isUndef(cur)) &#123;</span><br><span class="line">    process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39; &amp;&amp; warn(</span><br><span class="line">      &#96;Invalid handler for event &quot;$&#123;event.name&#125;&quot;: got &#96; + String(cur),</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果存在，则继续判断该事件名在 oldOn 中是否存在，如果不存在，则调用 add 注册事件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">if (isUndef(old)) &#123;</span><br><span class="line">  if (isUndef(cur.fns)) &#123;</span><br><span class="line">    cur &#x3D; on[name] &#x3D; createFnInvoker(cur)</span><br><span class="line">  &#125;</span><br><span class="line">  add(event.name, cur, event.once, event.capture, event.passive, event.params)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function createFnInvoker (fns) &#123;</span><br><span class="line">  function invoker () &#123;</span><br><span class="line">    const fns &#x3D; invoker.fns</span><br><span class="line">    if (Array.isArray(fns)) &#123;</span><br><span class="line">      const cloned &#x3D; fns.slice()</span><br><span class="line">      for (let i &#x3D; 0; i &lt; cloned.length; i++) &#123;</span><br><span class="line">        cloned[i].apply(null, arguments)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      &#x2F;&#x2F; return handler return value for single handlers</span><br><span class="line">      return fns.apply(null, arguments)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">invoker.fns &#x3D; fns</span><br><span class="line">return invoker</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="初始化阶段-initInjections"><a href="#初始化阶段-initInjections" class="headerlink" title="初始化阶段 initInjections"></a>初始化阶段 initInjections</h2><p>该函数是用来初始化实例中的 inject 选项。inject 和 provide 选项，这两个选项都是成对出现，左右是：允许一个祖先组件向其它子孙后代注入一个依赖，不论组件层次有多深，并在起上下游关系成立的时间里始终生效。provide 选项应该返回一个对象或返回一个对象的函数。该对象包含可注入其子孙的属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var Parent &#x3D; &#123;</span><br><span class="line">  provide:&#123;</span><br><span class="line">    foo:&#39;bar&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">var Child &#x3D; &#123;</span><br><span class="line">  inject:[&#39;foo&#39;],</span><br><span class="line">  created () &#123;</span><br><span class="line">    console.log(this.foo) &#x2F;&#x2F; bar</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="initInjections-函数分析"><a href="#initInjections-函数分析" class="headerlink" title="initInjections 函数分析"></a>initInjections 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export function initInjections (vm: Component) &#123;</span><br><span class="line">  const result &#x3D; resolveInject(vm.$options.inject, vm)</span><br><span class="line">  if (result) &#123;</span><br><span class="line">    toggleObserving(false)</span><br><span class="line">    Object.keys(result).forEach(key &#x3D;&gt; &#123;</span><br><span class="line">      defineReactive(vm, key, result[key])</span><br><span class="line">    &#125;</span><br><span class="line">    toggleObserving(true)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export let shouldObserve: boolean &#x3D; true</span><br><span class="line">export function toggleObserving (value: boolean) &#123;</span><br><span class="line">  shouldObserve &#x3D; value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先调用 resolveInject 把 inject 选项中的数据转化成键值对的形式赋值给 result 。</li>
+<li>遍历 result 中的每一对键值，调用 defineReactive 将数据转换成可观测的数据。</li>
+</ul>
+</li>
+<li>注意点：<br>在把 result 中的键值对添加到当前实例上之前，会先调用 toggleObserving(false),而这个函数内部是把 shouldObserver = false, 是告诉 defineReactive 函数仅仅是把键值添加到当前实例上而不需要将其转换成响应式。</li>
+</ul>
+<h3 id="resolveInject-函数分析"><a href="#resolveInject-函数分析" class="headerlink" title="resolveInject 函数分析"></a>resolveInject 函数分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">export function resolveInject (inject: any, vm: Component): ?Object &#123;</span><br><span class="line">  if (inject) &#123;</span><br><span class="line">    const result &#x3D; Object.create(null)</span><br><span class="line">    const keys &#x3D;  Object.keys(inject)</span><br><span class="line"></span><br><span class="line">    for (let i &#x3D; 0; i &lt; keys.length; i++) &#123;</span><br><span class="line">      const key &#x3D; keys[i]</span><br><span class="line">      const provideKey &#x3D; inject[key].from</span><br><span class="line">      let source &#x3D; vm</span><br><span class="line">      while (source) &#123;</span><br><span class="line">        if (source._provided &amp;&amp; hasOwn(source._provided, provideKey)) &#123;</span><br><span class="line">          result[key] &#x3D; source._provided[provideKey]</span><br><span class="line">          break</span><br><span class="line">        &#125;</span><br><span class="line">        source &#x3D; source.$parent</span><br><span class="line">      &#125;</span><br><span class="line">      if (!source) &#123;</span><br><span class="line">        if (&#39;default&#39; in inject[key]) &#123;</span><br><span class="line">          const provideDefault &#x3D; inject[key].default</span><br><span class="line">          result[key] &#x3D; typeof provideDefault &#x3D;&#x3D;&#x3D; &#39;function&#39;</span><br><span class="line">            ? provideDefault.call(vm)</span><br><span class="line">            : provideDefault</span><br><span class="line">        &#125; else if (process.env.NODE_ENV !&#x3D;&#x3D; &#39;production&#39;) &#123;</span><br><span class="line">          warn(&#96;Injection &quot;$&#123;key&#125;&quot; not found&#96;, vm)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return result</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先创建一个空对象 result,用来存储 inject 选项中的数据 key 及其对应的值，作为最后的返回结果。</li>
+<li>获取当前 inject 选项中的所有 key，然后遍历每一个 key,拿到每一个 key 的 from 属性记作 provideKey，provideKey 就是上游父级组件提供的源属性，然后开启一个 while 循环，从当前组件起，不断的向上游父级组件的_provided 属性中（父级组件使用 provide 选项注入数据时会将注入的数据存入自己的实例的_provided 属性中）查找，直到查找到源属性的对应的值，将其存入 result 中。如果没有找到，就看 inject 选项中当前数据 key 是否设置了默认值，如果有，则拿这个默认值。如果没有默认值就，就抛出异常。</li>
+<li>最后返回 result</li>
+</ul>
+</li>
+</ul>
+<h2 id><a href="#" class="headerlink" title></a></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%815/" data-id="cl6rluu4q000lt0dx5h1kh9pq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/13/vue%E6%BA%90%E7%A0%816/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue.js 源码解读,
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/13/vue%E6%BA%90%E7%A0%814/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Vue.js 源码解读, 模板编译</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/TypeScript/ts/">TypeScript</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

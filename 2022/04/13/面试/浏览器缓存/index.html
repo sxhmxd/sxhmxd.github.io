@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>浏览器缓存 | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="浏览器缓存机制为什么要使用缓存缓存是性能优化中简单高效的一种优化方式。一个优秀的缓存策略可以缩短网页请求资源的距离，减少延迟，并且由于缓存文件可以重复利用，还可以减少带宽，降低网络负载。 对于一个数据请求来说，可以分为发起网络请求、后端处理、浏览器响应三个步骤。浏览器缓存可以帮我们在发起网络请求和浏览器响应优化性能。例如 直接使用缓存而不发起请求，或者发起请求但后端存储的数据和前端一致，那就没有必">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器缓存">
+<meta property="og:url" content="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="浏览器缓存机制为什么要使用缓存缓存是性能优化中简单高效的一种优化方式。一个优秀的缓存策略可以缩短网页请求资源的距离，减少延迟，并且由于缓存文件可以重复利用，还可以减少带宽，降低网络负载。 对于一个数据请求来说，可以分为发起网络请求、后端处理、浏览器响应三个步骤。浏览器缓存可以帮我们在发起网络请求和浏览器响应优化性能。例如 直接使用缓存而不发起请求，或者发起请求但后端存储的数据和前端一致，那就没有必">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-de3d6e025582103a?imageMogr2/auto-orient/strip%7CimageView2/2/w/670/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-8ff981603cdfded0?imageMogr2/auto-orient/strip%7CimageView2/2">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-3fa81f5e9efac5af?imageMogr2/auto-orient/strip%7CimageView2/2">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-660fd163329d080b?imageMogr2/auto-orient/strip%7CimageView2/2/w/709/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-24953079cfebf2bf?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-bb7148a4431ccda1?imageMogr2/auto-orient/strip%7CimageView2/2/w/438/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/3174701-9d9e8b52a18ed35a?imageMogr2/auto-orient/strip%7CimageView2/2/w/519/format/webp">
+<meta property="article:published_time" content="2022-04-13T07:41:31.721Z">
+<meta property="article:modified_time" content="2022-04-13T07:41:31.722Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/3174701-de3d6e025582103a?imageMogr2/auto-orient/strip%7CimageView2/2/w/670/format/webp">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-面试/浏览器缓存" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.721Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      浏览器缓存
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h1><h2 id="为什么要使用缓存"><a href="#为什么要使用缓存" class="headerlink" title="为什么要使用缓存"></a>为什么要使用缓存</h2><p>缓存是性能优化中简单高效的一种优化方式。一个优秀的缓存策略可以缩短网页请求资源的距离，减少延迟，并且由于缓存文件可以重复利用，还可以减少带宽，降低网络负载。</p>
+<p>对于一个数据请求来说，可以分为发起网络请求、后端处理、浏览器响应三个步骤。浏览器缓存可以帮我们在发起网络请求和浏览器响应优化性能。例如 直接使用缓存而不发起请求，或者发起请求但后端存储的数据和前端一致，那就没有必要将数据回传回来，这样就减少了响应数据。</p>
+<h2 id="缓存位置"><a href="#缓存位置" class="headerlink" title="缓存位置"></a>缓存位置</h2><p>从缓存位置上来说分为四种，并且各自有优先级，当依次查找缓存且都没有命中的时候，才会去请求网络。<br>Service Worker<br>Memory Cache<br>Disk Cache<br>Push Cache</p>
+<h3 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h3><p>是运行在浏览器背后的独立线程，一般可以用来实现缓存功能。使用 Service Worker 的话，传输协议必须为 HTTPS。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。它可以让我们自由控制缓存哪些文件，如何匹配缓存，如何读取缓存，并且缓存是持续性的。</p>
+<ul>
+<li>实现缓存功能的步骤<ul>
+<li>首先注册 Service Worker</li>
+<li>监听到 install 事件以后就可以缓存文件，在下次用户访问的时候就可以通过拦截请求的方式查询是否存在缓存，存在缓存的话就可以直接读取缓存文件，否则就去请求数据</li>
+<li>当没有命中缓存的时候，我们需要去调用 fetch 函数获取数据。会根据缓存查找优先级去查找数据，但是不管是从 Memory Cache 中还是网络请求中获取的数据，浏览器都会显示我们是从 Service Worker 中获取的内容。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Memory-Cache"><a href="#Memory-Cache" class="headerlink" title="Memory Cache"></a>Memory Cache</h3><p><code>Memory Cache</code> 是内存中的缓存，主要包含的是当前页面中已经抓取到的资源。eg:页面样式、脚本、图片等。</p>
+<ul>
+<li>内存缓存的特点<br>内存缓存读取高效，但是缓存持续性很短，会随着进程的释放而释放。<code>一旦关闭 Tab 页面，内存中的缓存也就被释放了。</code> 计算的内存容量小，所以缓存不能全部放在内存中。<br>注意点：<code>内存缓存在缓存资源时并不关心返回资源的 HTTP 缓存头 Cache-Control是什么值，同时资源的匹配也并非仅仅是对 URL 做匹配，还可能会对 Content-Type，CORS 等其他特征做校验。</code></li>
+</ul>
+<h3 id="Disk-Cache"><a href="#Disk-Cache" class="headerlink" title="Disk Cache"></a>Disk Cache</h3><p>Disk Cache 也就是存储在硬盘中的缓存，读取速度慢，但是什么都可以存储到硬盘中。<br>在所有浏览器缓存中，Disk Cache 覆盖面是最大的，它会根据 HTTP Herder 中的字段判断哪些资源需要缓存，哪些资源可以不请求直接使用，哪些资源已经过期需要重新请求，并且即使在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据。</p>
+<h3 id="Push-Cache"><a href="#Push-Cache" class="headerlink" title="Push Cache"></a>Push Cache</h3><p>Push Cache (推送缓存) 是 HTTP/2 中的内容，Service Worker Memory Cache Disk Cache 三种缓存都没有命中的时，才会使用。Push Cache 只在会话中存在，一旦会话结束就被释放，并且缓存时间也很短暂。在 Chome 浏览器中只有五分钟左右，同时它也并非严格执行 HTTP 头中的缓存指令。</p>
+<ul>
+<li>所有的资源都能被推送并且能够被缓存，但是 Edge 和 Safari 浏览器支持相对比较差</li>
+<li>可以推送 no-cache 和 no-store 的资源</li>
+<li>一旦连接关闭，Push Cache 就释放</li>
+<li>多个页面可以使用同一个 HTTP/2 连接，也就是可以使用同一个 Push Cache</li>
+<li>Push Cache 中的缓存只能被使用一次</li>
+<li>浏览器可以拒绝接受已经存在的资源推送</li>
+<li>可以给其他域名推送资源</li>
+</ul>
+<p>如果以上四种缓存都没有命中的话，那么就只能发起请求来获取资源。为了性能上的考虑，大部分的接口都应该选择好缓存策略，<code>通常浏览器缓存策略分为两种：强缓存和协商缓存，并且缓存策略都是通过设置 HTTP Header 来实现</code></p>
+<h2 id="缓存过程分析"><a href="#缓存过程分析" class="headerlink" title="缓存过程分析"></a>缓存过程分析</h2><p>浏览器和服务器的通讯方式为应答模式，即浏览器发起 HTTP 请求-服务器响应该请求，<code>那么浏览器怎么确定一个资源该不该缓存，如何去缓存呢？</code>浏览器第一次向服务器发起该请求后拿到请求结果后，将请求结果和缓存标识存入浏览器缓存，<code>浏览器对于缓存的处理是根据第一次请求资源时返回的响应头来确定的。</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-de3d6e025582103a?imageMogr2/auto-orient/strip%7CimageView2/2/w/670/format/webp" alt="发起请求"></p>
+<ul>
+<li>浏览器每次发起请求，都会在浏览器缓存中查找该请求的结果以及缓存标识</li>
+<li>浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中。</li>
+</ul>
+<h2 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h2><p>强缓存：不会向服务器发送请求，直接从缓存中读取资源，在 chorme 控制台中可以看到该请求返回 200 的状态码，并且 Size 显示 from disk cache 或 from memory cache 。强缓存可以通过设置两种 HTTP Header 实现： Expires 和 Cache-Control</p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p><code>缓存过期时间，用来指定资源到期的时间，是服务器端的具体的时间点</code>。也就是说 Expires= max-age + 请求时间，需要和 Last-modified 结合使用。<code>Last-Modified</code>是服务器认为文件的最后修改时间，是第一次请求文件的时候，服务器返回的一个属性。<br>Expires 是 Web 服务器响应消息头字段，在响应 http 请求时告诉浏览器在过期时间前浏览器可以直接从缓存取数据，而无需再次请求</p>
+<p>Expires 是 Http/1 的产物，受限于本地时间，如果修改了本地时间，可能会造成缓存失效。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>Cache-Control 是最重要的规则，主要用于控制网页缓存。可以在请求头或者响应头中设置。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-8ff981603cdfded0?imageMogr2/auto-orient/strip%7CimageView2/2" alt="Cache-Control"></p>
+<ul>
+<li><p>public</p>
+<ul>
+<li>所有内容都将被缓存(客户端和代理服务器都可缓存)。响应可被任何中间节点缓存，</li>
+<li>Browser &lt;– proxy1 &lt;– proxy2 &lt;– server 中间的 proxy 可以缓存。</li>
+</ul>
+</li>
+<li><p>private</p>
+<ul>
+<li>所有内容只有客户端可以缓存，cache-control 的默认取值。具体来说，表示中间节点不允许缓存</li>
+<li>对于 Browser &lt;– proxy1 &lt;– proxy2 &lt;– server，proxy 会把 server 返回的数据发送给 proxy1，自己不缓存任何数据，当下次浏览器再次请求时 proxy 会做好请求转发而不是自作主张给自己缓存的数据。</li>
+</ul>
+</li>
+<li><p>no-cache</p>
+<ul>
+<li>客户端缓存内容，是否使用缓存则需要经过协商缓存来验证决定。表示不使用 Cache-Control 的缓存控制方式做前置验证，而是使用 Etag 或者 Last-Modified 字段来控制缓存。</li>
+</ul>
+</li>
+<li><p>no-store</p>
+<ul>
+<li>所有的内容都不会被缓存，即不使用强制缓存，也不使用协商缓存。</li>
+</ul>
+</li>
+<li><p>max-age</p>
+<ul>
+<li>max-age=xxx 表示缓存内容将在 xxx 秒后失效。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-3fa81f5e9efac5af?imageMogr2/auto-orient/strip%7CimageView2/2" alt></p>
+</li>
+</ul>
+<h3 id="Expires-和-Cache-Control-两者对比"><a href="#Expires-和-Cache-Control-两者对比" class="headerlink" title="Expires 和 Cache-Control 两者对比"></a>Expires 和 Cache-Control 两者对比</h3><p>Expires 是 http1.0 的产物，Cache-Control 是 Http1.1 的产物，<code>两者同时存在的话，Cache-Control优先级高于Expires</code>。<br>强缓存判断是否缓存的依据是来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这就可能会导致加载文件不是服务器端最新的内容。此时我们需要用协商缓存策略。</p>
+<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p><code>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程</code></p>
+<ul>
+<li>协商缓存生效，返回 304 和 Not Modified</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-660fd163329d080b?imageMogr2/auto-orient/strip%7CimageView2/2/w/709/format/webp" alt="协商缓存生效"></p>
+<ul>
+<li>协商缓存失效，返回 200 和请求结果<br><img src="https://upload-images.jianshu.io/upload_images/3174701-24953079cfebf2bf?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="协商缓存失效"><br>协商缓存可以通过设置 HttP Header 实现：Last-Modified 和 ETag</li>
+</ul>
+<h3 id="Last-Modified-和-If-Modified-Since"><a href="#Last-Modified-和-If-Modified-Since" class="headerlink" title="Last-Modified 和 If-Modified-Since"></a>Last-Modified 和 If-Modified-Since</h3><p>浏览器在第一次访问资源时，服务器返回资源的同时，在 response header 中添加 Last-Modified 的 header,值是这个资源在服务器上的最后修改时间。<br>浏览器下次请求这个资源，浏览器检测到有 Last-Modified 这个 header，于是 添加 If-Modified-Since header 值就是 Last-Modified 中的值；服务器再次收到这个资源的请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间做对比，如果没有变化，返回 304 和空的响应体，直接从缓存中读取，如果 If-Modified-Since 的时间小于服务器中资源最后修改时间，说明文件有更新于是返回新的资源文件和 200</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-bb7148a4431ccda1?imageMogr2/auto-orient/strip%7CimageView2/2/w/438/format/webp" alt></p>
+<p>弊端：</p>
+<ul>
+<li>如果只是在本地打开文件，没有对文件进行修改，但是还是会造成 Last-Modified 被修改，服务器不能命中缓存</li>
+<li>Last-Modified 只能以秒计时，如果在不可感知的时间内修改文件，服务器会认为会命中缓存</li>
+</ul>
+<p>根据文件修改时间来决定是否缓存存在问题，可以直接根据文件内容是否修改来决定缓存策略</p>
+<h3 id="ETag-和-If-None-Match"><a href="#ETag-和-If-None-Match" class="headerlink" title="ETag 和 If-None-Match"></a>ETag 和 If-None-Match</h3><p>ETag 是服务器响应请求时，返回当前资源文件的一个唯一标识(Hash 值 由服务器生成)，只要资源有变化。ETag 就会重新生成。在下一次加载资源向服务器发送请求时，会将上次返回的 ETag 值放到 request header 里的 If-None-Match 里，服务器比较客户端传过来的 If-None-Match 跟自己服务器上该资源的 ETag 是否一致。就可以判断资源是不是最新的</p>
+<p>Last-Modified 和 ETag 的对比</p>
+<ul>
+<li>精确度<br>Etag 要优于 Last-Modifed，Last-Modified 的时间单位是秒，如果资源在一秒内改变多次，Last-Modified 其实并不能体现出来，如果是负载均衡的服务器各个服务器生成的 Last-Modified 也有可能不一致。 ETag 每次都会改变确保了精确度。</li>
+<li>性能上<br>ETag 要逊于 Last-Modified ，last-Modified 只需要记录时间，ETag 需要服务器通过算法来计算一个 hash 值。</li>
+<li>优先级<br>服务器校验优先考虑 ETag</li>
+</ul>
+<h2 id="缓存机制"><a href="#缓存机制" class="headerlink" title="缓存机制"></a>缓存机制</h2><p>强缓存优先于协商缓存，若强缓存(Expires 和 Cache-Control) 生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified/If-Modified-since 和 ETag/If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，则缓存失效，返回 200 重新返回资源和缓存标识，再存入浏览器缓存中，生效则返回 304 继续使用缓存<br><img src="https://upload-images.jianshu.io/upload_images/3174701-9d9e8b52a18ed35a?imageMogr2/auto-orient/strip%7CimageView2/2/w/519/format/webp" alt></p>
+<h2 id="实际场景应用缓存策略"><a href="#实际场景应用缓存策略" class="headerlink" title="实际场景应用缓存策略"></a>实际场景应用缓存策略</h2><h3 id="频繁变动的资源"><a href="#频繁变动的资源" class="headerlink" title="频繁变动的资源"></a>频繁变动的资源</h3><p>Cache-Control:no-cache<br>对于频繁变动的资源，首先需要使用 Cache-Control:no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的作法虽然不能节省请求数量，但是可以显著减少响应数据的大小</p>
+<h3 id="不常变动的资源"><a href="#不常变动的资源" class="headerlink" title="不常变动的资源"></a>不常变动的资源</h3><p>Cache-Control:max-age = 31356000</p>
+<p>通常处理这类资源时，给他们的 Cache-Control 配置一个很大的 max-age= 31536000(一年)，这样浏览器之后请求相同 Url 会命中强制缓存。而为了解决更新的问题，就需要在文件名中添加 hash 版本号等动态字符，之后更改为动态字符，从而达到更改引用 URL 的目的让之前的强制缓存失效(其实并未立即消失，只是暂时不再使用而已)</p>
+<h2 id="用户行为对浏览器缓存的影响"><a href="#用户行为对浏览器缓存的影响" class="headerlink" title="用户行为对浏览器缓存的影响"></a>用户行为对浏览器缓存的影响</h2><p>指的就是用户再浏览器操作时，会触发怎样的缓存策略。主要有三种</p>
+<ul>
+<li>打开网页，地址输入 URL:查找 <code>disk cache</code> 中是否有匹配。如有则使用，没有则发送网络请求。</li>
+<li>普通刷新(F5) 因为 tab 页没有关闭，因此 <code>memory cache</code>是可用的，会被优先使用(如果匹配的话)，其次才是 disk cache</li>
+<li>强制刷新( Ctrl + F5): 浏览器不使用缓存，因此发送请求的头部均带有 <code>Cache-control:no-cache</code> ( 为了兼容，还带了 Pargam:no-cache),服务器直接返回 200 和最新内容。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="cl6rluu790033t0dx6a3g2qj3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          项目中常用的js操作,
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">作用域-作用域链</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/TypeScript/ts/">TypeScript</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

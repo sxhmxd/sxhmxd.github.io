@@ -64,10 +64,183 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-前端状态管理/状态管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" class="article-date">
+  <time datetime="2022-08-12T11:04:54.052Z" itemprop="datePublished">2022-08-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是状态"><a href="#什么是状态" class="headerlink" title="什么是状态"></a>什么是状态</h2><p><code>状态是数据的变化</code>,例如颜色是红或是蓝，而颜色从红色变为蓝色这就是状态。<br> 状态的改变对应着视图的渲染或某段逻辑的执行。比如颜色从红色变为蓝色可能就要重新渲染视图，并且执行发送请求到服务端的逻辑。<br> <code>通过视图交互或者其他方式触发状态的变化。状态变化联动视图的渲染和逻辑的执行，这就是前端应用的核心。</code></p>
+<h2 id="什么是状态管理"><a href="#什么是状态管理" class="headerlink" title="什么是状态管理"></a>什么是状态管理</h2><p>状态管理具体有两层含义：</p>
+<ul>
+<li>状态变化之前的逻辑，一般是异步的。</li>
+<li>状态变化之后的联动处理，比如渲染视图或执行某段逻辑<br>举一些例子🌰</li>
+</ul>
+<ul>
+<li><p>React 的 setState 不会马上修改状态，而是异步的批量的执行，把状态做一下合并。</p>
+</li>
+<li><p>Redux 的 action 在修改全局 state 之前也是要经历中间件的处理。<br>这些都是状态变化之前的异步过程的管理，是状态管理的第一层含义。</p>
+</li>
+<li><p>再例如 React setState修改了状态之后要触发视图的渲染和生命周期函数的执行，hooks 在依赖数组的状态变化之后也会重新执行(vue的data修改之后会重新渲染视图、执行computed和watch逻辑)</p>
+</li>
+<li><p>Redux 修改了全局状态之后要通知组件做渲染或者做其他逻辑的处理，Vuex、Mobx 等都是。<br>这些状态变化之后联动处理的管理，是状态管理的第二层含义。</p>
+<p>那 Vue、React 和全局状态管理的库 Redux、Mobx、Vuex都是怎么实现状态管理的</p>
+</li>
+</ul>
+<h2 id="状态管理的两种实现思路"><a href="#状态管理的两种实现思路" class="headerlink" title="状态管理的两种实现思路"></a>状态管理的两种实现思路</h2><p>  状态不会是一个，多个状态的集合会用对象的key、value 来表示，例如React 的 state 对象 Vue 的 data 对象<br>  如何监听一个对象的变化？</p>
+<ul>
+<li><p>我们是不是可以提供一个api 来修改，在这个api内做 state变化之前的处理，并且在state变化之后做联动处理。<br>所以这样的方案只能通过提供的api 来触发状态修改，直接修改state的值是触发不了状态管理逻辑。</p>
+<p>React 的setState就是这种思路，通过setState修改状态会做状态变化之前的批量异步的状态合并，会触发状态变化之后视图渲染和hooks、生命周期的重新执行。直接修改state是没有用的。</p>
+<ul>
+<li>那怎么让直接修改状态也能监听到变化？<br>可以对对象做一层代理，代理它的set和get ，当执行get 的时候把依赖改状态的逻辑收集起来，当set修改状态的时候通知所有依赖它的逻辑(视图渲染、逻辑执行)做更新。<br>这种思路叫做响应式，也就是状态变化之后自动响应变化做联动处理的意思。</li>
+</ul>
+</li>
+</ul>
+<p><code>监听对象的变化就这两种方式：一 提供api来修改，内部做联动处理。二对对象做一层代理，set的时候做联动处理，通知get时收集的所有依赖。</code></p>
+<h2 id="前端框架状态变化的性能优化"><a href="#前端框架状态变化的性能优化" class="headerlink" title="前端框架状态变化的性能优化"></a>前端框架状态变化的性能优化</h2><p>  频繁的修改state不是每一次都要做联动处理，有一些可以合并，所以React的setState是异步，会做批量的state合并(React 的setState传入的不是最终的state,而是state的diff,React内部去把这些diffstate更新到state.)<br>  而Vue是直接修改的是同一个对象，所以没有必要做合并，它的Watcher 执行是异步的，对多次放到队列里的Watcher 做下去重就行。 </p>
+<h2 id="组件间的状体管理"><a href="#组件间的状体管理" class="headerlink" title="组件间的状体管理"></a>组件间的状体管理</h2><p> 组件内的状态管理是利用前端框架自带的state机制来管理。<br> 组件之间？一个组件的state变了如何联动其他组件变化。</p>
+<h3 id="props"><a href="#props" class="headerlink" title="props"></a>props</h3><p>  通过props，把当前的组件的state作为props 传入其他组件，这样就可以联动变化。但是props只能一层层传递，如果组件和联动变化的组件相隔很多曾，传递props就很麻烦。<br> React 提供了Context 、Vue 提供了Event Bus。</p>
+<h3 id="Context、Event-Bus"><a href="#Context、Event-Bus" class="headerlink" title="Context、Event Bus"></a>Context、Event Bus</h3><p>  React 组件可以在content中存放state,当context 中的state 变化的时候会直接触发相关联组件的渲染。</p>
+<h3 id="Redux、Mobx、Vuex"><a href="#Redux、Mobx、Vuex" class="headerlink" title="Redux、Mobx、Vuex"></a>Redux、Mobx、Vuex</h3><pre><code>redux 就提供了中间件的机制，组件里发送action到store 之前会经历层层中间件的处理，在这里可以做一些可复用的逻辑的封装。
+redux 就是提供api来修改的方案，通过reducer函数来对传入的action做处理，返回新的state。
+mobx 没有提供中间件机制，它的action是执行状态class 的某个方法，可以用class的那套来做封装。mobx是响应式代理的方案，它对全局state做了一层代理(通过Object.defineProperty)，状态的get收集依赖，set的时候触发依赖更新。
+vuex则像是两种思路的结合，内部是响应式代理来实现的变化监听，但是暴露出的api却是 redux 的 action 那一套。</code></pre><p>不管是前端框架内置的组件内状态变化管理的方案(react的setState、vue的直接修改data),还是前端框架提供的组件的状态管理方案(props、react的content、vue 的 event bus) 或是第三方的全局状态管理方案(redux、vuex、mobx等)都没有脱离那两种实现状态管理的方式：提供修改状态的api或者对状态对象做一层响应式代理。<br>也没有脱离状态管理的两层含义：对状态变化前的异步过程做管理，状态变化后做联动处理。只不过它们用在了不同的地方(前端框架内、全局状态管理库)，提供了不同的封装形式(对象、函数)，基于不同的思想(函数式、面向对象)结合了不同的异步管理方案。<br><code>状态是数据的变化。前端应用的核心问题就是管理状态，管理状态变化之前的通过视图或者其他方式触发的异步过程，管理状态变化之后的联动渲染和联动的逻辑执行</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" data-id="cl6rluu6w002nt0dx1ohzgve5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/面试问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2022-07-27T02:09:36.910Z" itemprop="datePublished">2022-07-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h1><h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><h1 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h1><ul>
+<li>数据类型有哪些<pre><code>原始类型，引用类型
+区别是:原始类型是按值传递，引用类型是按引用传递
+   原始类型 基本数据类型：栈内存
+   引用数据类型：指针存储在栈，值存储在堆中</code></pre></li>
+<li>判断数据类型的方法有哪些</li>
+<li>instanceof 的原理</li>
+<li></li>
+<li>原型，原型链的理解</li>
+<li>作用域，作用域链</li>
+<li>this 的指向</li>
+<li>事件循环机制</li>
+<li>普通函数和箭头函数的区别是</li>
+<li></li>
+</ul>
+<h1 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h1><p>mvc 和 mvvm 的区别</p>
+<p>vue2 响应式原理<br>   虚拟dom</p>
+<p>vue2 和 vue3 的区别<br>   1 双向数据绑定原理发生了改变<br>      vue2 双向数据绑定是利用ES5 的一个API Object.definePropert() 对数据进行劫持，结合发布订阅模式的方式列实现的，<br>      vue3 中使用了es6 Proxy API 对数据代理。<br>      优势：defineProperty 只能监听某个属性，不能对全对象监听。可以直接监听数组，不用再单独的对数组做特异性操作，直接可以检测到数据的变化。<br>   2 vue3 支持碎片化<br>      也就是说在组件可以拥有多个根节点。<br>   3 Composition API (合成型API)<br>      Vue2 与Vue3 最大的区别————Vue 使用选项类型API(options API) 对比Vue3 合成型API (Composition API)<br>      vue2 选项API 在代码里分割了不同的属性，data、computed属性、methods等。Vue3 组合式API 能让我们用方法来分割</p>
+<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><p>   讲讲对webpack 的理解</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" data-id="cl6rluu7a0034t0dx4be8hupl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vue2vsvue3/beagin" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/07/16/vue2vsvue3/beagin/" class="article-date">
+  <time datetime="2022-07-16T03:01:42.069Z" itemprop="datePublished">2022-07-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><h2 id="组合API"><a href="#组合API" class="headerlink" title="组合API"></a>组合API</h2><p>vue2 是 <code>选项式API(Option API)</code>，一个逻辑会散落在文件的不同位置(data、props、computed、watch、生命周期函数等)，导致代码的可读性变差，需要上下来回滚动跳转文件位置。Vue3 <code>组合式 API(Composition API)</code>则很好地解决这个问题，可将同一逻辑的内容写到一起。增强了代码的可读性、内聚性，还提供了较为完美的逻辑复用方案，<br>例子🌰<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">   &lt;span&gt; mouse position &#123;&#123;x&#125;&#125;  &#123;&#123;y&#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">  import &#123; ref &#125; from &#39;vue&#39;</span><br><span class="line">  import useMousePosition from &#39;.&#x2F;useMousePosition&#39;</span><br><span class="line">  const &#123;x,y&#125;  &#x3D; useMousePosition()</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; useMousePosition.js</span><br><span class="line"></span><br><span class="line">import &#123; ref, onMounted, onUnmounted &#125; from &#39;vue&#39;</span><br><span class="line">function useMousePosition() &#123;</span><br><span class="line">  let x &#x3D; ref(0)</span><br><span class="line">  let y &#x3D; ref(0)</span><br><span class="line"></span><br><span class="line">   function update(e) &#123;</span><br><span class="line">    x.value &#x3D; e.pageX</span><br><span class="line">    y.value &#x3D; e.pageY</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  onMounted(() &#x3D;&gt; &#123;</span><br><span class="line">    window.addEventListener(&#39;mousemove&#39;, update)</span><br><span class="line">  &#125;)</span><br><span class="line">  </span><br><span class="line">  onUnmounted(() &#x3D;&gt; &#123;</span><br><span class="line">    window.removeEventListener(&#39;mousemove&#39;, update)</span><br><span class="line">  &#125;)</span><br><span class="line">  </span><br><span class="line">  return &#123;</span><br><span class="line">    x,</span><br><span class="line">    y</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>  <code>解决vue2 mixin 的存在命名冲突隐患，依赖不明确，不同组件间配置化不够灵活</code></p>
+<h2 id="响应式原理"><a href="#响应式原理" class="headerlink" title="响应式原理"></a>响应式原理</h2><p>vue2 响应式原理基础是 Object.defineProperty; Vue3 响应式原理基础是 Proxy </p>
+<h3 id="Object-defineProperty"><a href="#Object-defineProperty" class="headerlink" title="Object.defineProperty"></a>Object.defineProperty</h3><p>直接在对象上定义一个新的属性或者修改现有的属性，并返回对象。存在的缺陷是：无法监听对象或者数组新增、删除元素。Vue2 方案针对常用数组原型方法 push、pop、shuift、unshift、splice、 sort、reverse进行了封装处理</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/07/16/vue2vsvue3/beagin/" data-id="cl6rluu7q004qt0dxcy2nbl1p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-TypeScript/ts" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/03/14/TypeScript/ts/" class="article-date">
-  <time datetime="2022-03-14T02:57:16.897Z" itemprop="datePublished">2022-03-14</time>
+    <a href="/2022/04/13/TypeScript/ts/" class="article-date">
+  <time datetime="2022-04-13T07:41:56.416Z" itemprop="datePublished">2022-04-13</time>
 </a>
     
   <div class="article-category">
@@ -82,7 +255,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2022/03/14/TypeScript/ts/">TypeScript</a>
+      <a class="article-title" href="/2022/04/13/TypeScript/ts/">TypeScript</a>
     </h1>
   
 
@@ -144,9 +317,10 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> optionalTuple:[<span class="built_in">string</span>,<span class="built_in">boolean</span>?];</span><br><span class="line">optionalTuple = [<span class="string">'string'</span>,<span class="literal">true</span>]</span><br><span class="line">optionalTuple = [<span class="string">'string'</span>]</span><br></pre></td></tr></table></figure>
 <h3 id="枚举-interFace"><a href="#枚举-interFace" class="headerlink" title="枚举 interFace"></a>枚举 interFace</h3><p>是一个完全抽象的对象，一个interface 可以对应多个class 对其内部的未实现方法进行实现，ts 中，interface 主要用于类型描述。</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">interface</span> User&#123;</span><br><span class="line">      name:<span class="built_in">string</span></span><br><span class="line">      age:<span class="built_in">number</span></span><br><span class="line">      sex:<span class="built_in">string</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> obj:User =&#123;</span><br><span class="line">      name:<span class="built_in">string</span></span><br><span class="line">      age:<span class="built_in">number</span></span><br><span class="line">      sex:<span class="built_in">string</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//是强约束 约定该对象必须包含name,age,sex 这几个属性，不能有其他对象</span></span><br><span class="line">    <span class="keyword">interface</span> Us&#123;</span><br><span class="line">      readonly name:<span class="built_in">string</span>,  <span class="comment">// 表示该属性只读，不可以修改</span></span><br><span class="line">      age:<span class="built_in">number</span>,</span><br><span class="line">      [props:<span class="built_in">string</span>]:<span class="built_in">any</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 可以有约定以外的其他属性</span></span><br><span class="line">    <span class="keyword">interface</span> Func&#123;</span><br><span class="line">      (name):<span class="built_in">string</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 定义函数的接口</span></span><br><span class="line">    <span class="keyword">let</span> fun:Func = <span class="function"><span class="keyword">function</span>(<span class="params">name:<span class="built_in">string</span></span>):<span class="title">string</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> name</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">interface</span> User &#123;</span><br><span class="line">      name:<span class="built_in">string</span>,</span><br><span class="line">      age:<span class="built_in">number</span>,</span><br><span class="line">      sex:<span class="built_in">string</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">interface</span> Admin&#123;</span><br><span class="line">      name:<span class="built_in">string</span>,</span><br><span class="line">      age:<span class="built_in">number</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">type</span> Person = User | Admin</span><br><span class="line">    <span class="keyword">let</span> userobj =  <span class="built_in">Array</span>&lt;Person&gt; = [</span><br><span class="line">      &#123;name:<span class="string">''</span>,age:<span class="string">''</span>,sex:<span class="string">''</span>&#125;,</span><br><span class="line">      &#123;name:<span class="string">""</span>,age:<span class="string">""</span>&#125;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">  <span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### 泛型</span></span><br><span class="line"><span class="string"> 泛型是静态类型语言的另一灵魂工具，这里体现于静态类型的语言在定义类型时必须明确类型而造成的问题。</span></span><br><span class="line"><span class="string"> 当函数的参数和返回类型明确时，相同结构的函数需要根据不同的类型定义多个，这种情况很容易将代码的复杂度提高降低可维护性</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  `</span><span class="string">``</span> ts</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">test</span>&lt;<span class="title">T</span>&gt;(<span class="params">arg:T</span>):<span class="title">T</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arg</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="类型推断"><a href="#类型推断" class="headerlink" title="类型推断"></a>类型推断</h3></li>
+
+</li>
 </ul>
-<p>在很多情况下，Typescript会根据上下文环境自动推断出变量的类型，无需我们再写明类型注解。<br>  <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">'ss'</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> bool = <span class="literal">true</span></span><br></pre></td></tr></table></figure><br>我们把TypeScript 这种基于赋值表达式推断类型的能力称之为 <code>类型推断</code></p>
+<h3 id="类型推断"><a href="#类型推断" class="headerlink" title="类型推断"></a>类型推断</h3><p>在很多情况下，Typescript会根据上下文环境自动推断出变量的类型，无需我们再写明类型注解。<br>  <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">'ss'</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="number">1</span></span><br><span class="line"><span class="keyword">let</span> bool = <span class="literal">true</span></span><br></pre></td></tr></table></figure><br>我们把TypeScript 这种基于赋值表达式推断类型的能力称之为 <code>类型推断</code></p>
 <h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><p>  有时候会遇到这样的情况，你会比ts 更了解某个值的详细信息通常这会发生在你清楚的知道一个实体具有比它现有类型更确切的类型。<br>  通过类型断言这种方式告诉编辑器 ，”相信我，我知道自己在干什么”。类型断言好比其他语言里的类型转换，但是不进行特殊的数据检查和解构。它没有运行时的影响，只是在编译阶段起作用。</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 尖括号语法</span></span><br><span class="line"><span class="keyword">let</span> someValue:<span class="built_in">any</span> = <span class="string">'this is a string'</span></span><br><span class="line"><span class="keyword">let</span> strLength:<span class="built_in">number</span> = (&lt;<span class="built_in">string</span>&gt;someValue).length</span><br><span class="line"><span class="comment">// as 语法</span></span><br><span class="line"><span class="keyword">let</span> someValue:<span class="built_in">any</span> = <span class="string">'this is a string'</span></span><br><span class="line"><span class="keyword">let</span> strLength:<span class="built_in">number</span> = (someValue <span class="keyword">as</span> <span class="built_in">string</span>).length</span><br></pre></td></tr></table></figure>
 <h3 id="非空断言"><a href="#非空断言" class="headerlink" title="非空断言"></a>非空断言</h3><p>  在上下文中当类型检查器无法判定类型时，一个新的后缀表达式操作符! 可以用于断言操作对象是非 null 和undefined 类型，<code>x! 将从x值域中排除 null 和undefined</code><br>  <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> value:<span class="literal">null</span> | <span class="literal">undefined</span> | <span class="built_in">string</span> </span><br><span class="line">value!.toString() </span><br><span class="line">value.toString()  <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure></p>
@@ -165,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/03/14/TypeScript/ts/" data-id="cl1wzn6zw002aigdxerow7c33" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/TypeScript/ts/" data-id="cl6rluu6h0029t0dx3s5ahqp3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,14 +349,14 @@
 
 
   
-    <article id="post-webpack/webpack" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-项目遇到的奇怪问题/elementUI奇怪问题解决办法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/02/22/webpack/webpack/" class="article-date">
-  <time datetime="2022-02-22T08:16:44.901Z" itemprop="datePublished">2022-02-22</time>
+    <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.747Z" itemprop="datePublished">2022-04-13</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/webpack/">webpack</a>
+    <a class="article-category-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
   </div>
 
   </div>
@@ -193,7 +367,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2022/02/22/webpack/webpack/">webpack</a>
+      <a class="article-title" href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
     </h1>
   
 
@@ -201,243 +375,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id><a href="#" class="headerlink" title></a></h3>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/02/22/webpack/webpack/" data-id="cl1wzn703002iigdxb8nr549m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-正则/正则知识点" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/12/25/%E6%AD%A3%E5%88%99/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
-  <time datetime="2021-12-25T08:02:43.537Z" itemprop="datePublished">2021-12-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>►<a class="article-category-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/12/25/%E6%AD%A3%E5%88%99/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="正则表达式字符匹配"><a href="#正则表达式字符匹配" class="headerlink" title="正则表达式字符匹配"></a>正则表达式字符匹配</h2><p>正则表达式是匹配模式，要么匹配字符，要么匹配位置。</p>
-<h3 id="两种模糊匹配"><a href="#两种模糊匹配" class="headerlink" title="两种模糊匹配"></a>两种模糊匹配</h3><p>  如果正则只有精确匹配是没有多大意义的。正则之所以强大是因为其能实现模糊匹配。<br>  而模糊匹配有两个方向上的模糊：横向模糊和纵向模糊。</p>
-<h4 id="横向模糊匹配"><a href="#横向模糊匹配" class="headerlink" title="横向模糊匹配"></a>横向模糊匹配</h4><p>  横向模糊匹配指的是，一个正则可以匹配的字符串的长度是不固定的，可以是多种情况的。<br>  其实现方式是使用量词。例如{m,n}，表示连续出现最少m次，最多n次。<br>  eg: /ab{2,5}c/ 表示匹配这样一个字符串：第一个字符是 ‘a’，接下来是2到5个字符串’b’，最后一个字符串’c’。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var reg &#x3D; &#x2F;ab&#123;2,5&#125;c&#x2F;g</span><br><span class="line">var string &#x3D; &#39;abc abbc abbbc abbbbc&#39;</span><br><span class="line">string.match(reg)</span><br><span class="line"> &#x2F;&#x2F; [&#39;abbc&#39;,&#39;abbbc&#39;,&#39;abbbbc&#39;]</span><br></pre></td></tr></table></figure><br>   案例中使用的正则后面多了一个g，是正则的修饰符，表示全局匹配，即在目标字符串中按顺序找到满足匹配模式的所有字串，强调的是’所有’，而不只是’第一个’。</p>
-<h4 id="纵向模糊匹配"><a href="#纵向模糊匹配" class="headerlink" title="纵向模糊匹配"></a>纵向模糊匹配</h4><p>  纵向模糊匹配指的是，一个正则匹配的字符串，具体到某一个字符时，它可以不是某个确定的字符，可以有很多种可能。<br>  其实现方式是使用字符组。例如[abc]，表示该字符可以是字符’a’、’b’、’c’种任何一个。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var reg &#x3D; &#x2F;a[123]c&#x2F;g</span><br><span class="line">var string &#x3D; &#39;a0c a1c a2c a3c a4c&#39;</span><br><span class="line">string.match(reg)</span><br><span class="line">&#x2F;&#x2F; [&#39;a1c&#39;,&#39;a2c&#39;,&#39;a3c&#39;]</span><br></pre></td></tr></table></figure></p>
-<h3 id="字符组"><a href="#字符组" class="headerlink" title="字符组"></a>字符组</h3><p>  虽然是叫字符组，胆汁酸其中一个字符。</p>
-<ul>
-<li>范围表示法<br>用连字符 - 来省略和简写<br>eg [123456789]  =&gt; [1-9]</li>
-<li>排除字符组<br>用 [^] 来表示除了里面的字符。<br>  eg:[^abc] 表示除了’a’、’b’、’c’之外的任意一个字符。</li>
-<li>常见的简写形式。<ul>
-<li>\d 就是 [0-9]。表示是一位数字。</li>
-<li>\D 就是 [^0-9]。表示除数字以外的任意字符。</li>
-<li>\w 就是 [0-9a-zA-Z_]。表示数字、大小写字母和下划线。</li>
-<li>\W 就是 [^0-9a-zA-Z_]。 非单词字符。</li>
-<li>\s 就是 [\t\v\n\r\f]。表示空白字符，包括空格、水平制表符、垂直制表符、换行符、回车符、换页符。</li>
-<li>\S 就是 [^\t\v\n\r\f]。非空白符。</li>
-<li>.  就是 [^\n\r\u2028\u2029]。 通配符，表示几乎任意字符。换行符、回车符、行分符和段分割符除外。  </li>
-</ul>
-</li>
-</ul>
+        <h2 id="el-tabs-切换窗口或者重新编译会有蓝色阴影"><a href="#el-tabs-切换窗口或者重新编译会有蓝色阴影" class="headerlink" title="el-tabs 切换窗口或者重新编译会有蓝色阴影"></a>el-tabs 切换窗口或者重新编译会有蓝色阴影</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 需要在全局添加以下样式</span><br><span class="line">.el-tabs__item:focus.is-active.is-focus:not(:active) &#123;</span><br><span class="line">    -webkit-box-shadow: none !important;</span><br><span class="line">    box-shadow: none !important;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/12/25/%E6%AD%A3%E5%88%99/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/" data-id="cl1wzn707002pigdx3sjz4yco" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-es6/Symbol" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/26/es6/Symbol/" class="article-date">
-  <time datetime="2021-11-26T02:27:52.179Z" itemprop="datePublished">2021-11-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/es6/">es6</a>►<a class="article-category-link" href="/categories/es6/Symbol/">Symbol</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/26/es6/Symbol/">Symbol,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><p>  对象的属性名都是字符串，容易造成属性名冲突。ES6 引入一种新的原始数据类型 Symbol，表示独一无二的值。<br>  Symbol 值通过 Symobl 函数生成。凡是属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let s &#x3D; Symbol()</span><br><span class="line">  typeof s </span><br><span class="line">    &#x2F;&#x2F; &#39;symbol&#39;</span><br></pre></td></tr></table></figure>
-<p>  <code>Symbol</code> 函数不能使用 new 命令，否则会报错，new 命令生成的是一个对象，Symbol 值不是对象，是类似字符串的数据类型。</p>
-<ul>
-<li>js 原始类型数据，除了 <code>null, undefined 和 symbol</code>外，其他类型的数据 都可以通过 new 命令初始化值，该命令返回的是一个 typeof 类型为 object的值。</li>
-<li>Symbol 函数可以接收一个字符串作为参数，表示Symbol 实例的描述，主要是为了区分生成的变量。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let s1 &#x3D; Symbol(&#39;foo&#39;)</span><br><span class="line">  &#x2F;&#x2F; Symbol(foo)</span><br><span class="line">let s2 &#x3D; Symbol(&#39;bar&#39;)</span><br><span class="line">  &#x2F;&#x2F; Symbol(bar)</span><br></pre></td></tr></table></figure></li>
-</ul>
-<ul>
-<li><p>注意点 Symbol 值不能与其他类型的值进行运算，会报错。但是，Symbol 的值可以转换为字符串。Symbol的值可以转换为布尔值，但是不能转换为数值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var sy &#x3D; Symbol(&#39;mySymbol&#39;)</span><br><span class="line">  &#39;Your symbol is&#39; + sy</span><br><span class="line">  &#96;your symbol is $&#123;sy&#125;&#96;</span><br><span class="line">String(sy)</span><br><span class="line">  &#x2F;&#x2F; &#39;Symbol(mySymbol)&#39;</span><br><span class="line">sy.toStirng()</span><br><span class="line">  &#x2F;&#x2F; &#39;Symbol(mySymbol)&#39;</span><br><span class="line">Boolean(sy)</span><br><span class="line">  &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
-<h3 id="作为属性名"><a href="#作为属性名" class="headerlink" title="作为属性名"></a>作为属性名</h3><p>Symbol值都不相等的，用于对象的属性名，就能保证不会出现同名的属性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var sym &#x3D; Symbol()</span><br><span class="line">&#x2F;&#x2F; 第一种写法</span><br><span class="line">  var a &#x3D; &#123;&#125;</span><br><span class="line">  a[sym] &#x3D; &#39;Hello&#39;</span><br><span class="line">&#x2F;&#x2F; 第二种写法</span><br><span class="line">  var a &#x3D; &#123;</span><br><span class="line">    [sym]: &#39;Hello&#39; </span><br><span class="line">  &#125;</span><br><span class="line">&#x2F;&#x2F; 第三种写法 </span><br><span class="line">  var a &#x3D; &#123;&#125;</span><br><span class="line">  Object.defineProperty(a,sym,&#123;value:&#39;Hello&#39;&#125;)</span><br></pre></td></tr></table></figure></li>
-<li><p>注意点：Symbol 值作为对象的属性名的时候，不能通过 点运算赋值，如果是通过点运算赋的值，是和原来的为对象添加属性一样。因为点运算符后面总是字符串，所以不会读取 mySymbol 作为标识所指代的那个值，导致a的属性名实际上是一个字符串，而不是一个Symbol 值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var mySymbol &#x3D; Symbol()</span><br><span class="line">var a &#x3D; &#123;&#125;</span><br><span class="line">a.mySymbol &#x3D; &#39;Hello&#39;</span><br><span class="line">a[mySymbol] </span><br><span class="line">  &#x2F;&#x2F; undefined</span><br><span class="line">a[&#39;mySymbol&#39;]</span><br><span class="line">  &#x2F;&#x2F; Hello</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/11/26/es6/Symbol/" data-id="cl1wzn70s0044igdx4z2m621e" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-es6/新增运算符" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/25/es6/%E6%96%B0%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/" class="article-date">
-  <time datetime="2021-11-25T05:43:07.420Z" itemprop="datePublished">2021-11-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/es6/">es6</a>►<a class="article-category-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/25/es6/%E6%96%B0%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/">运算符的扩展,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="指数运算符"><a href="#指数运算符" class="headerlink" title="指数运算符"></a>指数运算符</h2><p>新增了一个指数运算符(**)</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2**2  &#x2F;&#x2F; 4 </span><br><span class="line">  2*2</span><br><span class="line">2**3  &#x2F;&#x2F; 8</span><br><span class="line">  2*2*2</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>指数运算符可以与等号结合，形成一个新的赋值运算符(**=)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; 1.5 </span><br><span class="line">a** &#x3D; 2</span><br><span class="line">  &#x2F;&#x2F; 等同于 a &#x3D; a * a </span><br><span class="line">let b &#x3D; 4 </span><br><span class="line">b** &#x3D; 3</span><br><span class="line">  &#x2F;&#x2F; 等同于 b &#x3D; b * b * b</span><br></pre></td></tr></table></figure>
-<h2 id="链判断运算符"><a href="#链判断运算符" class="headerlink" title="链判断运算符"></a>链判断运算符</h2><p>编程中，如果要读取对象内部的某个属性，往往需要判断一下，属性的上层对象是否存在。对象嵌套太深，判断会需要很多层，这样很是麻烦。<br>ES2020引入了 <code>链判断运算符</code> <code>?.</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 之前写法</span><br><span class="line"> var firstName &#x3D; obj &amp;&amp; obj.a &amp;&amp; obj.a.b &amp;&amp; obj.a.b.c || &#39;default&#39;</span><br><span class="line"> var fooVlaue &#x3D; fooInput ? fooInput.value : undefined</span><br><span class="line"> &#x2F;&#x2F; 现在写法</span><br><span class="line"> var firstName &#x3D; obj?.a?.b?.c</span><br><span class="line"> var fooVlaue &#x3D; fooInput?.value</span><br><span class="line">   &#x2F;&#x2F; 直接链式调用的时候判断，左侧的对象是否为 null 或 undefined。如果是的，就不再往下运算直接返回 null 或者 undefined 。</span><br><span class="line"> iterator.return?.()</span><br><span class="line">   &#x2F;&#x2F; iterator.return如果有定义，就会调用该方法，否则 iterator.return直接返回undefined，不在执行后面的部分。</span><br></pre></td></tr></table></figure>
-<ul>
-<li>使用 链式判断运算符的注意点<ul>
-<li>短路机制<br>本质上?.运算符相当于一种短路机制，只要不满足条件，就不再往下执行。</li>
-<li>括号的影响<br>如果属性链有圆括号，链判断运算符对圆括号外部没有影响，只对圆括号内部有影响。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(a?.b).c</span><br><span class="line">&#x2F;&#x2F; 等价于 (a &#x3D;&#x3D; null ? undefined : a.b).c</span><br><span class="line">不管对象a 是否存在，圆括号后面的.c 总是会执行。</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="Null-判断运算符"><a href="#Null-判断运算符" class="headerlink" title="Null 判断运算符"></a>Null 判断运算符</h2><p>  在读取对象属性的时候，如果某个属性的值是null 或者 undefined，有时候需要为他们指定默认值，常用的方法是 || ，但是这样写是错误的，我们的意愿是当为null 或者undefined 的时候给定默认值，但是 当值为 空字符串，false 0 的时候默认值也会生效<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var param &#x3D; null&#x2F;undefined</span><br><span class="line">var result &#x3D; param || &#39;default&#39;</span><br><span class="line">  result   &#x2F;&#x2F;&#39;default&#39;</span><br><span class="line"></span><br><span class="line">var param2 &#x3D;  false&#x2F;0</span><br><span class="line">var result2 &#x3D; param || &#39;default&#39;</span><br><span class="line">  result2  &#x2F;&#x2F;&#39;default&#39;</span><br></pre></td></tr></table></figure><br>  为了避免上面的情况 ES2020 引入一个新的Null 运算符 <code>??</code>。它的行为类似 || ,但是只有运算符左侧的值为 null 或 undefined时，才会返回右侧的值。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var param &#x3D; null&#x2F;undefined</span><br><span class="line">var result &#x3D; param ?? &#39;default&#39;</span><br><span class="line">  result   &#x2F;&#x2F;&#39;default&#39;</span><br><span class="line"></span><br><span class="line">var param2 &#x3D;  false&#x2F;0</span><br><span class="line">var result2 &#x3D; param ?? &#39;default&#39;</span><br><span class="line">  result2  &#x2F;&#x2F; false&#x2F;0</span><br></pre></td></tr></table></figure><br>  该运算符的一个目的就是跟链判断运算符?.配合使用，为null 或 undefined 的值设置默认值。<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var result &#x3D; obj?.a ?? true</span><br></pre></td></tr></table></figure></p>
-<h2 id="逻辑赋值运算符"><a href="#逻辑赋值运算符" class="headerlink" title="逻辑赋值运算符"></a>逻辑赋值运算符</h2><p>ES2021 引入了三个新的逻辑赋值运算符，将逻辑运算符与赋值运算符结合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> &#x2F;&#x2F; 或赋值运算符</span><br><span class="line"> x||&#x3D;y</span><br><span class="line">   &#x2F;&#x2F; 等同于</span><br><span class="line">     x || (x &#x3D; y)</span><br><span class="line"> &#x2F;&#x2F; 与赋值运算符</span><br><span class="line"> x &amp;&amp;&#x3D; y </span><br><span class="line">   &#x2F;&#x2F; 等同于</span><br><span class="line">     x &amp;&amp; (x &#x3D; y)</span><br><span class="line"> x ??&#x3D; y </span><br><span class="line">   &#x2F;&#x2F; 先判断x 是否是 null&#x2F;undefined 是的话 执行 x &#x3D; y  </span><br><span class="line">var x &#x3D; 1</span><br><span class="line">var y &#x3D; &#39;&#39;</span><br><span class="line"> x ||&#x3D; y </span><br><span class="line">   &#x2F;&#x2F; 1</span><br><span class="line"> x &amp;&amp;&#x3D; y </span><br><span class="line">   &#x2F;&#x2F; &#39;&#39;</span><br><span class="line"> x ??&#x3D; y </span><br><span class="line">   &#x2F;&#x2F; 1</span><br></pre></td></tr></table></figure>
-<p>  他们的用途是，为变量或属性设置默认值<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 老的写法</span><br><span class="line">user.id &#x3D; user.id || 1</span><br><span class="line">&#x2F;&#x2F; 新写法</span><br><span class="line">user.id ||&#x3D; 1</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/11/25/es6/%E6%96%B0%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/" data-id="cl1wzn7nf004higdxcgpn8k3l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-async,await" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/10/29/async,await/" class="article-date">
-  <time datetime="2021-10-29T02:44:38.448Z" itemprop="datePublished">2021-10-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/async-await/">async await</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/29/async,await/">async await,</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="async"><a href="#async" class="headerlink" title="async"></a>async</h2><p><code>异步编程的最高境界，就是根本不用关心它是不是异步</code></p>
-<p><code>async 函数是 Generator 函数的语法糖</code></p>
-<p>async 是一个修饰符，async定义的函数会默认返回一个Promise对象resolve的值，因此对async函数可以直接进行then操作，返回的值即为then方法的传入函数</p>
-<p>async 函数(包含函数语句，函数表达式，Lambda表达式) 会返回一个Promise 对象，如果在函数中直接返回一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成Promise对象</p>
-<h2 id="await"><a href="#await" class="headerlink" title="await"></a>await</h2><p>一般来说，await 是在等待一个async 函数完成。await 等待的是一个表达式，这个表达式的计算结果是 Promise 对象或者其它值（换句话说，就是没有特殊限定）。</p>
-<p>async 函数返回的是一个Promise 对象，所以await 可以用于等待一个async 函数的返回值，它等待的实际是一个返回值，await不仅仅用于等待Promise对象它可以等待任意表达式的结果。即await后面是可以接普通函数或者直接量的。</p>
-<ul>
-<li>awit 等到了要等东西，<ul>
-<li>如果等到的是一个promise对象，await会阻塞后面的代码，等着Promise对象resolve ,然后得到resolve的值，作为await表达式的运算结果。</li>
-<li>如果不是promise 对象，那await表达式的运算结果就是它等到的东西。</li>
-<li>await 等待的不是一个Promise 对象的时候，相当于 await Promise.resolve</li>
-</ul>
-</li>
-</ul>
-<h2 id="async-await-的优势"><a href="#async-await-的优势" class="headerlink" title="async await 的优势"></a>async await 的优势</h2><p>优势在于处理then 链</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/10/29/async,await/" data-id="cl1wzn6xc0003igdxf6fccxjp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="cl6rluu760031t0dx2hbh36i2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -449,8 +392,8 @@
   
     <article id="post-项目中用到的js方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/09/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" class="article-date">
-  <time datetime="2021-09-01T03:24:53.467Z" itemprop="datePublished">2021-09-01</time>
+    <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.734Z" itemprop="datePublished">2022-04-13</time>
 </a>
     
   <div class="article-category">
@@ -465,7 +408,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/09/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/">项目中常用的js操作,</a>
+      <a class="article-title" href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/">项目中常用的js操作,</a>
     </h1>
   
 
@@ -477,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/09/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" data-id="cl1wzn6yu0010igdxea4a1p8a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" data-id="cl6rluu53000yt0dxh6cxbaix" class="article-share-link">Share</a>
       
       
     </footer>
@@ -487,14 +430,14 @@
 
 
   
-    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-面试/浏览器缓存" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="article-date">
-  <time datetime="2021-08-20T04:00:37.843Z" itemprop="datePublished">2021-08-20</time>
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.721Z" itemprop="datePublished">2022-04-13</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a>
   </div>
 
   </div>
@@ -505,7 +448,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式,</a>
+      <a class="article-title" href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a>
     </h1>
   
 
@@ -513,54 +456,114 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="匹配小括号里面的内容"><a href="#匹配小括号里面的内容" class="headerlink" title="匹配小括号里面的内容"></a>匹配小括号里面的内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let reg &#x3D;  &#x2F;[^(][a-zA-Z0-9]+(?&#x3D;\))&#x2F;g</span><br><span class="line">let str &#x3D; &quot;(9001)(9002)(9003)&quot;</span><br><span class="line">str.match(reg)</span><br><span class="line"> &#x2F;&#x2F; [&#39;9001&#39;,&#39;9002&#39;,&#39;9003&#39;]</span><br></pre></td></tr></table></figure>
-<h3 id="将中括号替换为点"><a href="#将中括号替换为点" class="headerlink" title="将中括号替换为点"></a>将中括号替换为点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let str &#x3D; &#39;a[12][334]&#39;</span><br><span class="line">&#x2F;&#x2F; 方法一</span><br><span class="line">  str.replace(&#x2F;\[&#x2F;g, &quot;.&quot;).replace(&#x2F;\]&#x2F;g, &quot;&quot;);</span><br><span class="line">    &#x2F;&#x2F; a.12.334</span><br><span class="line">&#x2F;&#x2F; 方法二</span><br><span class="line">  str.replace(&#x2F;\[([^\[\]]*)\]&#x2F;g, &quot;.$1&quot;);</span><br><span class="line">    &#x2F;&#x2F; a.12.334</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/08/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" data-id="cl1wzn6yo000pigdx597vapxr" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-请求到达web服务器" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="article-date">
-  <time datetime="2021-07-10T02:37:11.000Z" itemprop="datePublished">2021-07-10</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/">请求到达web服务器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="浏览器请求数据包如何到达web-服务器"><a href="#浏览器请求数据包如何到达web-服务器" class="headerlink" title="浏览器请求数据包如何到达web 服务器"></a>浏览器请求数据包如何到达web 服务器</h2><h2 id="第一步激活网页上的连接"><a href="#第一步激活网页上的连接" class="headerlink" title="第一步激活网页上的连接"></a>第一步激活网页上的连接</h2><p>  用户要访问远程网络中的服务器存储的网页，用户首先要激活网页上的链接。</p>
-<p>这里分为两种</p>
+        <h1 id="浏览器缓存机制"><a href="#浏览器缓存机制" class="headerlink" title="浏览器缓存机制"></a>浏览器缓存机制</h1><h2 id="为什么要使用缓存"><a href="#为什么要使用缓存" class="headerlink" title="为什么要使用缓存"></a>为什么要使用缓存</h2><p>缓存是性能优化中简单高效的一种优化方式。一个优秀的缓存策略可以缩短网页请求资源的距离，减少延迟，并且由于缓存文件可以重复利用，还可以减少带宽，降低网络负载。</p>
+<p>对于一个数据请求来说，可以分为发起网络请求、后端处理、浏览器响应三个步骤。浏览器缓存可以帮我们在发起网络请求和浏览器响应优化性能。例如 直接使用缓存而不发起请求，或者发起请求但后端存储的数据和前端一致，那就没有必要将数据回传回来，这样就减少了响应数据。</p>
+<h2 id="缓存位置"><a href="#缓存位置" class="headerlink" title="缓存位置"></a>缓存位置</h2><p>从缓存位置上来说分为四种，并且各自有优先级，当依次查找缓存且都没有命中的时候，才会去请求网络。<br>Service Worker<br>Memory Cache<br>Disk Cache<br>Push Cache</p>
+<h3 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h3><p>是运行在浏览器背后的独立线程，一般可以用来实现缓存功能。使用 Service Worker 的话，传输协议必须为 HTTPS。因为 Service Worker 中涉及到请求拦截，所以必须使用 HTTPS 协议来保障安全。它可以让我们自由控制缓存哪些文件，如何匹配缓存，如何读取缓存，并且缓存是持续性的。</p>
 <ul>
-<li>一是有缓存，或者缓存还生效。<br>如果该域名对应的IP地址已经在本地缓存，就之间访问该地址的80端口或者8080 端口</li>
-<li>二 没有缓存，那么浏览器就会发出DNS请求给DNS服务器，获得该域名对应的IP地址。<br>获得地址后，浏览器会通过Socket首先向服务器发送 三次握手，建立起TCP 链接</li>
+<li>实现缓存功能的步骤<ul>
+<li>首先注册 Service Worker</li>
+<li>监听到 install 事件以后就可以缓存文件，在下次用户访问的时候就可以通过拦截请求的方式查询是否存在缓存，存在缓存的话就可以直接读取缓存文件，否则就去请求数据</li>
+<li>当没有命中缓存的时候，我们需要去调用 fetch 函数获取数据。会根据缓存查找优先级去查找数据，但是不管是从 Memory Cache 中还是网络请求中获取的数据，浏览器都会显示我们是从 Service Worker 中获取的内容。</li>
 </ul>
-<h2 id="浏览器发起HTTP请求。"><a href="#浏览器发起HTTP请求。" class="headerlink" title="浏览器发起HTTP请求。"></a>浏览器发起HTTP请求。</h2>
+</li>
+</ul>
+<h3 id="Memory-Cache"><a href="#Memory-Cache" class="headerlink" title="Memory Cache"></a>Memory Cache</h3><p><code>Memory Cache</code> 是内存中的缓存，主要包含的是当前页面中已经抓取到的资源。eg:页面样式、脚本、图片等。</p>
+<ul>
+<li>内存缓存的特点<br>内存缓存读取高效，但是缓存持续性很短，会随着进程的释放而释放。<code>一旦关闭 Tab 页面，内存中的缓存也就被释放了。</code> 计算的内存容量小，所以缓存不能全部放在内存中。<br>注意点：<code>内存缓存在缓存资源时并不关心返回资源的 HTTP 缓存头 Cache-Control是什么值，同时资源的匹配也并非仅仅是对 URL 做匹配，还可能会对 Content-Type，CORS 等其他特征做校验。</code></li>
+</ul>
+<h3 id="Disk-Cache"><a href="#Disk-Cache" class="headerlink" title="Disk Cache"></a>Disk Cache</h3><p>Disk Cache 也就是存储在硬盘中的缓存，读取速度慢，但是什么都可以存储到硬盘中。<br>在所有浏览器缓存中，Disk Cache 覆盖面是最大的，它会根据 HTTP Herder 中的字段判断哪些资源需要缓存，哪些资源可以不请求直接使用，哪些资源已经过期需要重新请求，并且即使在跨站点的情况下，相同地址的资源一旦被硬盘缓存下来，就不会再次去请求数据。</p>
+<h3 id="Push-Cache"><a href="#Push-Cache" class="headerlink" title="Push Cache"></a>Push Cache</h3><p>Push Cache (推送缓存) 是 HTTP/2 中的内容，Service Worker Memory Cache Disk Cache 三种缓存都没有命中的时，才会使用。Push Cache 只在会话中存在，一旦会话结束就被释放，并且缓存时间也很短暂。在 Chome 浏览器中只有五分钟左右，同时它也并非严格执行 HTTP 头中的缓存指令。</p>
+<ul>
+<li>所有的资源都能被推送并且能够被缓存，但是 Edge 和 Safari 浏览器支持相对比较差</li>
+<li>可以推送 no-cache 和 no-store 的资源</li>
+<li>一旦连接关闭，Push Cache 就释放</li>
+<li>多个页面可以使用同一个 HTTP/2 连接，也就是可以使用同一个 Push Cache</li>
+<li>Push Cache 中的缓存只能被使用一次</li>
+<li>浏览器可以拒绝接受已经存在的资源推送</li>
+<li>可以给其他域名推送资源</li>
+</ul>
+<p>如果以上四种缓存都没有命中的话，那么就只能发起请求来获取资源。为了性能上的考虑，大部分的接口都应该选择好缓存策略，<code>通常浏览器缓存策略分为两种：强缓存和协商缓存，并且缓存策略都是通过设置 HTTP Header 来实现</code></p>
+<h2 id="缓存过程分析"><a href="#缓存过程分析" class="headerlink" title="缓存过程分析"></a>缓存过程分析</h2><p>浏览器和服务器的通讯方式为应答模式，即浏览器发起 HTTP 请求-服务器响应该请求，<code>那么浏览器怎么确定一个资源该不该缓存，如何去缓存呢？</code>浏览器第一次向服务器发起该请求后拿到请求结果后，将请求结果和缓存标识存入浏览器缓存，<code>浏览器对于缓存的处理是根据第一次请求资源时返回的响应头来确定的。</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-de3d6e025582103a?imageMogr2/auto-orient/strip%7CimageView2/2/w/670/format/webp" alt="发起请求"></p>
+<ul>
+<li>浏览器每次发起请求，都会在浏览器缓存中查找该请求的结果以及缓存标识</li>
+<li>浏览器每次拿到返回的请求结果都会将该结果和缓存标识存入浏览器缓存中。</li>
+</ul>
+<h2 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h2><p>强缓存：不会向服务器发送请求，直接从缓存中读取资源，在 chorme 控制台中可以看到该请求返回 200 的状态码，并且 Size 显示 from disk cache 或 from memory cache 。强缓存可以通过设置两种 HTTP Header 实现： Expires 和 Cache-Control</p>
+<h3 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h3><p><code>缓存过期时间，用来指定资源到期的时间，是服务器端的具体的时间点</code>。也就是说 Expires= max-age + 请求时间，需要和 Last-modified 结合使用。<code>Last-Modified</code>是服务器认为文件的最后修改时间，是第一次请求文件的时候，服务器返回的一个属性。<br>Expires 是 Web 服务器响应消息头字段，在响应 http 请求时告诉浏览器在过期时间前浏览器可以直接从缓存取数据，而无需再次请求</p>
+<p>Expires 是 Http/1 的产物，受限于本地时间，如果修改了本地时间，可能会造成缓存失效。</p>
+<h3 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h3><p>Cache-Control 是最重要的规则，主要用于控制网页缓存。可以在请求头或者响应头中设置。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-8ff981603cdfded0?imageMogr2/auto-orient/strip%7CimageView2/2" alt="Cache-Control"></p>
+<ul>
+<li><p>public</p>
+<ul>
+<li>所有内容都将被缓存(客户端和代理服务器都可缓存)。响应可被任何中间节点缓存，</li>
+<li>Browser &lt;– proxy1 &lt;– proxy2 &lt;– server 中间的 proxy 可以缓存。</li>
+</ul>
+</li>
+<li><p>private</p>
+<ul>
+<li>所有内容只有客户端可以缓存，cache-control 的默认取值。具体来说，表示中间节点不允许缓存</li>
+<li>对于 Browser &lt;– proxy1 &lt;– proxy2 &lt;– server，proxy 会把 server 返回的数据发送给 proxy1，自己不缓存任何数据，当下次浏览器再次请求时 proxy 会做好请求转发而不是自作主张给自己缓存的数据。</li>
+</ul>
+</li>
+<li><p>no-cache</p>
+<ul>
+<li>客户端缓存内容，是否使用缓存则需要经过协商缓存来验证决定。表示不使用 Cache-Control 的缓存控制方式做前置验证，而是使用 Etag 或者 Last-Modified 字段来控制缓存。</li>
+</ul>
+</li>
+<li><p>no-store</p>
+<ul>
+<li>所有的内容都不会被缓存，即不使用强制缓存，也不使用协商缓存。</li>
+</ul>
+</li>
+<li><p>max-age</p>
+<ul>
+<li>max-age=xxx 表示缓存内容将在 xxx 秒后失效。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-3fa81f5e9efac5af?imageMogr2/auto-orient/strip%7CimageView2/2" alt></p>
+</li>
+</ul>
+<h3 id="Expires-和-Cache-Control-两者对比"><a href="#Expires-和-Cache-Control-两者对比" class="headerlink" title="Expires 和 Cache-Control 两者对比"></a>Expires 和 Cache-Control 两者对比</h3><p>Expires 是 http1.0 的产物，Cache-Control 是 Http1.1 的产物，<code>两者同时存在的话，Cache-Control优先级高于Expires</code>。<br>强缓存判断是否缓存的依据是来自于是否超出某个时间或者某个时间段，而不关心服务器端文件是否已经更新，这就可能会导致加载文件不是服务器端最新的内容。此时我们需要用协商缓存策略。</p>
+<h2 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h2><p><code>协商缓存就是强制缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程</code></p>
+<ul>
+<li>协商缓存生效，返回 304 和 Not Modified</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-660fd163329d080b?imageMogr2/auto-orient/strip%7CimageView2/2/w/709/format/webp" alt="协商缓存生效"></p>
+<ul>
+<li>协商缓存失效，返回 200 和请求结果<br><img src="https://upload-images.jianshu.io/upload_images/3174701-24953079cfebf2bf?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="协商缓存失效"><br>协商缓存可以通过设置 HttP Header 实现：Last-Modified 和 ETag</li>
+</ul>
+<h3 id="Last-Modified-和-If-Modified-Since"><a href="#Last-Modified-和-If-Modified-Since" class="headerlink" title="Last-Modified 和 If-Modified-Since"></a>Last-Modified 和 If-Modified-Since</h3><p>浏览器在第一次访问资源时，服务器返回资源的同时，在 response header 中添加 Last-Modified 的 header,值是这个资源在服务器上的最后修改时间。<br>浏览器下次请求这个资源，浏览器检测到有 Last-Modified 这个 header，于是 添加 If-Modified-Since header 值就是 Last-Modified 中的值；服务器再次收到这个资源的请求，会根据 If-Modified-Since 中的值与服务器中这个资源的最后修改时间做对比，如果没有变化，返回 304 和空的响应体，直接从缓存中读取，如果 If-Modified-Since 的时间小于服务器中资源最后修改时间，说明文件有更新于是返回新的资源文件和 200</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3174701-bb7148a4431ccda1?imageMogr2/auto-orient/strip%7CimageView2/2/w/438/format/webp" alt></p>
+<p>弊端：</p>
+<ul>
+<li>如果只是在本地打开文件，没有对文件进行修改，但是还是会造成 Last-Modified 被修改，服务器不能命中缓存</li>
+<li>Last-Modified 只能以秒计时，如果在不可感知的时间内修改文件，服务器会认为会命中缓存</li>
+</ul>
+<p>根据文件修改时间来决定是否缓存存在问题，可以直接根据文件内容是否修改来决定缓存策略</p>
+<h3 id="ETag-和-If-None-Match"><a href="#ETag-和-If-None-Match" class="headerlink" title="ETag 和 If-None-Match"></a>ETag 和 If-None-Match</h3><p>ETag 是服务器响应请求时，返回当前资源文件的一个唯一标识(Hash 值 由服务器生成)，只要资源有变化。ETag 就会重新生成。在下一次加载资源向服务器发送请求时，会将上次返回的 ETag 值放到 request header 里的 If-None-Match 里，服务器比较客户端传过来的 If-None-Match 跟自己服务器上该资源的 ETag 是否一致。就可以判断资源是不是最新的</p>
+<p>Last-Modified 和 ETag 的对比</p>
+<ul>
+<li>精确度<br>Etag 要优于 Last-Modifed，Last-Modified 的时间单位是秒，如果资源在一秒内改变多次，Last-Modified 其实并不能体现出来，如果是负载均衡的服务器各个服务器生成的 Last-Modified 也有可能不一致。 ETag 每次都会改变确保了精确度。</li>
+<li>性能上<br>ETag 要逊于 Last-Modified ，last-Modified 只需要记录时间，ETag 需要服务器通过算法来计算一个 hash 值。</li>
+<li>优先级<br>服务器校验优先考虑 ETag</li>
+</ul>
+<h2 id="缓存机制"><a href="#缓存机制" class="headerlink" title="缓存机制"></a>缓存机制</h2><p>强缓存优先于协商缓存，若强缓存(Expires 和 Cache-Control) 生效则直接使用缓存，若不生效则进行协商缓存(Last-Modified/If-Modified-since 和 ETag/If-None-Match)，协商缓存由服务器决定是否使用缓存，若协商缓存失效，则缓存失效，返回 200 重新返回资源和缓存标识，再存入浏览器缓存中，生效则返回 304 继续使用缓存<br><img src="https://upload-images.jianshu.io/upload_images/3174701-9d9e8b52a18ed35a?imageMogr2/auto-orient/strip%7CimageView2/2/w/519/format/webp" alt></p>
+<h2 id="实际场景应用缓存策略"><a href="#实际场景应用缓存策略" class="headerlink" title="实际场景应用缓存策略"></a>实际场景应用缓存策略</h2><h3 id="频繁变动的资源"><a href="#频繁变动的资源" class="headerlink" title="频繁变动的资源"></a>频繁变动的资源</h3><p>Cache-Control:no-cache<br>对于频繁变动的资源，首先需要使用 Cache-Control:no-cache 使浏览器每次都请求服务器，然后配合 ETag 或者 Last-Modified 来验证资源是否有效。这样的作法虽然不能节省请求数量，但是可以显著减少响应数据的大小</p>
+<h3 id="不常变动的资源"><a href="#不常变动的资源" class="headerlink" title="不常变动的资源"></a>不常变动的资源</h3><p>Cache-Control:max-age = 31356000</p>
+<p>通常处理这类资源时，给他们的 Cache-Control 配置一个很大的 max-age= 31536000(一年)，这样浏览器之后请求相同 Url 会命中强制缓存。而为了解决更新的问题，就需要在文件名中添加 hash 版本号等动态字符，之后更改为动态字符，从而达到更改引用 URL 的目的让之前的强制缓存失效(其实并未立即消失，只是暂时不再使用而已)</p>
+<h2 id="用户行为对浏览器缓存的影响"><a href="#用户行为对浏览器缓存的影响" class="headerlink" title="用户行为对浏览器缓存的影响"></a>用户行为对浏览器缓存的影响</h2><p>指的就是用户再浏览器操作时，会触发怎样的缓存策略。主要有三种</p>
+<ul>
+<li>打开网页，地址输入 URL:查找 <code>disk cache</code> 中是否有匹配。如有则使用，没有则发送网络请求。</li>
+<li>普通刷新(F5) 因为 tab 页没有关闭，因此 <code>memory cache</code>是可用的，会被优先使用(如果匹配的话)，其次才是 disk cache</li>
+<li>强制刷新( Ctrl + F5): 浏览器不使用缓存，因此发送请求的头部均带有 <code>Cache-control:no-cache</code> ( 为了兼容，还带了 Pargam:no-cache),服务器直接返回 200 和最新内容。</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/07/10/%E8%AF%B7%E6%B1%82%E5%88%B0%E8%BE%BEweb%E6%9C%8D%E5%8A%A1%E5%99%A8/" data-id="cl1wzn6ys000xigdx7piq7w20" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" data-id="cl6rluu790033t0dx6a3g2qj3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -570,12 +573,16 @@
 
 
   
-    <article id="post-TCP" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-面试/作用域-作用域链" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/07/06/TCP/" class="article-date">
-  <time datetime="2021-07-06T02:47:04.000Z" itemprop="datePublished">2021-07-06</time>
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.719Z" itemprop="datePublished">2022-04-13</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -584,7 +591,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/07/06/TCP/">TCP</a>
+      <a class="article-title" href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a>
     </h1>
   
 
@@ -592,16 +599,254 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><p>  只要我们知道另一位伙伴B 的 IP 地址，且之间的网络是通的，无论多远，你都可以将一个数据包发送给另外一个人<br>  <img src="/2021/07/06/TCP/02.png" alt><br>    <code>这是 物理层、数据链路层、网络层这三层所做的事情。</code><br>  站在第四层，可以利用下三层所做的铺垫，可以随心所欲的发送数据。这层是 <code>传输层</code><br>  <img src="/2021/07/06/TCP/01.gif" alt></p>
-<p>  前三层协议只能把数据包从一个主机搬到另外一台主机，但是到了目的地以后，数据包具体交给哪个<code>程序</code>(进程)<br>  <img src="/2021/07/06/TCP/03.png" alt><br>  因此需要将通信进程区分开来，于是就给每一个进程分配一个数字编号即 <code>端口号</code>。<br>  <img src="/2021/07/06/TCP/04.jpg" alt></p>
-<p>  发送的数据包上，增加了传输层的头部，<code>源端口号与目标端口号</code><br>  <img src="/2021/07/06/TCP/05.png" alt></p>
-<p>  这样原本是主机与主机的通信，升级为了<code>进程和进程之间的通信</code>，<br>  使用 UDP 协议无忧无虑地同 B 进行通信，一直没有问题，但是由于网络不可靠，数据包可能在半路丢失，而 A 和 B 却无法察觉。<br>  <img src="/2021/07/06/TCP/06.gif" alt><br>  对于丢包，只要解决两个事<br>    - A 怎么知道包丢了 (让 B 告诉 A)<br>    - 丢了包怎么办 (重传)<br>  因此设计了如下方案： A 每发送一个包，都必须收到来自B 的确认(ACK),再发下一个，否则在一定时间内没有收到确认，就<code>重传</code>这个包,这个方案叫 <code>停止等待协议</code> 。按照这个方法虽然A 无法保证B y一定能收到包 但A 一定能够确认B 是否收到了包，收不到就重试，尽最大努力让这个通信过程变得可靠。<br>  <img src="/2021/07/06/TCP/02.gif" alt></p>
-<p>  但是等待虽然能解决问题，但是效率太低了</p>
+        <h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><p>作用域是运行时代码的某些特定部分中变量，函数和对象的可访问性。即作用域决定了代码区块中变量和其他资源的可见性。<br>函数作用域在函数定义的时候就决定了。函数内部有个内部属性[[scope]],当函数创建的时候，就会保存所有父变量对象到其中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function outFun2()&#123;</span><br><span class="line">  var inVariable &#x3D; &#39;内层变量2&#39;</span><br><span class="line">&#125;</span><br><span class="line">outFun2()</span><br><span class="line">console.log(inVariable)  &#x2F;&#x2F; Uncaught ReferenceError: inVariable is not defined</span><br></pre></td></tr></table></figure>
+
+<p>作用域最大的用处是隔离变量，不同作用域下同名变量不会有冲突。Es6 之前 JavaScript 没有块级作用域，只有全局作用域和函数作用域。</p>
+<h2 id="全局作用域和函数作用域"><a href="#全局作用域和函数作用域" class="headerlink" title="全局作用域和函数作用域"></a>全局作用域和函数作用域</h2><ul>
+<li><p>最外层的函数和在最外层函数外面定义的变量拥有全局作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var outVariable &#x3D; &#39;我是最外层变量&#39;</span><br><span class="line">function outFun() &#123;</span><br><span class="line">  var inVariable &#x3D; &#39;内层变量&#39;;</span><br><span class="line">  function innerFun() &#123;</span><br><span class="line">    console.log(inVariable)</span><br><span class="line">  &#125;</span><br><span class="line">  innerFun()</span><br><span class="line">&#125;</span><br><span class="line">console.log(outVariable)   &#x2F;&#x2F; 我是外层变量</span><br><span class="line">outFun()                   &#x2F;&#x2F; 内层变量</span><br><span class="line">console.log(inVariable)    &#x2F;&#x2F; inVariable is not defined</span><br><span class="line">innerFun()                 &#x2F;&#x2F; innerFun is not defined</span><br></pre></td></tr></table></figure></li>
+<li><p>所有未定义直接赋值的变量自动声明为拥有全局作用域</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function outFun2()&#123;</span><br><span class="line">  variable &#x3D; &#39;未定义直接赋值的变量&#39;;</span><br><span class="line">  var inVariable2 &#x3D; &#39;内层变量2&#39;</span><br><span class="line">&#125;</span><br><span class="line">outFun2()</span><br><span class="line">console.log(variable)      &#x2F;&#x2F; 未定义直接赋值的变量</span><br><span class="line">console.log(inVariable2)   &#x2F;&#x2F; inVariable2 is not defined</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>所有 window 对象的属性拥有全局作用域<br>一般情况下，window 对象的内置属性都拥有全局作用域，eg:window.name、window.location 等。</p>
+</li>
+</ul>
+<p>全局作用域有个弊端：如果我们写了很多行 JS 代码，变量定义都没有用函数包括，那么他们就全部都在全局作用域中。这样就会污染全局命名空间，容易起命名冲突。</p>
+<p>注意：全局作用域在页面打开时被创建，页面关闭时被销毁。</p>
+<h2 id="函数作用域"><a href="#函数作用域" class="headerlink" title="函数作用域"></a>函数作用域</h2><p>函数作用域，是指声明在函数内部的变量，和全局作用域相反，局部作用域一般只在固定的代码片段内可以访问到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function doSomeThing()&#123;</span><br><span class="line">  var blogName &#x3D; &#39;blogName&#39;</span><br><span class="line">  function innerSay()&#123;</span><br><span class="line">    alert(blogName)</span><br><span class="line">  &#125;</span><br><span class="line">  innerSay()</span><br><span class="line">&#125;</span><br><span class="line">console.log(blogName) &#x2F;&#x2F; blogName is not defined</span><br><span class="line">innerSay()            &#x2F;&#x2F; innerSay is not defined</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用函数时，函数作用域被创建，函数执行完毕，函数作用域被销毁。</li>
+<li>每调用一次函数就会创建一个新的函数作用域，他们之间是互相独立的。</li>
+<li>函数作用域中可以访问到全局作用域的变量，在函数外部无法访问函数内部的变量。</li>
+<li>在函数作用域中访问变量、函数会先在自身作用域中寻找，若是没有找到会到函数上一级作用域中寻找，一直到全局作用域，若是还没有找到返回 undefined。</li>
+<li>函数作用域中也有声明提前的特性，对于变量和函数都起作用。</li>
+<li>在函数中定义形参，等同于声明变量。</li>
+</ul>
+<p>作用域是分层的，内层作用域可以访问外层作用域的变量。</p>
+<h2 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h2><p>块级作用域可通过新增命令 let 和 const 声明，所声明的变量在指定块的作用域外无法被访问。</p>
+<ul>
+<li>块级作用域的特点<ul>
+<li>变量声明不会提前到代码顶部<br>let/const 声明并不会被提升到当前代码块的顶部，因此需要手动将 let/const 声明放置到顶部，以便让变量在整个代码块内部可用。</li>
+<li>禁止重复声明，如果一个标识符已经在代码块内声明过，那么在此代码块内使用同一个标进行 let 声明就会抛出错误。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var count &#x3D; 30</span><br><span class="line">let count &#x3D; 40  &#x2F;&#x2F; Uncaught SyntaxError: Identifier &#39;count&#39; has already been declare</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h1><h2 id="Scopr-Chain-作用域链"><a href="#Scopr-Chain-作用域链" class="headerlink" title="[[Scopr Chain]] 作用域链"></a>[[Scopr Chain]] 作用域链</h2><p>当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到就会从父级执行上下文的变量对象中查找，一直找到全局上下文的变量对象(全局对象)。这样由多个执行上下文的变量对象构成的链表就是作用域链。<br>根据在内部函数可以访问外部函数变量的这种机制，用链式查找决定哪些数据能被内部函数访问，这就时作用域链。</p>
+<h1 id="JS-执行环境"><a href="#JS-执行环境" class="headerlink" title="JS 执行环境"></a>JS 执行环境</h1><p>执行环境(Execution context，EC) 或执行上下文。分为三种( 全局执行环境、函数执行环境、eval()执行环境)<br>js 为每一个执行环境关联了一个变量对象。环境中定义的所有变量和函数都保存在这个对象中。</p>
+<h2 id="EC-的组成"><a href="#EC-的组成" class="headerlink" title="EC 的组成"></a>EC 的组成</h2><p>当 JavaScript 代码执行的时候，会进入不同的执行环境(执行上下文)，这些执行环境会构成了一个执行环境栈(执行上下文栈)(Execution context stack,ECS)<br><img src="https://segmentfault.com/img/bVbenRf?w=881&h=466" alt="执行环境"></p>
+<h3 id="变量对象-VO-和-活动对象-AO"><a href="#变量对象-VO-和-活动对象-AO" class="headerlink" title="变量对象(VO) 和 活动对象(AO)"></a>变量对象(VO) 和 活动对象(AO)</h3><p><code>变量对象(VO)</code>: 变量对象即包含变量的对象，除了我们无法访问它外，和普通对象没有区别。变量对象存储了在<code>上下文中定义的变量</code>和<code>函数声明</code>。</p>
+<p><code>活动对象(AO)</code>: 活动对象和变量对象是一个东西，变量对象是规范上的或者说是引擎上实现的，不可在 JavaScript 环境中访问，只有到当进入一个执行上下文中，这个执行上下文的变量对象才会被激活，activation object <code>只有被激活的变量对象，也就是活动对象上的各种属性才能被访问</code>。<br>活动对象是在进入函数执行环境时刻被创建的，它通过函数的 argument 属性初始化</p>
+<h3 id="执行环境"><a href="#执行环境" class="headerlink" title="执行环境"></a>执行环境</h3><p>全局执行环境是最外围的执行环境，全局执行环境被认为是 window 对象，因此所有的全局变量和函数都作为 window 对象的属性和方法创建的。<br>js 的执行顺序是根据函数的调用来决定的，当一个函数被调用时，该函数环境变量对象就被压入一个环境栈中。在函数执行之后，栈将该函数的变量对象弹出，把控制权交给之前的执行环境变量对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var scope &#x3D; &#39;global&#39;</span><br><span class="line">  function fn1()&#123;</span><br><span class="line">    return scope</span><br><span class="line">  &#125;</span><br><span class="line">  function fn2()&#123;</span><br><span class="line">    return scope</span><br><span class="line">  &#125;</span><br><span class="line">  fn1()</span><br><span class="line">  fn2()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://segmentfault.com/img/bVbenRt?w=1042&h=436" alt></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2021/07/06/TCP/" data-id="cl1wzn73i004cigdx8p5467k0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="cl6rluu760030t0dxcrdr97ry" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/从URL输入到页面展示" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.718Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/">从URL输入到页面展现涉及的知识。</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>总体分为六个过程</p>
+<ul>
+<li>DNS 解析：将域名解析成 IP 地址</li>
+<li>TCP 连接：TCP 三次握手</li>
+<li>发送 HTTP 请求</li>
+<li>服务器处理请求并返回 HTTP 报文</li>
+<li>浏览器解析渲染页面</li>
+<li>断开连接：TCP 四次挥手</li>
+</ul>
+<h1 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h1><p>URL (Unifrom Resource Locator)，统一资源定位符，用于定位互联网上资源，俗称网址。</p>
+<ul>
+<li><p>遵循的语法规则<br>scheme://host.domain:port/path/filename</p>
+<ul>
+<li>scheme - 定义因特网服务的类型。常见的协议有 http、https、ftp、file 其中最常见的类型是 http，而 https 则是进行加密的网络传输。</li>
+<li>host - 定义域主机(http 的默认主机是 www)</li>
+<li>domain - 定义因特网<code>域名</code>，eg: w3school.com.cn</li>
+<li>port - 定义主机上的端口号 (http 的默认端口号是 80)</li>
+<li>path - 定义服务器上的路径 (如果省略，则文档必须位于网站的根目录中)</li>
+<li>filename - 定义文档/资源的名称</li>
+</ul>
+</li>
+<li><p>URL 编码</p>
+<p>URL 只能使用 ASCII 字符集，不属于 ASCII 中的字符，都必须进行编码才能使用 URL 来进行表示，若传输时使用了特殊字符会造成不必要的问题，导致服务器不能解析。</p>
+<ul>
+<li>编码方法<br>使用 JavaScript 中 3 对方法进行 URL 的 编码/解码 <code>escape/unescape，encodeURI/decodeURI 和encodeURIComponent/decodeURIComponent</code>,<br>三者适用场合不同，<code>encodeURI</code> 用于对整个 URI 进行编码 <code>encodeURIComponent</code> 被用于对 URI 的一部份进行编码，通常是指查询字符串或路径。</li>
+</ul>
+</li>
+</ul>
+<h1 id="域名解析-DNS"><a href="#域名解析-DNS" class="headerlink" title="域名解析 (DNS)"></a>域名解析 (DNS)</h1><p>在浏览器输入网址后，首先要经过域名解析，浏览器并不能直接通过域名找到对应的服务器，而是通过 IP 地址</p>
+<h2 id="IP-地址"><a href="#IP-地址" class="headerlink" title="IP 地址"></a>IP 地址</h2><p>IP 地址是指互联网协议地址，是 IP Address 的缩写。 IP 地址是 IP 协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址，以此来屏蔽物理地址的差异。Ip 地址是一个 32 位的二进制数。</p>
+<p><code>域名相当于 IP 地址乔装打扮的伪装者，带着一副面具。作用就是便于记忆和沟通的一组服务器的地址。</code>与 Ip 地址的一组纯数字相比，用字母配合数字的表示形式来指定计算机名更符合人类的记忆习惯，但要计算机去理解就相对变得的困难，为了解决这个问题,DNS 服务器应运而生。</p>
+<h2 id="什么是域名解析"><a href="#什么是域名解析" class="headerlink" title="什么是域名解析"></a>什么是域名解析</h2><p>DNS 协议提供通过域名查找 IP 地址，或逆向从 IP 地址反查域名的服务，DNS 是一个网络服务器，我们的域名解析简单来说就是在 DNS 上记录一条信息。</p>
+<h2 id="浏览器如何通过域名去查询-URL-对应的-IP"><a href="#浏览器如何通过域名去查询-URL-对应的-IP" class="headerlink" title="浏览器如何通过域名去查询 URL 对应的 IP"></a>浏览器如何通过域名去查询 URL 对应的 IP</h2><ul>
+<li>浏览器缓存：浏览器会按照一定的频率缓存 DNS 记录。</li>
+<li>操作系统缓存：如果浏览器缓存中找不到需要的 DNS 记录，那就从操作系统中找。</li>
+<li>路由缓存： 路由器也有 DNS 缓存。</li>
+<li>ISP 的 DNS 服务器：ISP 是互联网提供商 (Internet Service Provider)的简称，ISP 有专门的 DNS 服务器应对 DNS 查询请求。</li>
+<li>根服务器：ISP 的 DNS 服务器还找不到的话，它就会向根服务器发出请求，进行递归查询 (DNS 服务先问根域名服务器.com 域名服务器的 IP 地址，然后再问 .baidu 域名服务器，依次类推)</li>
+</ul>
+<p><code>浏览器通过向 DNS 服务器发送域名，DNS 服务器查询到与域名相对应的 IP 地址，然后返回给浏览器，浏览器再将 IP 地址打在协议上，同时请求参数也会在协议搭载，然后一并发送给对应的服务器。</code></p>
+<h1 id="TCP-三次握手"><a href="#TCP-三次握手" class="headerlink" title="TCP 三次握手"></a>TCP 三次握手</h1><p>三次握手其实就是指建立一个 TCP 连接时，需要客户端和服务器端总共发送三个包。进行三次握手的主要目的是为了确认双方的接收能力和发送能力是否正常，指定自己的初始化序列号为后面的可靠性传送做准备。<br>在客户端发送数据之前会发起 TCP 三次握手用以同步客户端和服务端的序列号和确认号，并交换 TCP 窗口大小信息。</p>
+<h3 id="握手过程"><a href="#握手过程" class="headerlink" title="握手过程"></a>握手过程</h3><p>刚开始客户端处于 closed 的状态，服务器处于 Listen 状态。</p>
+<ul>
+<li>第一次握手：客户端给服务端发一个 SYN 报文，并指明客户端的初始化序列号 ISN。此时客户端处于 SYN_Send 状态</li>
+<li>第二次握手：服务器收到客户端的 SYN 报文之后，会以自己的 SYN 作为应答，并且也是指定了自己的初始化序列号 ISN，同时会把客户端的 ISN+1 作为 ACK 的值，表示已经收到了客户端的 SYN，此时服务器处于 SYN_REVD 的状态</li>
+<li>第三次握手：客户端收到 SYN 报文之后，会发送一个 ACK 报文，把服务器 ISN+1 作为 ACK 的值。表示已经收到了服务端的 SYN 报文，此时客户端处于 establised 状态。</li>
+<li>服务器收到 ACK 报文之后，也处于 establised 状态。<br><img src="https://user-gold-cdn.xitu.io/2019/4/10/16a074b331fb0d85?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt></li>
+</ul>
+<p>注意点：解释一下为啥只有三次握手才能确认双方的接受与发送能力是否正常，而两次却不可以：<br>第一次握手：客户端发送网络包，服务端收到了。这样服务端就能得出结论：客户端的发送能力、服务端的接收能力是正常的。<br>第二次握手：服务端发包，客户端收到了。这样客户端就能得出结论：服务端的接收、发送能力，客户端的接收、发送能力是正常的。不过此时服务器并不能确认客户端的接收能力是否正常。<br>第三次握手：客户端发包，服务端收到了。这样服务端就能得出结论：客户端的接收、发送能力正常，服务器自己的发送、接收能力也正常。</p>
+<h1 id="发送-HTTP-请求"><a href="#发送-HTTP-请求" class="headerlink" title="发送 HTTP 请求"></a>发送 HTTP 请求</h1><p>http 请求报文由请求行(request line)、请求头(header)、请求体、空行(blank line)四部分组成。</p>
+<ul>
+<li>请求行包含请求方法、URL、协议版本<ul>
+<li>请求方法包含 8 种:get、post、put、delete、patch、head、options、trace<ul>
+<li>get 请求<br>数据是英文字母/数字，原样发送；如果是空格，转换为 + ；如果是中文/其他字符，则直接把字符串用 BASE64 加密,得出：%E4%BD，其中%XX 中的 XX 为该字符号以 16 进制表示的 ASCII。</li>
+<li>post 请求</li>
+</ul>
+</li>
+<li>URL 即请求地址，由&lt;协议&gt;://&lt;主机&gt;:&lt;端口&gt;/&lt;路径&gt;?&lt;参数&gt; 组成</li>
+<li>协议版本即 http 版本号。</li>
+</ul>
+</li>
+<li>请求头包含请求附加信息，由关键字/值对组成每行一对，关键字和值用英文冒号分隔。<br>请求头部通知服务器有关于客户端请求的信息。它包含许多有关的客户端环境和请求正文的有用信息。eg:host，表示主机名，使用 keepalive,即持久连接，一个连接可以发多个请求；</li>
+<li>请求体，可以承载多个请求参数的数据，包含回车符、换行符、和请求数据。</li>
+</ul>
+<p><img src="https://segmentfault.com/img/bVQL82?w=594&h=232" alt="http请求报文格式"></p>
+<h1 id="服务器处理请求并返回-HTTP-报文"><a href="#服务器处理请求并返回-HTTP-报文" class="headerlink" title="服务器处理请求并返回 HTTP 报文"></a>服务器处理请求并返回 HTTP 报文</h1><h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><p>服务器是网络环境中的高性能计算机，它侦听网络上的其他计算机(客户机)提交的服务请求，并提供响应的服务，eg:网页服务、文件下载、邮件服务、视频服务。客户端的主要功能是浏览网页、看视频、等等两者截然不同。每台服务器上都会安装处理请求的应用————web server .<br><code>web server 担任管控的角色</code>，对于不同用户发送的请求，会结合配置文件，把不同请求委托给服务器上处理相应请求的程序进行处理，然后返回后台程序处理产生的结果作为响应。</p>
+<h1 id="浏览器解析渲染页面"><a href="#浏览器解析渲染页面" class="headerlink" title="浏览器解析渲染页面"></a>浏览器解析渲染页面</h1><p>浏览器解析渲染页面分为五个步骤</p>
+<ul>
+<li>根据 HTML 解析出 DOM 树</li>
+<li>根据 CSS 解析生成 CSS 规则树</li>
+<li>结合 DOM 树和 CSS 规则树，生成渲染树</li>
+<li>根据渲染树计算每一个节点是信息</li>
+<li>根据计算好的信息绘制页面</li>
+</ul>
+<h2 id="根据-HTML-解析出-DOM-树"><a href="#根据-HTML-解析出-DOM-树" class="headerlink" title="根据 HTML 解析出 DOM 树"></a>根据 HTML 解析出 DOM 树</h2><ul>
+<li>根据 HTML 的内容，将标签按照结构解析成为 DOM 树，DOM 树解析的过程是一个深度优先遍历。即先构建当前节点的所有子节点，再构建下一个兄弟节点。</li>
+<li>在读取 HTML 文档，构建 DOM 树的过程中，若遇到 script 标签，则 DOM 树的构建会暂停，直至脚本执行完毕。</li>
+</ul>
+<h2 id="根据-CSS-解析生成-CSS-规则树"><a href="#根据-CSS-解析生成-CSS-规则树" class="headerlink" title="根据 CSS 解析生成 CSS 规则树"></a>根据 CSS 解析生成 CSS 规则树</h2><ul>
+<li>解析 CSS 规则树时 js 执行将暂停，直至 CSS 规则树就绪。</li>
+<li>浏览器在 CSS 规则树生成之前不会进行渲染。</li>
+</ul>
+<h2 id="结合-DOM-树和-CSS-规则树，生成渲染树"><a href="#结合-DOM-树和-CSS-规则树，生成渲染树" class="headerlink" title="结合 DOM 树和 CSS 规则树，生成渲染树"></a>结合 DOM 树和 CSS 规则树，生成渲染树</h2><ul>
+<li>DOM 树和 CSS 规则树全部准备好了以后，浏览器才开始构建渲染树。</li>
+<li>精简 CSS 并可以加快 CSS 规则树的构建，从而加快页面相应速度。</li>
+</ul>
+<h2 id="根据渲染树计算每一个节点的信息-布局"><a href="#根据渲染树计算每一个节点的信息-布局" class="headerlink" title="根据渲染树计算每一个节点的信息(布局)"></a>根据渲染树计算每一个节点的信息(布局)</h2><ul>
+<li>布局：通过渲染树中渲染对象的信息，计算出每一个渲染对象的位置和尺寸。</li>
+<li>回流：在布局完成后，发现了某个部分发生了变化影响了布局，那就需要倒回去重新渲染。</li>
+</ul>
+<h2 id="根据计算好的信息绘制页面"><a href="#根据计算好的信息绘制页面" class="headerlink" title="根据计算好的信息绘制页面"></a>根据计算好的信息绘制页面</h2><ul>
+<li>绘制阶段：系统会遍历呈现树，并调用呈现器的”paint”方法，将呈现器的内容显示在屏幕上。</li>
+<li>重绘：某个元素的背景颜色，文字颜色等，不影响元素周围或内部布局的属性，将只会引起浏览器的重绘。</li>
+<li>回流：某个元素的尺寸发生了变化，则需要重新计算渲染树，重新渲染。</li>
+</ul>
+<h1 id="断开连接"><a href="#断开连接" class="headerlink" title="断开连接"></a>断开连接</h1><p>当数据传送完毕，需要断开 tcp 连接，此时发起 tcp 四次挥手。</p>
+<ul>
+<li>发起方向被动方发送报文，Fin、Ack、Seq，表示已经没有数据传输了。并进入 FIN_WAIT_1 状态。(第一次挥手：由浏览器发起的，发送给服务器，我请求报文发送完了，你准备关闭吧)</li>
+<li>被动方发送报文，Ack、Seq，表示同意关闭请求。此时主机发起方进入 FIN_WAIT_2 状态。(第二次挥手：由服务器发起的，告诉浏览器，我请求报文接受完了，我准备关闭了，你也准备吧)</li>
+<li>被动方向发起方发送报文段，Fin、Ack、Seq，请求关闭连接。并进入 LAST_ACK 状态。(第三次挥手：由服务器发起，告诉浏览器，我响应报文发送完了，你准备关闭吧)</li>
+<li>发起方向被动方发送报文段，Ack、Seq。然后进入等待 TIME_WAIT 状态。被动方收到发起方的报文段以后关闭连接。发起方等待一定时间未收到回复，则正常关闭。(第四次挥手：由浏览器发起，告诉服务器，我响应报文接受完了，我准备关闭了，你也准备吧)</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" data-id="cl6rluu74002xt0dxa5k4a1hv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-面试/vue路由模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.716Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>►<a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/13/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/">路由模式原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="路由的实现"><a href="#路由的实现" class="headerlink" title="路由的实现"></a>路由的实现</h2><p>前端路由的实现：本质上是检测 url 的变化，截获 url 地址，然后解析来匹配路由规则。但是 url 每次变化都会刷新页面，页面刷新 JavaScript 怎么检测和截获 url?2014 年之前，大家是通过 hash 来实现路由 url hash 类似于 <code>https://ssss.com/a/#file</code> <code>#</code> 后面 hash 值的变化，并不会导致浏览器向服务器发出请求，也就不会刷新页面，而 hash 值的变化都会触发 <code>hashchange</code>事件，通过这个事件我们就可以知道 hash 值发生了那些改变。</p>
+<p>14 年后，HTML5 标准发布，多了两个 API <code>pushState 和 replaceState</code>,通过两个 API 可以改变 url 地址且不会发送请求。还有 <code>onpopstate</code>事件。用了 HTMl5 的实现，单页路由的 url 就不会多出一个 <code>#</code> 变得更加美观。但没有 # 所以当用户刷新页面之类的操作时，浏览器还是会给服务器发送请求，需要后台配置支持因为是单页面应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>htpp://oursit.com/user/id</code>就会返回 404</p>
+<p>所以要在服务端增加一个覆盖所有情况的候选资源：如果 url 匹配不到任何静态资源，则应该返回一个 <code>index.html</code> ,这个 页面就是你 app 依赖的页面。</p>
+<h2 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a>hash 模式</h2><p>hash 模式的工作原理是 hashchange 事件，可以在 window 监听 hash 的变化。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">window.onhashchange &#x3D; function(event)&#123;</span><br><span class="line">  console.log(event)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有两个属性 newURL 和 oldURL。根据 hash 值的变化加载对应的动态页面数据。</p>
+<h2 id="history-模式"><a href="#history-模式" class="headerlink" title="history 模式"></a>history 模式</h2><p>HTML5 新增的 API</p>
+<ul>
+<li>history.pushState():往历史记录堆栈顶部添加一条记录</li>
+<li>history.replaceState():更改当前的历史记录。</li>
+<li>history.state: 用于存储以上方法的 data 数据</li>
+<li>window.onpopstate : 响应 pushState 或 replaceState 的调用</li>
+</ul>
+<p>当使用 history 模式时，还需要后台配置支持，因为我们的应用是单页面应用，如果后台没有正确的配置，当用户在浏览器直接访问 <code>http://www.xxxxxx/detail</code> 就会返回 404 。所以需要在服务器增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html。服务器就不在返回 404 错误页面，因为会对所有路径返回 index.html 文件。为了避免这种情况，应该在 Vue 应用里面覆盖所有的路由情况，然后给出一个 404 页面。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/%E9%9D%A2%E8%AF%95/vue%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F/" data-id="cl6rluu75002zt0dxa6hca63a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -626,7 +871,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
     </div>
   </div>
 
@@ -641,7 +886,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">February 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">June 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">May 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">April 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
   </div>
 
@@ -654,23 +899,23 @@
       <ul>
         
           <li>
-            <a href="/2022/03/14/TypeScript/ts/">TypeScript</a>
+            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
           </li>
         
           <li>
-            <a href="/2022/02/22/webpack/webpack/">webpack</a>
+            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
           </li>
         
           <li>
-            <a href="/2021/12/25/%E6%AD%A3%E5%88%99/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点,</a>
+            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
           </li>
         
           <li>
-            <a href="/2021/11/26/es6/Symbol/">Symbol,</a>
+            <a href="/2022/04/13/TypeScript/ts/">TypeScript</a>
           </li>
         
           <li>
-            <a href="/2021/11/25/es6/%E6%96%B0%E5%A2%9E%E8%BF%90%E7%AE%97%E7%AC%A6/">运算符的扩展,</a>
+            <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
           </li>
         
       </ul>

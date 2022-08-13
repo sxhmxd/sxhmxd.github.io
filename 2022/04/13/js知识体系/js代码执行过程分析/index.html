@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JS代码执行过程分析 | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="解释型语言和编译型语言 编译型语言，编译步骤分为：词法分析、语法分析、语义检查、代码优化和字节生成。 解释型语言：通过词法分析和语法分析得到抽象语法树后，就开始解释执行，  js 的解释执行js  作为一门解释性语言，其运行过程分为 预解析 和 自上而下逐行解释执行 两个过程。包括的步骤  词法分析、语法分析、预编译、执行 词法分析  词法分析器的作用，是将一行行的源码拆解成一个个词义单位(tok">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS代码执行过程分析">
+<meta property="og:url" content="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="解释型语言和编译型语言 编译型语言，编译步骤分为：词法分析、语法分析、语义检查、代码优化和字节生成。 解释型语言：通过词法分析和语法分析得到抽象语法树后，就开始解释执行，  js 的解释执行js  作为一门解释性语言，其运行过程分为 预解析 和 自上而下逐行解释执行 两个过程。包括的步骤  词法分析、语法分析、预编译、执行 词法分析  词法分析器的作用，是将一行行的源码拆解成一个个词义单位(tok">
+<meta property="og:locale" content="zh">
+<meta property="article:published_time" content="2022-04-13T07:41:30.856Z">
+<meta property="article:modified_time" content="2022-04-13T07:41:30.857Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js知识体系/js代码执行过程分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="article-date">
+  <time datetime="2022-04-13T07:41:30.856Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a>►<a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS代码执行过程分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="解释型语言和编译型语言"><a href="#解释型语言和编译型语言" class="headerlink" title="解释型语言和编译型语言"></a>解释型语言和编译型语言</h2><ul>
+<li>编译型语言，编译步骤分为：词法分析、语法分析、语义检查、代码优化和字节生成。</li>
+<li>解释型语言：通过词法分析和语法分析得到抽象语法树后，就开始解释执行，</li>
+</ul>
+<h2 id="js-的解释执行"><a href="#js-的解释执行" class="headerlink" title="js 的解释执行"></a>js 的解释执行</h2><p>js  作为一门解释性语言，其运行过程分为 <code>预解析</code> 和 <code>自上而下逐行解释执行</code> 两个过程。包括的步骤<br>  词法分析、语法分析、预编译、执行</p>
+<h3 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h3><p>  词法分析器的作用，是将一行行的源码拆解成一个个词义单位(token)，词义单位指的是语法上不可能再分的、最小的单个字符或字符组合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; 2 </span><br><span class="line">function addA()&#123;</span><br><span class="line">  return a </span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 词法分析后的结果</span><br><span class="line">[</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Keyword&quot;,&quot;value&quot;:&quot;var&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Identifier&quot;,&quot;value&quot;:&quot;a&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;&#x3D;&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Numeric&quot;,&quot;value&quot;:&quot;2&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;;&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Keyword&quot;,&quot;value&quot;:&quot;function&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Identifier&quot;,&quot;value&quot;:&quot;addA&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;(&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;)&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;&#123;&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Keyword&quot;,&quot;value&quot;:&quot;return&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Identifier&quot;,&quot;value&quot;:&quot;a&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;;&quot;&#125;,</span><br><span class="line">  &#123;&quot;type&quot;:&quot;Punctuator&quot;,&quot;value&quot;:&quot;&#125;&quot;&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h3><p>  js引擎要读的是抽象语法树<br>  语法分析将上一步生成的数组，根据语法规则，转为抽象语法树(AST)。如果源码符合语法规则，这一步就会顺利完成，生成一个抽象语法树；如果源码存在语法错误，这一步就会终止，抛出一个”语法错误”，并结束整个代码块的解析。</p>
+<p>这个阶段主要做了两件事情</p>
+<ul>
+<li><p>确定作用域，根据静态作用域的特点，这个时候每个变量的作用域已经很明确了，不会再改变</p>
+</li>
+<li><p>记录每个作用域的所有变量和内嵌函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">  var a &#x3D; 2</span><br><span class="line">  function addA() &#123;</span><br><span class="line">    return a </span><br><span class="line">  &#125;</span><br><span class="line">  &#x2F;&#x2F; 生成的抽象语法树</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;Program&quot;,</span><br><span class="line">  &quot;body&quot;: [</span><br><span class="line">      &#123;</span><br><span class="line">          &quot;type&quot;: &quot;VariableDeclaration&quot;,</span><br><span class="line">          &quot;declarations&quot;: [</span><br><span class="line">              &#123;</span><br><span class="line">                  &quot;type&quot;: &quot;VariableDeclarator&quot;,</span><br><span class="line">                  &quot;id&quot;: &#123;</span><br><span class="line">                      &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">                      &quot;name&quot;: &quot;a&quot;</span><br><span class="line">                  &#125;,</span><br><span class="line">                  &quot;init&quot;: &#123;</span><br><span class="line">                      &quot;type&quot;: &quot;Literal&quot;,</span><br><span class="line">                      &quot;value&quot;: 2,</span><br><span class="line">                      &quot;raw&quot;: &quot;2&quot;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          ],</span><br><span class="line">          &quot;kind&quot;: &quot;var&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">          &quot;type&quot;: &quot;FunctionDeclaration&quot;,</span><br><span class="line">          &quot;id&quot;: &#123;</span><br><span class="line">              &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">              &quot;name&quot;: &quot;addA&quot;</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;params&quot;: [],</span><br><span class="line">          &quot;body&quot;: &#123;</span><br><span class="line">              &quot;type&quot;: &quot;BlockStatement&quot;,</span><br><span class="line">              &quot;body&quot;: [</span><br><span class="line">                  &#123;</span><br><span class="line">                      &quot;type&quot;: &quot;ReturnStatement&quot;,</span><br><span class="line">                      &quot;argument&quot;: &#123;</span><br><span class="line">                          &quot;type&quot;: &quot;Identifier&quot;,</span><br><span class="line">                          &quot;name&quot;: &quot;a&quot;</span><br><span class="line">                      &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">              ]</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;generator&quot;: false,</span><br><span class="line">          &quot;expression&quot;: false,</span><br><span class="line">          &quot;async&quot;: false</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;sourceType&quot;: &quot;scr</span><br></pre></td></tr></table></figure>
+<h3 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h3><p>预编译是指 JS 引擎再执行一个函数时，会创建对应的 <code>执行上下文</code> ，它根据抽象语法树做的一些’准备工作’。这个过程包括</p>
+<ul>
+<li>创建变量对象<ul>
+<li>创建 arguments 对象，同名的实参，形参和变量之间是 引用 关系。</li>
+<li>从语法分析树中复制作用域内的内嵌函数作为属性，key 为函数name,属性值为函数的内存地址。</li>
+<li>从语法分析树中复制作用域内所有变量 作为属性，key 为变量名称，此时变量值全部为 undefined ，若变量和函数存在同名，则跳过</li>
+</ul>
+</li>
+<li>创建作用域链，根据语法分析树中函数对应的作用域，结合当前环境的变量对象和上层环境的一系列变量对象组成</li>
+<li>确定this 指向。<br>全局上下文的时候，变量对象就是全局对象 window,this也指向 window </li>
+</ul>
+<h3 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h3><p>开始执行后，执行上下文中的变量对象转换为活动对象，可以执行一些列的操作。</p>
+<ul>
+<li>变量赋值，查找规则是先找自身作用域，找不到就在作用域上查找</li>
+<li>函数作用域</li>
+<li>执行其他代码</li>
+<li>执行结束，内存回收<br><code>代码执行结束后，函数内变量的生存周期取决于函数实例是否存在引用，如果没有就销毁活动对象</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="执行上下文"><a href="#执行上下文" class="headerlink" title="执行上下文"></a>执行上下文</h3><p>  执行上下文就是当前 JavaScript 代码被解析和执行时所在环境的抽象概念，JavaScript 中运行任何的代码都是在执行上下文中运行。<br>  每当控制器转到可执行代码的时候，就会进入一个执行上下文。执行上下文可以理解为当前代码的执行环境，它会形成一个作用域。JavaScript 中的运行环境大概包括三种情况<br>    - 全局执行上下文: JavaScript 代码运行起来会首先进入该环境，是最基础的执行上下文。不在任何函数中的代码都位于全局执行上下文中。<br>      做了两件事<br>        - 创建全局对象，在浏览器中这个全局对象就是 window 对象<br>        - 将this指针指向这个全局对象。一个程序中只能存在一个全局执行上下文。<br>    - 函数执行上下文: 每次调用函数时，都会为该函数创建一个新的执行上下文。每个函数都拥有自己的执行上下文，<br>    - eval</p>
+<h4 id="执行上下文的生命周期"><a href="#执行上下文的生命周期" class="headerlink" title="执行上下文的生命周期"></a>执行上下文的生命周期</h4><p>  执行上下文的生命周期包括三个阶段：创建阶段 –&gt; 执行阶段 –&gt; 回收阶段</p>
+<ul>
+<li><p>创建阶段</p>
+<ul>
+<li>创建变量对象：首先初始化函数的参数 arguments，提升函数声明和变量声明。</li>
+<li>创建作用域链：在执行期上下文的创建阶段，作用域链是在变量对象之后创建的。作用域链本身包含变量对象。作用域链拥有解析变量。当被要求解析变量时，JavaScript 始终从代码嵌套的最内层开始，如果最内层没有找到变量，就会跳到上一层父作用域中查找，直到找到该变量。</li>
+<li>确定this指向</li>
+<li>变量对象(Variable Object)<br>在执行上下文创建阶段会生成变量对象，生成变量对象主要有三个过程</li>
+</ul>
+</li>
+<li><p>检索当前上下文中的参数。该过程生成Arguments 对象，并建立以形参变量名为属性名，形参变量值为属性值的属性</p>
+</li>
+<li><p>检索当前上下文中的函数声明，该过程建立以函数名为属性名，函数所在内存地址引用为属性的值的属性</p>
+</li>
+<li><p>检索当前上下文中的变量声明。该过程建立以变量名为属性名，undefined 为属性值的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">VO &#x3D; &#123;</span><br><span class="line">  Arguments:&#123;&#125;,</span><br><span class="line">  ParamVariable: 具体值  &#x2F;&#x2F; 形参变量</span><br><span class="line">  Function: &lt;Function reference&gt;,</span><br><span class="line">  Variable: undefined</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当执行上下文进入执行阶段后，变量对象会变为<code>活动对象(Active Object)</code>此时原先声明的变量会被赋值。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" data-id="cl6rluu6p002ft0dxeoocczyv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          js 语言的三大特性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/04/13/jsType/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">js 数据类型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/TypeScript/ts/">TypeScript</a>
+          </li>
+        
+          <li>
+            <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
