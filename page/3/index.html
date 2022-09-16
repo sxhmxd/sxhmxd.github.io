@@ -64,6 +64,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-前端存储" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/04/13/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" class="article-date">
+  <time datetime="2022-04-13T07:41:31.348Z" itemprop="datePublished">2022-04-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/13/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/">前端存储</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h1><p>HTTP Cookie (也叫 Web Cookie 或浏览器 Cookie) 是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一个服务器再发起请求时被携带并发送到服务器上，它用于告知服务端两个请求是否来自同一浏览器。</p>
+<ul>
+<li><p>Cookie 的作用主要有三个</p>
+<ul>
+<li>会话状态管理 (eg:用户登录状态、购物车、游戏分数)</li>
+<li>个性化设置 (eg:用户自定义设置、主题等)</li>
+<li>浏览器行为跟踪 (eg:跟踪分析用户行为)</li>
+</ul>
+</li>
+<li><p>Cookie 的特点</p>
+<ul>
+<li>Cookie 的大小受限制，一般为 4 KB;</li>
+<li>同一域名下存放 Cookie 的个数值有限制的，不同的浏览器的个数不一样，一般为 20 个;</li>
+<li>Cookie 支持设置过期时间，过期后自动销毁;</li>
+<li>每次发起同域下的 HTTP 请求时，都会携带当前域名下的 Cookie;</li>
+<li>支持设置为 HttpOnly,防止 Cookie 被客户端的 JavaScript 访问。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;设置 Cookie</span><br><span class="line">document.cookie &#x3D; &quot;name&#x3D;semlinker&quot;;</span><br><span class="line">document.cookie &#x3D; &quot;favorite_food&#x3D;tripe&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;获取指定名字的cookie</span><br><span class="line">document.cookie &#x3D; &quot;test1&#x3D;Hello&quot;;</span><br><span class="line">document.cookie &#x3D; &quot;test2&#x3D;World&quot;;</span><br><span class="line">var myCookie &#x3D; document.cookie</span><br><span class="line">.replace(&#x2F;(?:(?:^|._;\s_)test2\s*\&#x3D;\s*([^;]_)._$)|^.*$&#x2F;, &quot;\$1&quot;);</span><br><span class="line">alert(myCookie); &#x2F;&#x2F; World</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="localStorage"><a href="#localStorage" class="headerlink" title="localStorage"></a>localStorage</h1><p>一种持久化的存储方式，不手动清除，数据就永远不会过期。采用键值对的方式存储数据，按域名将数据分别保存到对应的数据库文件里。</p>
+<ul>
+<li>localStorage 的特点：<ul>
+<li>大小限制为 5MB~10MB;</li>
+<li>在同源的所有标签页和窗口之间共享数据；</li>
+<li>数据保存在客户端，不与服务器进行通信；</li>
+<li>数据持久化存在且不会过期，重启浏览器后仍然存在；</li>
+<li>对数据的操作是同步的。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过setItem()增加一个数据项</span><br><span class="line">localStorage.setItem(&#39;myName&#39;, &#39;Semlinker&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过getItem()获取某个数据项</span><br><span class="line">let me &#x3D; localStorage.getItem(&#39;myName&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过removeItem()移除某个数据项</span><br><span class="line">localStorage.removeItem(&#39;myName&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 移除所有数据项</span><br><span class="line">localStorage.clear();</span><br></pre></td></tr></table></figure>
+
+<h1 id="sessionStorage"><a href="#sessionStorage" class="headerlink" title="sessionStorage"></a>sessionStorage</h1><p>sessionStorage 是一种会话级别的缓存，关闭浏览器时数据会被清除。sessionStorage 的作用域是窗口级别的，不同窗口之间保存的 sessionStorage 数据是不能共享的。</p>
+<ul>
+<li>sessionStorage 的特点<ul>
+<li>sessionStorage 的数据只存在于当前浏览器的标签页；</li>
+<li>数据在刷新后依然存在，但是关闭浏览器标签页之后数据就会被清除；</li>
+<li>对数据的操作是同步的。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 通过setItem()增加一个数据项</span><br><span class="line">sessionStorage.setItem(&#39;myName&#39;, &#39;Semlinker&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过getItem()获取某个数据项</span><br><span class="line">let me &#x3D; sessionStorage.getItem(&#39;myName&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过removeItem()移除某个数据项</span><br><span class="line">sessionStorage.removeItem(&#39;myName&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 移除所有数据项</span><br><span class="line">sessionStorage.clear();</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/04/13/%E5%89%8D%E7%AB%AF%E5%AD%98%E5%82%A8/" data-id="cl83x4csm000twgdx7yu327ua" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-前端使用代码编辑器" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2022/04/13/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" class="article-date">
@@ -90,7 +170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cl77ibp9b001rbwdxazrfafaf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E7%BC%96%E8%BE%91%E5%99%A8/" data-id="cl83x4csn000vwgdxh150654s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -197,7 +277,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="cl77ibp9g001tbwdx75wo5jgt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E5%86%8D%E7%9C%8BJS%E9%AB%98%E7%BA%A7/" data-id="cl83x4csm000uwgdxfny951rg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +316,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="cl77ibp9a001pbwdxessyb3o9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" data-id="cl83x4csk000qwgdxf4m02v35" class="article-share-link">Share</a>
       
       
     </footer>
@@ -297,7 +377,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/webpack/webpack/" data-id="cl77ibpiv0038bwdx6f1hbned" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/webpack/webpack/" data-id="cl83x4ctt002xwgdx8rk635fj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -333,7 +413,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="cl77ibpiw0039bwdxbamldo6p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/webSocket%E5%B0%81%E8%A3%85/websocket/" data-id="cl83x4cts002uwgdx75wyg7dp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,7 +490,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="cl77ibp98001nbwdxhj9b3p5t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/vue%E7%9A%84%E7%90%86%E8%A7%A3/" data-id="cl83x4csl000rwgdx7xftc7pw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,7 +534,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" data-id="cl77ibp7j000kbwdx2g801nnd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%81%E5%90%8D%E8%AF%8D/" data-id="cl83x4csg000nwgdx50thglkb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -666,7 +746,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%816/" data-id="cl77ibp81000lbwdx9oib1lmf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%816/" data-id="cl83x4csj000owgdx5ozw5rdv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -848,58 +928,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%815/" data-id="cl77ibp7i000ibwdxb651hn4i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-vue源码4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/13/vue%E6%BA%90%E7%A0%814/" class="article-date">
-  <time datetime="2022-04-13T07:41:31.026Z" itemprop="datePublished">2022-04-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a>►<a class="article-category-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/04/13/vue%E6%BA%90%E7%A0%814/">Vue.js 源码解读, 模板编译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是模板编译"><a href="#什么是模板编译" class="headerlink" title="什么是模板编译"></a>什么是模板编译</h2><p><code>Vue</code> 会把用户在<code>&lt;template&gt;&lt;/template&gt;</code>标签中写的类似于原生 HTML 的内容进行编译，把原生 HTML 的内容找出来，再把非原生 HTML 找出来，经过一系列的逻辑处理生成渲染函数，也就是 render 函数，而 render 函数会将模板内容生成对应的 VNode，而 VNode 再经过前几篇文章介绍的 patch 过程从而得到将要渲染的视图中的 VNode，最后根据 VNode 创建真实的 DOM 节点并插入到视图中， 最终完成视图的渲染更新。<br>而把用户在<template></template>标签中写的类似于原生 HTML 的内容进行编译，把原生 HTML 的内容找出来，再把非原生 HTML 找出来，经过一系列的逻辑处理生成渲染函数，也就是 render 函数的这一段过程称之为模板编译过程。</p>
-<h2 id="整体渲染流程"><a href="#整体渲染流程" class="headerlink" title="整体渲染流程"></a>整体渲染流程</h2><p>渲染流程，就是把用户写的类似于原生 HTML 的模板经过一系列处理最终反应到视图中称之为整个渲染流程。</p>
-<p><img src="https://vue-js.com/learn-vue/assets/img/1.f0570125.png" alt="渲染流程"></p>
-<h2 id="模板编译内部流程"><a href="#模板编译内部流程" class="headerlink" title="模板编译内部流程"></a>模板编译内部流程</h2><h3 id="抽象语法树-AST"><a href="#抽象语法树-AST" class="headerlink" title="抽象语法树 AST"></a>抽象语法树 AST</h3><p>抽象语法树，在计算机科学中，抽象语法树（AbstractSyntaxTree，AST），或简称语法树（Syntax tree），是源代码语法结构的一种抽象表示。它以树状的形式表现编程语言的语法结构，树上的每个节点都表示源代码中的一种结构。之所以说语法是“抽象”的，是因为这里的语法并不会表示出真实语法中出现的每个细节。</p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>分为三个阶段:</p>
-<ul>
-<li>模板解析阶段:将一堆模板字符串用正则等方式解析成抽象语法树 AST</li>
-<li>优化阶段: 遍历 AST ,找出其中的静态节点, 并打上标记;</li>
-<li>代码生成阶段：将 AST 转换成渲染函数;</li>
-</ul>
-<p><img src="https://vue-js.com/learn-vue/assets/img/3.15d9566b.png" alt="模板内部流程图"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%814/" data-id="cl77ibp7d000abwdx9cab3hov" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2022/04/13/vue%E6%BA%90%E7%A0%815/" data-id="cl83x4csf000lwgdxbjm54xqo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -924,7 +953,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/">JS模块化发展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
     </div>
   </div>
 
@@ -939,7 +968,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
     </div>
   </div>
 
@@ -950,6 +979,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/index/">JS 模块化</a>
+          </li>
         
           <li>
             <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
@@ -965,10 +998,6 @@
         
           <li>
             <a href="/2022/04/13/TypeScript/ts/">TypeScript</a>
-          </li>
-        
-          <li>
-            <a href="/2022/04/13/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a>
           </li>
         
       </ul>
