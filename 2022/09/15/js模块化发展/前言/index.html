@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JS 模块化 | 有理想的笛子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是模块化  将一个复杂的程序按照一定的规则封装成几个文件，并进行组合在一起。每个模块的内部数据是私有的，只是向外部暴露一些接口(方法)与外部其它模块通信。 为什么要有模块化  技术的诞生是为了解决某个问题，模块化也是，在js模块化诞生历程。  第一阶段在JavaScript 语言刚刚诞生的时候，它仅仅用于实现页面中的一些小效果，一个页面所用到的JS可能只有区区几百行的代码，在这种情况下语言存在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS 模块化">
+<meta property="og:url" content="http://yoursite.com/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="什么是模块化  将一个复杂的程序按照一定的规则封装成几个文件，并进行组合在一起。每个模块的内部数据是私有的，只是向外部暴露一些接口(方法)与外部其它模块通信。 为什么要有模块化  技术的诞生是为了解决某个问题，模块化也是，在js模块化诞生历程。  第一阶段在JavaScript 语言刚刚诞生的时候，它仅仅用于实现页面中的一些小效果，一个页面所用到的JS可能只有区区几百行的代码，在这种情况下语言存在">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ceef233a5b4447ac8782d440ce62445c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5Y-25YeM5aSp,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center">
+<meta property="article:published_time" content="2022-09-15T11:57:11.669Z">
+<meta property="article:modified_time" content="2022-09-16T07:46:59.232Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/ceef233a5b4447ac8782d440ce62445c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5Y-25YeM5aSp,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center">
+  
+    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">有理想的笛子</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js模块化发展/前言" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/" class="article-date">
+  <time datetime="2022-09-15T11:57:11.669Z" itemprop="datePublished">2022-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/">JS模块化发展</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS 模块化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h1><p>  将一个复杂的程序按照一定的规则封装成几个文件，并进行组合在一起。每个模块的内部数据是私有的，只是向外部暴露一些接口(方法)与外部其它模块通信。</p>
+<h2 id="为什么要有模块化"><a href="#为什么要有模块化" class="headerlink" title="为什么要有模块化"></a>为什么要有模块化</h2><p>  技术的诞生是为了解决某个问题，模块化也是，在js模块化诞生历程。</p>
+<ul>
+<li>第一阶段<br>在JavaScript 语言刚刚诞生的时候，它仅仅用于实现页面中的一些小效果，一个页面所用到的JS可能只有区区几百行的代码，在这种情况下语言存在的缺陷被大家有意的忽略，程序的规模实在太小，只要开发人员小心谨慎，往往不会造成什么问题。在这个阶段不存在专业的前端工程师。</li>
+<li>第二个阶段<br>ajax 的出现，逐渐改变了JavaScript 在浏览器中扮演的角色，它不仅可以实现小的效果，还可以和服务器之间进行交互，以更好的体验来改变数据。JS 的代码量逐渐增加，从最初的几百行到后来的几万行，前端的程序变的复杂。<br> 有三个问题阻碍了前端的程序的规模进一步扩大<ul>
+<li>浏览器解释执行JS的速度太慢</li>
+<li>用户的电脑配置不足</li>
+<li>更多的代码带来的全局变量污染，依赖关系混乱等问题。<br>以上问题成为前端开发挥之不去的阴影和原罪。<ul>
+<li>第三个阶段<br>到了2008 年 谷歌的V8 引擎发布，将JS的执行速度推上了一个新的台阶，甚至可以和后端语言媲美。个人电脑的配置开始飞跃，制约前端发展的两大问题得以解决，只剩下一个全局变量污染和依赖管理混乱的问题。<br>在此时Ryan Dahl 需要在服务器端手写一个高性能的web服务，高性能必须尽可能的减少线程，而要减少线程避免不了要使用异步方案，在他一筹莫展的时候谷歌的V8 引擎吸引了他的注意他发现JS就是最好的实现web服务器的语言，它天生是单线程，并且是基于异步的，有了V8 引擎的支撑，它的执行速度完全可以撑起一个服务器他基于V8 引擎 对源码作了一些修改 推出了该web服务项目命名为 nodejs。从此，JS第一次堂堂正正的入主后端，不再是必须附属于浏览器的“玩具”语言了。也是从刻开始，人们开始认识到，JS 是一门真正的语言，它依附于运行环境(运行时)(宿主程序)而执行。nodejs 的诞生，便把JS 中的最后一个问题放到了台前即<code>全局变量污染和依赖混乱</code>问题。<br>经过社区的激烈讨论，最终，形成了一个模块化方案，即CommonJS，该方案彻底解决了全局变量污染和依赖混乱的问题。</li>
+<li>第四个阶段<br>CommonJS(后端模块化方案) 的出现打开了前端开发者的思路。既然后端可以使用模块化的JS，那作为JS 语言的的老东家浏览器为啥不行呢？于是，开始有人想办法把CommonJS 语言运用到浏览器中。但是把CommonJS运用到浏览器里面存在诸多困难</li>
+</ul>
+<ul>
+<li>CommonJS 是同步加载，适用于服务器端的模块加载，因为所用的模块都存放在本地硬盘，可以同步加载完成，等待时间就是硬盘的读取时间，但是对于浏览器，却是一个大问题，因为浏览器都放在服务器端，等待的时间取决于网速的快慢，可能要等很是长时间，浏览器处于“假死”状态。</li>
+<li>浏览器不兼容CommonJS 的根本原因，在于缺少四个Node.js环境的变量。<ul>
+<li>module</li>
+<li>export </li>
+<li>require</li>
+<li>global<br>于是有些开发者就想，既然CommonJS运用到浏览器困难，我们干嘛不自己重新定一个模块化的标准出来，非得用CommonJS 的标准。于是很快AMD 规范出炉，它解决的问题和CommonJS 一样即 解决JS 全局变量污染和依赖混乱的问题，但是可以更好的适应浏览器环境相继的CMD规范出炉，它对AMD 的规范进行了改进。<br>这些行为，都受到了ECMA官方的密切关注，2015年，ES6发布，它提出了官方的模块化解决方案——ES6 模块化。从此以后，模块化成为了JS 本身特有的性质，这门语言有了可以和其他语言较量的资本，成为了可以编写大型应用的正式语言。<br><img src="https://img-blog.csdnimg.cn/ceef233a5b4447ac8782d440ce62445c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5Y-25YeM5aSp,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="JS模块化发展时间线"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/" data-id="cl8473qwe0028w0dx9q0dgi0p" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/09/16/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9D%97%E5%8C%96%E6%96%B9%E6%A1%88%E8%A7%84%E8%8C%83/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JS 模块化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">前端状态管理</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CommonJS-AMD-CMD-ES6/">CommonJS AMD CMD ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/">JS模块化发展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/16/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9D%97%E5%8C%96%E6%96%B9%E6%A1%88%E8%A7%84%E8%8C%83/">JS 模块化</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/">JS 模块化</a>
+          </li>
+        
+          <li>
+            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
+          </li>
+        
+          <li>
+            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 sxhMxd<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
