@@ -1,105 +1,152 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>JS 数据 | 有理想的笛子</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原始数据原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol Number 数据类型Number 数据类型包含数字和 NaN NaNNaN 非数字，不是一个数但是隶属于数字类型 NaN 和任何值(包括自己)相比较，不大于、不小于、不等于任何值。 判断是不是数字类型 12345isNaN(&#39;1243&#39;)   &amp;#x">
+<!DOCTYPE html><html lang="zh" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>JS 数据 | 有理想的笛子</title><meta name="author" content="sxhMxd"><meta name="copyright" content="sxhMxd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="原始数据原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol Number 数据类型Number 数据类型包含数字和 NaN NaNNaN 非数字，不是一个数但是隶属于数字类型 NaN 和任何值(包括自己)相比较，不大于、不小于、不等于任何值。 判断是不是数字类型 1234567isNaN(&amp;#x27;1243&amp;#x27;)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 数据">
 <meta property="og:url" content="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="有理想的笛子">
-<meta property="og:description" content="原始数据原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol Number 数据类型Number 数据类型包含数字和 NaN NaNNaN 非数字，不是一个数但是隶属于数字类型 NaN 和任何值(包括自己)相比较，不大于、不小于、不等于任何值。 判断是不是数字类型 12345isNaN(&#39;1243&#39;)   &amp;#x">
-<meta property="og:locale" content="zh">
+<meta property="og:description" content="原始数据原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol Number 数据类型Number 数据类型包含数字和 NaN NaNNaN 非数字，不是一个数但是隶属于数字类型 NaN 和任何值(包括自己)相比较，不大于、不小于、不等于任何值。 判断是不是数字类型 1234567isNaN(&amp;#x27;1243&amp;#x27;)">
+<meta property="og:locale">
 <meta property="article:published_time" content="2022-04-13T07:41:31.001Z">
 <meta property="article:modified_time" content="2022-04-13T07:41:31.002Z">
 <meta property="article:author" content="sxhMxd">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="有理想的笛子" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:card" content="summary"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JS 数据',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-13 15:41:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">有理想的笛子</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-js知识体系/数据" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/" class="article-date">
-  <time datetime="2022-04-13T07:41:31.001Z" itemprop="datePublished">2022-04-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a>►<a class="article-category-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a>
-  </div>
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-    <h1 class="article-title" itemprop="name">
-      JS 数据
-    </h1>
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-
-      </header>
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="原始数据"><a href="#原始数据" class="headerlink" title="原始数据"></a>原始数据</h1><p>原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol</p>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">47</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">有理想的笛子</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">JS 数据</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-04-13T07:41:31.001Z" title="Created 2022-04-13 15:41:31">2022-04-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-04-13T07:41:31.002Z" title="Updated 2022-04-13 15:41:31">2022-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="JS 数据"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="原始数据"><a href="#原始数据" class="headerlink" title="原始数据"></a>原始数据</h1><p>原始数据类型共有六种：Number 、String 、Boolean 、 Undefined 、 Null 、Symbol</p>
 <h2 id="Number-数据类型"><a href="#Number-数据类型" class="headerlink" title="Number 数据类型"></a>Number 数据类型</h2><p>Number 数据类型包含数字和 NaN</p>
 <h3 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h3><p><code>NaN</code> 非数字，不是一个数但是隶属于数字类型 NaN 和任何值(包括自己)相比较，不大于、不小于、不等于任何值。</p>
 <p>判断是不是数字类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">isNaN(&#39;1243&#39;)   &#x2F;&#x2F; false 虽然&#39;123&#39; 是字符串类型，但是由于是纯数字组成可以转换成一个数字</span><br><span class="line"></span><br><span class="line">isNaN(123)    &#x2F;&#x2F; false 说明是数字</span><br><span class="line"></span><br><span class="line">isNaN(&#39;123ffff&#39;) &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">isNaN(&#x27;1243&#x27;)   // false 虽然&#x27;123&#x27; 是字符串类型，但是由于是纯数字组成可以转换成一个数字</span><br><span class="line"></span><br><span class="line">isNaN(123)    // false 说明是数字</span><br><span class="line"></span><br><span class="line">isNaN(&#x27;123ffff&#x27;) // true</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h3 id="数字不同进制"><a href="#数字不同进制" class="headerlink" title="数字不同进制"></a>数字不同进制</h3><p>Number 可以使用四种数字进制：十进制，二进制，八进制和十六进制<br>二进制：以零为开头，后面接一个小写或大写的拉丁文字母 B(0b 或者 0B)<br>八进制：以零为开头，假如 0 后面的数字不在 0 到 7 的范围内，改数字会被转换成十进制数字<br>十六进制：以零为开头，后面接一个小写或大写的拉丁文字母(0x 或者 0X)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 十进制</span><br><span class="line">1234566</span><br><span class="line">12</span><br><span class="line">&#x2F;&#x2F; 二进制</span><br><span class="line">0b1100    &#x2F;&#x2F; 12</span><br><span class="line">0b0001    &#x2F;&#x2F; 1</span><br><span class="line">&#x2F;&#x2F; 八进制</span><br><span class="line">0755    &#x2F;&#x2F; 493</span><br><span class="line">0644    &#x2F;&#x2F; 420</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 十六进制</span><br><span class="line">0xA     &#x2F;&#x2F; 10</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 十进制</span><br><span class="line">1234566</span><br><span class="line">12</span><br><span class="line">// 二进制</span><br><span class="line">0b1100    // 12</span><br><span class="line">0b0001    // 1</span><br><span class="line">// 八进制</span><br><span class="line">0755    // 493</span><br><span class="line">0644    // 420</span><br><span class="line"></span><br><span class="line">// 十六进制</span><br><span class="line">0xA     // 10</span><br></pre></td></tr></table></figure>
 
 <h3 id="转换成数字方法"><a href="#转换成数字方法" class="headerlink" title="转换成数字方法"></a>转换成数字方法</h3><p>Number()、parseInt()、parseFloat()</p>
 <h4 id="Number"><a href="#Number" class="headerlink" title="Number()"></a>Number()</h4><p>可以用于任何数据类型，</p>
@@ -115,11 +162,11 @@
 <li><p>如果是字符串，遵循的规则</p>
 <ul>
 <li><p>只包含数字(包括带正负号的情况)，则转换为十进制，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(&#39;1&#39;)   &#x2F;&#x2F; 1</span><br><span class="line">Number(&#39;+1&#39;)  &#x2F;&#x2F; 1</span><br><span class="line">Number(&#39;011&#39;) &#x2F;&#x2F; 11   前导的零被忽略</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(&#x27;1&#x27;)   // 1</span><br><span class="line">Number(&#x27;+1&#x27;)  // 1</span><br><span class="line">Number(&#x27;011&#x27;) // 11   前导的零被忽略</span><br></pre></td></tr></table></figure></li>
 <li><p>字符是有效的浮点数格式，则将其转换成相对应的浮点数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(&#39;-1.1&#39;)   &#x2F;&#x2F; -1.1</span><br><span class="line">Number(&#39;01.1&#39;)   &#x2F;&#x2F; 1.1</span><br><span class="line">Number(&#39;-01.12&#39;) &#x2F;&#x2F; 1.12</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(&#x27;-1.1&#x27;)   // -1.1</span><br><span class="line">Number(&#x27;01.1&#x27;)   // 1.1</span><br><span class="line">Number(&#x27;-01.12&#x27;) // 1.12</span><br></pre></td></tr></table></figure></li>
 <li><p>字符串包含有效的十六进制或者二进制格式，则将其转换为相同大小的十进制整数值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Number(&#39;0xF&#39;)   &#x2F;&#x2F; 15</span><br><span class="line">Number(&#39;0b1000&#39;) &#x2F;&#x2F; 8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Number(&#x27;0xF&#x27;)   // 15</span><br><span class="line">Number(&#x27;0b1000&#x27;) // 8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>如果是空字符串，则将其转换为 0 Number(‘’) // 0</p>
 </li>
@@ -133,19 +180,19 @@
 </li>
 </ul>
 <h4 id="parseInt"><a href="#parseInt" class="headerlink" title="parseInt()"></a>parseInt()</h4><p>处理整数的时候，更常用 parseInt()函数<br>在转换字符串时是看其是否符合数值模式，会忽略字符串前面的空格，如果第一个字符不是数字或者符号就会返回 NaN</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&#39;123456blue&#39;)   &#x2F;&#x2F; 123456</span><br><span class="line">parseInt(&#39;&#39;)             &#x2F;&#x2F; NaN</span><br><span class="line">parseInt(&#39;22.34&#39;)        &#x2F;&#x2F; 22</span><br><span class="line">parseInt(&#39;0xa&#39;)          &#x2F;&#x2F; 10  符合十六进制，转换成十进制</span><br><span class="line">parseInt(&#39;070&#39;)          &#x2F;&#x2F; 56  符合八进制，</span><br><span class="line">parseInt(&#39;70&#39;)           &#x2F;&#x2F; 70</span><br><span class="line">parseInt(&#39;0b1100&#39;)       &#x2F;&#x2F; 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&#x27;123456blue&#x27;)   // 123456</span><br><span class="line">parseInt(&#x27;&#x27;)             // NaN</span><br><span class="line">parseInt(&#x27;22.34&#x27;)        // 22</span><br><span class="line">parseInt(&#x27;0xa&#x27;)          // 10  符合十六进制，转换成十进制</span><br><span class="line">parseInt(&#x27;070&#x27;)          // 56  符合八进制，</span><br><span class="line">parseInt(&#x27;70&#x27;)           // 70</span><br><span class="line">parseInt(&#x27;0b1100&#x27;)       // 0</span><br></pre></td></tr></table></figure>
 
 <p>在包含进制的时候，parseInt(),可以有第二个参数，说明是几进制</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&#39;10&#39;,2) &#x2F;&#x2F;2 按二进制解析转换为十进制</span><br><span class="line">parseInt(&#39;10&#39;,8) &#x2F;&#x2F;8 按八进制解析转换为十进制</span><br><span class="line">parseInt(&#39;10&#39;,10) &#x2F;&#x2F;10 按八进制解析转换为十进制</span><br><span class="line">parseInt(&#39;10&#39;,16) &#x2F;&#x2F;16 按十六进制解析转换为十进制</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&#x27;10&#x27;,2) //2 按二进制解析转换为十进制</span><br><span class="line">parseInt(&#x27;10&#x27;,8) //8 按八进制解析转换为十进制</span><br><span class="line">parseInt(&#x27;10&#x27;,10) //10 按八进制解析转换为十进制</span><br><span class="line">parseInt(&#x27;10&#x27;,16) //16 按十六进制解析转换为十进制</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="parseFloat"><a href="#parseFloat" class="headerlink" title="parseFloat()"></a>parseFloat()</h4><p>parseFloat() 与 parseInt() 的解析方法基本一样，对浮点数和进制数不同<br>parseFloat 会忽略前置零</p>
 <p>parseFloat() 对于二进制，十六进制的转换都是 0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseFloat(&#39;123456blue&#39;)   &#x2F;&#x2F; 123456</span><br><span class="line">parseFloat(&#39;&#39;)             &#x2F;&#x2F; NaN</span><br><span class="line">parseFloat(&#39;22.34&#39;)        &#x2F;&#x2F; 22.34</span><br><span class="line">parseFloat(&#39;0xa&#39;)          &#x2F;&#x2F; 0  十六进制字符串始终为零</span><br><span class="line">parseFloat(&#39;070&#39;)          &#x2F;&#x2F; 70</span><br><span class="line">parseFloat(&#39;70&#39;)           &#x2F;&#x2F; 70</span><br><span class="line">parseFloat(&#39;0b1100&#39;)       &#x2F;&#x2F; 0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">parseFloat(&#x27;123456blue&#x27;)   // 123456</span><br><span class="line">parseFloat(&#x27;&#x27;)             // NaN</span><br><span class="line">parseFloat(&#x27;22.34&#x27;)        // 22.34</span><br><span class="line">parseFloat(&#x27;0xa&#x27;)          // 0  十六进制字符串始终为零</span><br><span class="line">parseFloat(&#x27;070&#x27;)          // 70</span><br><span class="line">parseFloat(&#x27;70&#x27;)           // 70</span><br><span class="line">parseFloat(&#x27;0b1100&#x27;)       // 0</span><br></pre></td></tr></table></figure>
 
-<h2 id="String-类型"><a href="#String-类型" class="headerlink" title="String 类型"></a>String 类型</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let strObject &#x3D; new String(&#39;hello word&#39;)</span><br><span class="line">let strs &#x3D; &#39;hello word&#39;</span><br><span class="line"></span><br><span class="line">typeof (strObject)   &#x2F;&#x2F; object</span><br><span class="line">typeof(strs)  &#x2F;&#x2F; String</span><br></pre></td></tr></table></figure>
+<h2 id="String-类型"><a href="#String-类型" class="headerlink" title="String 类型"></a>String 类型</h2><h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let strObject = new String(&#x27;hello word&#x27;)</span><br><span class="line">let strs = &#x27;hello word&#x27;</span><br><span class="line"></span><br><span class="line">typeof (strObject)   // object</span><br><span class="line">typeof(strs)  // String</span><br></pre></td></tr></table></figure>
 
 <h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>string 具有长度属性，字符串长度(空格也占位),可以通过 string[index]来访问对应的字符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let str &#x3D; &#39;today is good day&#39;</span><br><span class="line">str.length &#x2F;&#x2F; 17</span><br><span class="line">str[2]     &#x2F;&#x2F; d</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let str = &#x27;today is good day&#x27;</span><br><span class="line">str.length // 17</span><br><span class="line">str[2]     // d</span><br></pre></td></tr></table></figure>
 
 <h3 id="string-方法"><a href="#string-方法" class="headerlink" title="string 方法"></a>string 方法</h3><ul>
 <li><p>charAt(n)<br>传入数值，返回该位置对应字符</p>
@@ -155,47 +202,47 @@
 <li><p>slice(n,m) 字符串截取，接受一个或者两个值<br>从 index 为 n 开始(包括 n),到 index 为 m 结束(不包括 m) 返回一个新的字符串，不改变原字符串。</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str &#x3D; &#39;DaShu.yang&#39;</span><br><span class="line">str.charAt(2) &#x2F;&#x2F; 3</span><br><span class="line">str.charCodeAt(2) &#x2F;&#x2F; 83</span><br><span class="line">str.slice(2)   &#x2F;&#x2F; Shu.yang</span><br><span class="line">str.slice(2,3) &#x2F;&#x2F; S</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var str = &#x27;DaShu.yang&#x27;</span><br><span class="line">str.charAt(2) // 3</span><br><span class="line">str.charCodeAt(2) // 83</span><br><span class="line">str.slice(2)   // Shu.yang</span><br><span class="line">str.slice(2,3) // S</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>indexOf()<br>搜索给定字符串，然后返回字符串的位置(找到返回该字符串的 index 值，反之返回 -1)，可以接受第二个参数，表示从字符串中的哪个位置开始搜索。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let str &#x3D; &#39;qwertyuiop&#39;;</span><br><span class="line">str.indexOf(&#39;w&#39;) &#x2F;&#x2F; 1</span><br><span class="line">str.indexOf(&#39;m&#39;)  &#x2F;&#x2F; -1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let str = &#x27;qwertyuiop&#x27;;</span><br><span class="line">str.indexOf(&#x27;w&#x27;) // 1</span><br><span class="line">str.indexOf(&#x27;m&#x27;)  // -1</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>match()<br>字符串的模式匹配方法，接收一个正则表达式或者 RegExp 对象，返回一个数组，如果没匹配值返回 null<br>该方法可在字符串内检索指定的值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var str &#x3D; &#39;asdfghajk&#39;</span><br><span class="line">str.match(&#39;a&#39;)    &#x2F;&#x2F; [a] 查找是惰性的只会返回一个a,即查找到了第一个就返回查找结果。</span><br><span class="line">str.amtch(&#x2F;a&#x2F;g)   &#x2F;&#x2F; [ a,a ]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var str = &#x27;asdfghajk&#x27;</span><br><span class="line">str.match(&#x27;a&#x27;)    // [a] 查找是惰性的只会返回一个a,即查找到了第一个就返回查找结果。</span><br><span class="line">str.amtch(/a/g)   // [ a,a ]</span><br></pre></td></tr></table></figure></li>
 <li><p>replace()<br>字符串替换，接收两个参数，第一个参数为字符串或者正则表达式，第二个参数是字符串或者是一个函数，返回一个字符串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var text &#x3D; &#39;cat,bat,sat,fat&#39;</span><br><span class="line">var reg &#x3D; &#x2F;at&#x2F;g</span><br><span class="line">str.replace(reg,&#39;&#39;)</span><br><span class="line">var str &#x3D; &#39;abcdefg&#39;</span><br><span class="line">var reg &#x3D; &#x2F;(c)d&#x2F;g</span><br><span class="line">str.replace(reg,&#39;$$d&#39;) &#x2F;&#x2F; ab$defg</span><br><span class="line">var reg1 &#x3D; &#x2F;(c)d(e)&#x2F;g</span><br><span class="line">str.replace(reg,&#39;$2$1&#39;)  &#x2F;&#x2F; abedcfg</span><br><span class="line">&#x2F;&#x2F;这里把匹配的第一个内容和第二个内容替换位置($1匹配第一个位置，$2匹配第二个位置，然后再替换整个匹配到的cde)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var text = &#x27;cat,bat,sat,fat&#x27;</span><br><span class="line">var reg = /at/g</span><br><span class="line">str.replace(reg,&#x27;&#x27;)</span><br><span class="line">var str = &#x27;abcdefg&#x27;</span><br><span class="line">var reg = /(c)d/g</span><br><span class="line">str.replace(reg,&#x27;$$d&#x27;) // ab$defg</span><br><span class="line">var reg1 = /(c)d(e)/g</span><br><span class="line">str.replace(reg,&#x27;$2$1&#x27;)  // abedcfg</span><br><span class="line">//这里把匹配的第一个内容和第二个内容替换位置($1匹配第一个位置，$2匹配第二个位置，然后再替换整个匹配到的cde)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>split<br>字符串分割，接收两个参数，第一个字符串或者正则表达式，第二个是返回数组的最大长度，返回一个数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var text &#x3D; &#39;cat,bat,sat,fat&#39;</span><br><span class="line">text.split(&#39;,&#39;)       &#x2F;&#x2F; [&#39;cat&#39;,&#39;bat&#39;,&#39;sat&#39;,&#39;fat&#39;]</span><br><span class="line">text.split(&#39;,&#39;,3)     &#x2F;&#x2F; [&#39;cat&#39;,&#39;bat&#39;,&#39;sat&#39;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var text = &#x27;cat,bat,sat,fat&#x27;</span><br><span class="line">text.split(&#x27;,&#x27;)       // [&#x27;cat&#x27;,&#x27;bat&#x27;,&#x27;sat&#x27;,&#x27;fat&#x27;]</span><br><span class="line">text.split(&#x27;,&#x27;,3)     // [&#x27;cat&#x27;,&#x27;bat&#x27;,&#x27;sat&#x27;]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><h3 id="创建-1"><a href="#创建-1" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var boo &#x3D; new Boolean()    &#x2F;&#x2F; false 未对boo进行赋值，默认值为 false</span><br><span class="line">var boo new Boolean(true)  &#x2F;&#x2F; true</span><br><span class="line">var boo &#x3D; true&#x2F;false</span><br></pre></td></tr></table></figure>
+<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><h3 id="创建-1"><a href="#创建-1" class="headerlink" title="创建"></a>创建</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var boo = new Boolean()    // false 未对boo进行赋值，默认值为 false</span><br><span class="line">var boo new Boolean(true)  // true</span><br><span class="line">var boo = true/false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果逻辑对象无初始值或者其值为 0 -0 null ‘’ false undefined NaN,那么对象的值为 false,否则其值为 true</p>
 <ul>
 <li>! 一个叹号是取反，首先将值转化为布尔类型的，然后再取反</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!3 &#x2F;&#x2F; false -&gt;先把3转化为 boolean 此时为 true,然后再取反为 false</span><br><span class="line">!0 &#x2F;&#x2F; true -&gt; 先把 0 转化为 boolean 此时为 false,然后再取反为 true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!3 // false -&gt;先把3转化为 boolean 此时为 true,然后再取反为 false</span><br><span class="line">!0 // true -&gt; 先把 0 转化为 boolean 此时为 false,然后再取反为 true</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>!! 将其他的数据类型转化为 boolean 类型，相当于 Boolean()</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Boolean(&#39;dddd&#39;) &#x2F;&#x2F; true</span><br><span class="line">!!&#39;dddd&#39;        &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Boolean(&#x27;dddd&#x27;) // true</span><br><span class="line">!!&#x27;dddd&#x27;        // true</span><br></pre></td></tr></table></figure>
 
 <h3 id="不同数据类型的比较"><a href="#不同数据类型的比较" class="headerlink" title="不同数据类型的比较"></a>不同数据类型的比较</h3><ul>
 <li><p>两个不同类型数据比较时隐式转换规则</p>
 <ul>
 <li><p>数字和字符串、布尔类型、数组进行比较时，字符串(或者布尔、或数组)先转换为数字(Number),再进行比较。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">123 &#x3D;&#x3D; &#39;1234a&#39;  &#x2F;&#x2F; false</span><br><span class="line">123 &#x3D;&#x3D; &#39;123&#39;    &#x2F;&#x2F; true</span><br><span class="line">123 &#x3D;&#x3D; false    &#x2F;&#x2F; false</span><br><span class="line">123 &#x3D;&#x3D; true     &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">123 == &#x27;1234a&#x27;  // false</span><br><span class="line">123 == &#x27;123&#x27;    // true</span><br><span class="line">123 == false    // false</span><br><span class="line">123 == true     // false</span><br></pre></td></tr></table></figure></li>
 <li><p>字符串和布尔类型比较，进行比较的两个数据同时经过 Number() 的转换后再进行比较，数组和布尔类型的比较也如此</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#39;qwe&#39; &#x3D;&#x3D;  false   &#x2F;&#x2F; false   Number(&#39;qwe&#39;) -&gt; NaN ; Number(false) -&gt; 0</span><br><span class="line">&#39;qwe&#39; &#x3D;&#x3D; true     &#x2F;&#x2F; false</span><br><span class="line">&#39;&#39;  &#x3D;&#x3D;  false     &#x2F;&#x2F; true    Number(&#39;&#39;) -&gt; 0 ; Number(false) -&gt; 0</span><br><span class="line">&#39;&#39;  &#x3D;&#x3D;  true      &#x2F;&#x2F; false</span><br><span class="line">[]  &#x3D;&#x3D;  false     &#x2F;&#x2F; true    Number([]) -&gt; 0</span><br><span class="line">[0]  &#x3D;&#x3D;  false    &#x2F;&#x2F; true    Number([0]) -&gt; 0</span><br><span class="line">[00]  &#x3D;&#x3D;  false   &#x2F;&#x2F; true    Number([00]) -&gt; 0</span><br><span class="line">[0,0] &#x3D;&#x3D;  false   &#x2F;&#x2F; false   Number([0,0]) -&gt; NaN</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x27;qwe&#x27; ==  false   // false   Number(&#x27;qwe&#x27;) -&gt; NaN ; Number(false) -&gt; 0</span><br><span class="line">&#x27;qwe&#x27; == true     // false</span><br><span class="line">&#x27;&#x27;  ==  false     // true    Number(&#x27;&#x27;) -&gt; 0 ; Number(false) -&gt; 0</span><br><span class="line">&#x27;&#x27;  ==  true      // false</span><br><span class="line">[]  ==  false     // true    Number([]) -&gt; 0</span><br><span class="line">[0]  ==  false    // true    Number([0]) -&gt; 0</span><br><span class="line">[00]  ==  false   // true    Number([00]) -&gt; 0</span><br><span class="line">[0,0] ==  false   // false   Number([0,0]) -&gt; NaN</span><br></pre></td></tr></table></figure></li>
 <li><p>undefined 除了和 Null 进行非全等比较返回 true，其它均返回 false。</p>
 </li>
 <li><p>null 除了和 undefined 进行非全等比较返回 true，其它均返回 false。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">undefined &#x3D;&#x3D; nll    &#x2F;&#x2F; true</span><br><span class="line">undefined &#x3D;&#x3D; 124    &#x2F;&#x2F; false</span><br><span class="line">undefined &#x3D;&#x3D; &#39;123&#39;  &#x2F;&#x2F; false</span><br><span class="line">undefined &#x3D;&#x3D; false  &#x2F;&#x2F; false</span><br><span class="line">undefined &#x3D;&#x3D; true   &#x2F;&#x2F; false</span><br><span class="line"></span><br><span class="line">null &#x3D;&#x3D; undefined   &#x2F;&#x2F; true</span><br><span class="line">null &#x3D;&#x3D; 124         &#x2F;&#x2F; false</span><br><span class="line">null &#x3D;&#x3D; &#39;124&#39;       &#x2F;&#x2F; false</span><br><span class="line">null &#x3D;&#x3D; false       &#x2F;&#x2F; false</span><br><span class="line">null &#x3D;&#x3D; true        &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">undefined == nll    // true</span><br><span class="line">undefined == 124    // false</span><br><span class="line">undefined == &#x27;123&#x27;  // false</span><br><span class="line">undefined == false  // false</span><br><span class="line">undefined == true   // false</span><br><span class="line"></span><br><span class="line">null == undefined   // true</span><br><span class="line">null == 124         // false</span><br><span class="line">null == &#x27;124&#x27;       // false</span><br><span class="line">null == false       // false</span><br><span class="line">null == true        // true</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>数组(或对象) 和字符串进行比较时，数组(或对象) 会转换成字符串再进行比较</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[] &#x3D;&#x3D; &#39;&#39;   &#x2F;&#x2F; true</span><br><span class="line">[0] &#x3D;&#x3D; &#39;&#39;  &#x2F;&#x2F; false</span><br><span class="line">[0] &#x3D;&#x3D; &#39;0&#39; &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">var obj &#x3D; &#123;a:0&#125;</span><br><span class="line">obj &#x3D;&#x3D; &#39;&#39;  &#x2F;&#x2F; false</span><br><span class="line">obj &#x3D;&#x3D; &#39;[object Object]&#39; &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[] == &#x27;&#x27;   // true</span><br><span class="line">[0] == &#x27;&#x27;  // false</span><br><span class="line">[0] == &#x27;0&#x27; // true</span><br><span class="line"></span><br><span class="line">var obj = &#123;a:0&#125;</span><br><span class="line">obj == &#x27;&#x27;  // false</span><br><span class="line">obj == &#x27;[object Object]&#x27; // true</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -214,23 +261,23 @@
 <ul>
 <li>创建</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let id &#x3D; Symbol(&#39;id&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let id = Symbol(&#x27;id&#x27;)</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>特点</p>
 <ul>
 <li><p>唯一性，即使是用同一个变量生成的值也不相等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let id1 &#x3D; Symbol(&#39;id&#39;)</span><br><span class="line">let id2 &#x3D; Symbol(&#39;id&#39;)</span><br><span class="line">id1 &#x3D;&#x3D; id2                &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let id1 = Symbol(&#x27;id&#x27;)</span><br><span class="line">let id2 = Symbol(&#x27;id&#x27;)</span><br><span class="line">id1 == id2                // false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>隐藏性 for in Object.keys() 不能访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let id &#x3D; Symbol(&#39;id&#39;)</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">  [id]:&#39;symbol&#39;</span><br><span class="line">&#125;;</span><br><span class="line">for(let option in obj)&#123;</span><br><span class="line">  console.log(obj[option])   &#x2F;&#x2F; 空</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let id = Symbol(&#x27;id&#x27;)</span><br><span class="line">let obj = &#123;</span><br><span class="line">  [id]:&#x27;symbol&#x27;</span><br><span class="line">&#125;;</span><br><span class="line">for(let option in obj)&#123;</span><br><span class="line">  console.log(obj[option])   // 空</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 <li><p>Symbol.for()，Symbol.keyFor()</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let name1 &#x3D; Symbol.for(&#39;name&#39;)  &#x2F;&#x2F; 检测到未创建后返回</span><br><span class="line">let name2 &#x3D; Symbol.for(&#39;name&#39;)  &#x2F;&#x2F; 检测到已创建后返回</span><br><span class="line">name1 &#x3D;&#x3D;&#x3D; name2</span><br><span class="line">&#x2F;&#x2F; 访问值</span><br><span class="line">Symbol.keyFor(&#39;name1&#39;)  &#x2F;&#x2F; name</span><br><span class="line">Symbol.keyFor(&#39;name2&#39;)  &#x2F;&#x2F; name</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let name1 = Symbol.for(&#x27;name&#x27;)  // 检测到未创建后返回</span><br><span class="line">let name2 = Symbol.for(&#x27;name&#x27;)  // 检测到已创建后返回</span><br><span class="line">name1 === name2</span><br><span class="line">// 访问值</span><br><span class="line">Symbol.keyFor(&#x27;name1&#x27;)  // name</span><br><span class="line">Symbol.keyFor(&#x27;name2&#x27;)  // name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h1><ul>
 <li>引用数据类型也就是对象数据类型 object (Object，Array,Function, data )</li>
@@ -238,130 +285,130 @@
 <li>引用数据类型在栈内存中实际上保存的是对象在堆内存中的引用地址，通过该地址可以快速的查找到保存在堆内存中的对象。</li>
 </ul>
 <h2 id="数组-Array"><a href="#数组-Array" class="headerlink" title="数组(Array)"></a>数组(Array)</h2><p>数组是一组数据的集合，在内存中是一段连续的内存空间。<br>数组定义时可以无需指定数组长度<br>存储数据时无需指定具体的数据类型，可以存储任意类型。</p>
-<h2 id="创建-2"><a href="#创建-2" class="headerlink" title="创建"></a>创建</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let arr1 &#x3D; []</span><br><span class="line">let arr2 &#x3D; new Array()</span><br><span class="line">let arr3 &#x3D; new Array(3) &#x2F;&#x2F; [empty*3]   创建一个数组，长度为三，值都为空。</span><br></pre></td></tr></table></figure>
+<h2 id="创建-2"><a href="#创建-2" class="headerlink" title="创建"></a>创建</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr1 = []</span><br><span class="line">let arr2 = new Array()</span><br><span class="line">let arr3 = new Array(3) // [empty*3]   创建一个数组，长度为三，值都为空。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h2><h3 id="length-属性"><a href="#length-属性" class="headerlink" title="length 属性"></a>length 属性</h3><ul>
 <li>length 属性表示数组的长度，即其中元素的个数。</li>
 <li>当 length 属性被设置得更大时，数组将增大，新的元素将被添加到数组的尾部，他们的值为空(empty)</li>
-<li>当 length 设置的值小于数组的长度时，数组将被截断，其尾部的元素将丢失。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr &#x3D; [1,2,3,4]</span><br><span class="line">arr.length &#x2F;&#x2F; 4</span><br><span class="line">arr.length &#x3D; 6 &#x2F;&#x2F; [1,2,3,4,expty*2]</span><br><span class="line">arr.length &#x3D; 2 &#x2F;&#x2F; [1,2]</span><br></pre></td></tr></table></figure>
+<li>当 length 设置的值小于数组的长度时，数组将被截断，其尾部的元素将丢失。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,2,3,4]</span><br><span class="line">arr.length // 4</span><br><span class="line">arr.length = 6 // [1,2,3,4,expty*2]</span><br><span class="line">arr.length = 2 // [1,2]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="数组的方法"><a href="#数组的方法" class="headerlink" title="数组的方法"></a>数组的方法</h3><h4 id="改变数组自身内容的方法"><a href="#改变数组自身内容的方法" class="headerlink" title="改变数组自身内容的方法"></a>改变数组自身内容的方法</h4><p><code>push() 、 pop()、 unshift()、 shift()、 reserve()、 splice()、 sort()、 fill()</code></p>
 <ul>
 <li><p>push() 和 pop()<br>push() 将某些值加入到数组的最后一个位置，不限制添加的数量，添加多项内容使用逗号隔开。<br>pop() 会移除数组的最后一个元素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">a.push(6)       &#x2F;&#x2F; [1,2,3,4,5,6]</span><br><span class="line">a.push(7,8,9)   &#x2F;&#x2F; [1,2,3,4,5,6,7,8,9]</span><br><span class="line">a.pop()         &#x2F;&#x2F; [1,2,3,4,5,6,7,8]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">a.push(6)       // [1,2,3,4,5,6]</span><br><span class="line">a.push(7,8,9)   // [1,2,3,4,5,6,7,8,9]</span><br><span class="line">a.pop()         // [1,2,3,4,5,6,7,8]</span><br></pre></td></tr></table></figure></li>
 <li><p>unshift(),shift()<br>unshift() 会将指定的元素添加到数组的第一个位置。<br>shift() 会移除数组的第一个元素。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr &#x3D; [1,2,3,4,5]</span><br><span class="line">arr.unshift(6)      &#x2F;&#x2F; [6,1,2,3,4,5]</span><br><span class="line">arr.unshit(7,8,9)   &#x2F;&#x2F; [7,8,9,6,1,2,3,4,5]</span><br><span class="line">arr.shift()         &#x2F;&#x2F; [8,9,6,1,2,3,4,5]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,2,3,4,5]</span><br><span class="line">arr.unshift(6)      // [6,1,2,3,4,5]</span><br><span class="line">arr.unshit(7,8,9)   // [7,8,9,6,1,2,3,4,5]</span><br><span class="line">arr.shift()         // [8,9,6,1,2,3,4,5]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>reverse()<br>将数组反转</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">a.reverse()   &#x2F;&#x2F; [6,5,4,3,2,1]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">a.reverse()   // [6,5,4,3,2,1]</span><br></pre></td></tr></table></figure></li>
 <li><p>splice()<br>该方法可以移除或新增数列的元素，包含三个参数，一个是要移除或要添加的序列号(必填)，第二个是要移除的长度(选填。若不填则从第一个参数位置开始，后面的元素都会被移除，设为 0 表示不会有元素删除，第三个是要替换的内容)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr &#x3D; [1,2,3,4,5,6,7]</span><br><span class="line">arr.splice(1,1) &#x2F;&#x2F; [1,3,4,5,6,7]</span><br><span class="line">arr.splice(3,1,100) &#x2F;&#x2F; [1,3,4,100.6,7]</span><br><span class="line">arr.splice(2,0,200) &#x2F;&#x2F; [1,3,200,4,100,6,7]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,2,3,4,5,6,7]</span><br><span class="line">arr.splice(1,1) // [1,3,4,5,6,7]</span><br><span class="line">arr.splice(3,1,100) // [1,3,4,100.6,7]</span><br><span class="line">arr.splice(2,0,200) // [1,3,200,4,100,6,7]</span><br></pre></td></tr></table></figure></li>
 <li><p>sort()<br>该方法可以针对数组的元素进行排序，里头包含一个排序的判断函数，函数内必须包含的两个参数，两个参数分别代表数组里第 n 个和第 n+1 个元素，通过比较第 n 个和第 n+1 个元素的大小来进行排序</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [3,2,4,5,1,6,7,8]</span><br><span class="line">a.sort((a,b)&#x3D;&gt;a-b)  &#x2F;&#x2F; [1,2,3,4,5,6,7,8]</span><br><span class="line">a.sort((a,b)&#x3D;&gt;b-a)  &#x2F;&#x2F; [8,7,6,5,4,3,2,1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [3,2,4,5,1,6,7,8]</span><br><span class="line">a.sort((a,b)=&gt;a-b)  // [1,2,3,4,5,6,7,8]</span><br><span class="line">a.sort((a,b)=&gt;b-a)  // [8,7,6,5,4,3,2,1]</span><br></pre></td></tr></table></figure>
 <p>若不使用判断函数，<code>默认会将元素换成字符串，并采用 unicode 来判断，这也会造成某些数字的排序错误</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6,7,8,9,10,11,12]</span><br><span class="line">a.sort()  &#x2F;&#x2F; [1,10,11,12,2,3,4,5,6,7,8,9]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6,7,8,9,10,11,12]</span><br><span class="line">a.sort()  // [1,10,11,12,2,3,4,5,6,7,8,9]</span><br></pre></td></tr></table></figure></li>
 <li><p>fill()<br>该方法会把数组中所有元素，置换为指定的值，fill() 有三个参数，第一个是准备要置换的内容(必填)，第二个是从什么位置开始置换(选填，不设定就全部置换)，第三个是停止置换的元素的前一个位置(选填，默认等于数组长度)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6,7,8,9]</span><br><span class="line">a.fill(&#39;a&#39;)  &#x2F;&#x2F; [&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;,&#39;a&#39;]</span><br><span class="line">let b &#x3D; [1,2,3,4,5]</span><br><span class="line">b.fill(&#39;b&#39;,2,3) &#x2F;&#x2F; [1,2,&#39;b&#39;,4,5]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6,7,8,9]</span><br><span class="line">a.fill(&#x27;a&#x27;)  // [&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;,&#x27;a&#x27;]</span><br><span class="line">let b = [1,2,3,4,5]</span><br><span class="line">b.fill(&#x27;b&#x27;,2,3) // [1,2,&#x27;b&#x27;,4,5]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="获取数组属性或索引值"><a href="#获取数组属性或索引值" class="headerlink" title="获取数组属性或索引值"></a>获取数组属性或索引值</h3><p><code>length() 、indexOf() 、lastIndexOf() 、 find()、 findIndex() 、filter()</code></p>
 <ul>
 <li><p>length()<br>可以取得数组的长度。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">a.length() &#x2F;&#x2F; 6</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">a.length() // 6</span><br></pre></td></tr></table></figure></li>
 <li><p>indexOf()、lastIndexOf()<br>indexOf()会判断数组中是否包含某个值(从左往右)，如果包含就返回这个值在数组中的索引值，若没有找到返回 -1 。有两个参数一个是要找的的值，另外一个是表示数组数组从哪个位置开始判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">a.indexOf(3)   &#x2F;&#x2F; 2</span><br><span class="line">a.indexOf(7)   &#x2F;&#x2F; -1</span><br><span class="line">a.indexOf(3,6) &#x2F;&#x2F; -1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">a.indexOf(3)   // 2</span><br><span class="line">a.indexOf(7)   // -1</span><br><span class="line">a.indexOf(3,6) // -1</span><br></pre></td></tr></table></figure>
 <p>lastIndexOf()会判断数组中是否包含某个值(从右往左)，查找方式 indexOf()一样。</p>
 </li>
 <li><p>find()<br>find() 会将数组中的每一个元素带入指定的函数内做判断，并会返回一个符号判断条件的元素，若没有元素符合则会返回 undefined.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">a.find((e)&#x3D;&gt;e&gt;3)  &#x2F;&#x2F; 4</span><br><span class="line">a.find((e)&#x3D;&gt;e&lt;1)  &#x2F;&#x2F; undefined</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">a.find((e)=&gt;e&gt;3)  // 4</span><br><span class="line">a.find((e)=&gt;e&lt;1)  // undefined</span><br></pre></td></tr></table></figure></li>
 <li><p>findIndex()<br>findIndex() 会将数组中的每一个元素带入指定的函数内做判断，并返回第一个符合条件元素的位置索引。</p>
 </li>
 <li><p>filter()<br>filter() 会将数组中的每一个元素带入指定的函数内部做判断，如果符合条件则会返回，组成一个新的数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6,7]</span><br><span class="line">a.filter(e &#x3D;&gt; e&gt;3)  &#x2F;&#x2F; [4,5,6,7]</span><br><span class="line">a.filter(e &#x3D; &gt;e%2 &#x3D;&#x3D; 0)  &#x2F;&#x2F; [2,4,6]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6,7]</span><br><span class="line">a.filter(e =&gt; e&gt;3)  // [4,5,6,7]</span><br><span class="line">a.filter(e = &gt;e%2 == 0)  // [2,4,6]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="针对每一项处理"><a href="#针对每一项处理" class="headerlink" title="针对每一项处理"></a>针对每一项处理</h3><ul>
-<li>forEach()<br>该方法会将数组中每一个元素用指定的函数里进行运算，函数有三个参数，第一个参数表示每个元素的值(必填),第二个参数为该元素的索引值(选填)，第三个参数则表示原本的数组(选填)。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">a.forEach((item,index,arr)&#x3D;&gt;&#123;</span><br><span class="line">  arr[index] &#x3D; item*10</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; [10,20,30,40,50]</span><br></pre></td></tr></table></figure>
+<li>forEach()<br>该方法会将数组中每一个元素用指定的函数里进行运算，函数有三个参数，第一个参数表示每个元素的值(必填),第二个参数为该元素的索引值(选填)，第三个参数则表示原本的数组(选填)。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">a.forEach((item,index,arr)=&gt;&#123;</span><br><span class="line">  arr[index] = item*10</span><br><span class="line">&#125;)</span><br><span class="line">// [10,20,30,40,50]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="产生新的数组或新的值"><a href="#产生新的数组或新的值" class="headerlink" title="产生新的数组或新的值"></a>产生新的数组或新的值</h3><p><code>join() concat() slice() map() reduce() reduceRight() flat() flatMap() Array.from() Array.of() toString()</code></p>
 <ul>
 <li><p>join()<br>可以将数组中所有元素，变成由指定的字符串分割合并在一起组成字符串进行呈现，若没有指定字符默认会用逗号合并。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">a.join()  &#x2F;&#x2F; 1,2,3,4,5</span><br><span class="line">a.join(&#39;&#39;) &#x2F;&#x2F; 12345</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">a.join()  // 1,2,3,4,5</span><br><span class="line">a.join(&#x27;&#x27;) // 12345</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>concat() 可以将两个数组合并在一起，可以使用扩展运算符 … 来代替。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">let b &#x3D; [6,7,8,9]</span><br><span class="line">let c &#x3D; a.concat(b)   &#x2F;&#x2F; [1,2,3,4,5,6,7,8,9]</span><br><span class="line">let d &#x3D; [...a,...b]   &#x2F;&#x2F; [1,2,3,4,5,6,7,8,9]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = [6,7,8,9]</span><br><span class="line">let c = a.concat(b)   // [1,2,3,4,5,6,7,8,9]</span><br><span class="line">let d = [...a,...b]   // [1,2,3,4,5,6,7,8,9]</span><br></pre></td></tr></table></figure></li>
 <li><p>slice()<br>可以截取出数组某部分的元素为一个新的数组，有两个必填的参数，一个是起始位置，一个是结束位置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">let b &#x3D; a.slice(2,4)  &#x2F;&#x2F; [3,4]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">let b = a.slice(2,4)  // [3,4]</span><br></pre></td></tr></table></figure></li>
 <li><p>map()<br>会处理数组中每一个元素，最后返回一个新的数组，里面是一个函数和一个返回函数里的 this 参数，函数包含三个参数，第一个是每一个元素的值(必填)，第二个是当前元素的索引值，第三个是当前的数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">let b &#x3D; a.map((e)&#x3D;&gt;&#123;</span><br><span class="line">  return e+2</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; [3,4,5,6,7,8]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">let b = a.map((e)=&gt;&#123;</span><br><span class="line">  return e+2</span><br><span class="line">&#125;)</span><br><span class="line">// [3,4,5,6,7,8]</span><br></pre></td></tr></table></figure></li>
 <li><p>reduce()<br>可以将数组中每一个元素进行计算，每次计算的结果再与下一个元素计算，直到结束为止，里头包含一个函数(必填)和初始计算的数值(选填)，函数内有四个参数，第一个是计算的值(必填)，第二个是取得的元素(必填)，第三个是该元素的索引值(选填)，第四个是原本的数组(选填)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6,7,8]</span><br><span class="line">let b &#x3D; a.reduce((total,e)&#x3D;&gt;&#123;</span><br><span class="line">  total + e</span><br><span class="line">&#125;)</span><br><span class="line">&#x2F;&#x2F; 36 (1+2+3+4+5+6+7+8)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6,7,8]</span><br><span class="line">let b = a.reduce((total,e)=&gt;&#123;</span><br><span class="line">  total + e</span><br><span class="line">&#125;)</span><br><span class="line">// 36 (1+2+3+4+5+6+7+8)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>flat()<br>可以将一个多维数组的深度转换成一维(扁平化数组或成为降维)，有一个选填的参数代表要转换的深度数字，默认值为 1 ，如果是很多层可以使用 Infinity 来全部展开成一维数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,[2],[3,4,[8,9]]]</span><br><span class="line">let b &#x3D; a.flat()   &#x2F;&#x2F; [1,2,3,4,[8,9]]</span><br><span class="line">let c &#x3D; a.flat(2)  &#x2F;&#x2F; [1,2,3,4,8,9]</span><br><span class="line">let d &#x3D; a.flat(Infinity) &#x2F;&#x2F; [1,2,3,4,8,9]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,[2],[3,4,[8,9]]]</span><br><span class="line">let b = a.flat()   // [1,2,3,4,[8,9]]</span><br><span class="line">let c = a.flat(2)  // [1,2,3,4,8,9]</span><br><span class="line">let d = a.flat(Infinity) // [1,2,3,4,8,9]</span><br></pre></td></tr></table></figure></li>
 <li><p>Array.form()<br>会将类数组或是可迭代的对象转换成数组，有两个参数，第一个参数为类数组对象或可迭代的对象(必填)，第二个参数则是改变转换成数组元素的函数。<br>类数组对象具有 length 属性以及索引化 index 的元素，可迭代对象表示具有可以利用迭代的方式取得它自己本身的元素，如 Map 和 Set</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; &#39;abcd&#39;</span><br><span class="line">Array.from(a) &#x2F;&#x2F; [&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;]</span><br><span class="line">let obj &#x3D; &#123;</span><br><span class="line">  &#39;0&#39;:12,</span><br><span class="line">  &#39;2&#39;:11,</span><br><span class="line">  &#39;1&#39;:10,</span><br><span class="line">  length:3</span><br><span class="line">&#125;</span><br><span class="line">let objb &#x3D; Array.from(obj) &#x2F;&#x2F; [12,11.10]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let a = &#x27;abcd&#x27;</span><br><span class="line">Array.from(a) // [&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;]</span><br><span class="line">let obj = &#123;</span><br><span class="line">  &#x27;0&#x27;:12,</span><br><span class="line">  &#x27;2&#x27;:11,</span><br><span class="line">  &#x27;1&#x27;:10,</span><br><span class="line">  length:3</span><br><span class="line">&#125;</span><br><span class="line">let objb = Array.from(obj) // [12,11.10]</span><br></pre></td></tr></table></figure></li>
 <li><p>Array.of()<br>可以快速将数字、字符串等内容，转换成数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; Array.of(1,&#39;q&#39;,3)</span><br><span class="line">a &#x2F;&#x2F; [1,&#39;q&#39;,3]</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = Array.of(1,&#x27;q&#x27;,3)</span><br><span class="line">a // [1,&#x27;q&#x27;,3]</span><br></pre></td></tr></table></figure></li>
 <li><p>toString()<br>会把整个数组转换成字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4]</span><br><span class="line">a.toString() &#x2F;&#x2F; &#39;1,2,3,4&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4]</span><br><span class="line">a.toString() // &#x27;1,2,3,4&#x27;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="布尔判断"><a href="#布尔判断" class="headerlink" title="布尔判断"></a>布尔判断</h3><p><code>every() some() includes() Array.isArray()</code></p>
 <ul>
 <li><p>every()<br>会将数组中的每一个元素带入指定的函数内部进行判断，只要有一个元素不符合判断条件,会返回 false，如果全部符合，就会返回 true</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">a.every((e) &#x3D;&gt; e &gt; 3)   &#x2F;&#x2F; false</span><br><span class="line">a.every((e) &#x3D;&gt; e &gt; 0)   &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">a.every((e) =&gt; e &gt; 3)   // false</span><br><span class="line">a.every((e) =&gt; e &gt; 0)   // true</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>some()<br>会将数组中的每一个函数放入指定的函数内部做判断，只要有任何一个符合判断条件，就会返回 true,如果全部不符合，才会返回 false。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4]</span><br><span class="line">a.some((e) &#x3D;&gt; e &gt; 3)  &#x2F;&#x2F; true</span><br><span class="line">a.some((e) &#x3D;&gt; e &gt; 4)  &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4]</span><br><span class="line">a.some((e) =&gt; e &gt; 3)  // true</span><br><span class="line">a.some((e) =&gt; e &gt; 4)  // false</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>includes()<br>会判断数组中是否包含某个值，如果包含就返回 true 否则返回 false。有两个参数，第一个参数表示要判断的值，第二个参数是表示从数组的哪个位置开始判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">a.includes(2)     &#x2F;&#x2F; true</span><br><span class="line">a.includes(2,2)   &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">a.includes(2)     // true</span><br><span class="line">a.includes(2,2)   // false</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>Array.isArray()<br>Array.isArray() 能判断一个元素是否为数组，如果是就返回 true,不然就返回 false。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3]</span><br><span class="line">Array.isArray(a)  &#x2F;&#x2F; true</span><br><span class="line">Array.isArray(124) &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3]</span><br><span class="line">Array.isArray(a)  // true</span><br><span class="line">Array.isArray(124) // false</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><code>valueOf() keys</code></p>
 <ul>
 <li><p>valueOf()<br>会返回数组的原始值，如果数组原本有修改，返回的原始值也会跟着改变(相当于浅复制)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5]</span><br><span class="line">let b &#x3D; a.valueOf()   &#x2F;&#x2F; [1,2,3,4,5]</span><br><span class="line">let c &#x3D; a.valueOf()</span><br><span class="line">a.shift()</span><br><span class="line">b  &#x2F;&#x2F; [2,3,4,5]</span><br><span class="line">c  &#x2F;&#x2F; [2,3,4,5]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = a.valueOf()   // [1,2,3,4,5]</span><br><span class="line">let c = a.valueOf()</span><br><span class="line">a.shift()</span><br><span class="line">b  // [2,3,4,5]</span><br><span class="line">c  // [2,3,4,5]</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>keys<br>keys 会返回数组中的每一个索引值(key) 成一个新的 Array Iterator 对象，可以用 for of 进行迭代</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a &#x3D; [1,2,3,4,5,6]</span><br><span class="line">let b &#x3D; a.keys()</span><br><span class="line">for(let key of b)&#123;</span><br><span class="line">  console.log(key)    &#x2F;&#x2F; 1,2,3,4,5,6</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5,6]</span><br><span class="line">let b = a.keys()</span><br><span class="line">for(let key of b)&#123;</span><br><span class="line">  console.log(key)    // 1,2,3,4,5,6</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h2 id="Oject"><a href="#Oject" class="headerlink" title="Oject"></a>Oject</h2><h3 id="创建-3"><a href="#创建-3" class="headerlink" title="创建"></a>创建</h3><ul>
 <li><p>new 构造函数法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; new Object()</span><br><span class="line">person.name &#x3D; &#39;张三&#39;;</span><br><span class="line">person.age &#x3D; 25</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var person = new Object()</span><br><span class="line">person.name = &#x27;张三&#x27;;</span><br><span class="line">person.age = 25</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>对象字面量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; &#123;</span><br><span class="line">  name:&#39;张三&#39;,</span><br><span class="line">  age: 25</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name:&#x27;张三&#x27;,</span><br><span class="line">  age: 25</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h3 id="属性和方法"><a href="#属性和方法" class="headerlink" title="属性和方法"></a>属性和方法</h3><ul>
 <li><p>constructor<br>constructor 属性是保存当前对象的构造函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var obj1 &#x3D; new Object()</span><br><span class="line">obj1.id &#x3D; &#39;obj1&#39;</span><br><span class="line">var obj2 &#x3D; &#123;</span><br><span class="line">  id:&#39;obj2&#39;</span><br><span class="line">&#125;</span><br><span class="line">obj1.constructor &#x2F;&#x2F; function Object()&#123;&#125;</span><br><span class="line">obj2.constructor &#x2F;&#x2F; function Object()&#123;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = new Object()</span><br><span class="line">obj1.id = &#x27;obj1&#x27;</span><br><span class="line">var obj2 = &#123;</span><br><span class="line">  id:&#x27;obj2&#x27;</span><br><span class="line">&#125;</span><br><span class="line">obj1.constructor // function Object()&#123;&#125;</span><br><span class="line">obj2.constructor // function Object()&#123;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>hasOwnProperty(‘属性名字’) 方法<br>该方法接收一个字符串参数(属性名)，用来判断该属性是否是当前对象实例中，而不是来自对象的原型链中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  name:&#39;ddd&#39;</span><br><span class="line">&#125;</span><br><span class="line">obj.hasOwnProperty(&#39;name&#39;)      &#x2F;&#x2F; true</span><br><span class="line">obj.hasOwnProperty(&#39;toString&#39;)  &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  name:&#x27;ddd&#x27;</span><br><span class="line">&#125;</span><br><span class="line">obj.hasOwnProperty(&#x27;name&#x27;)      // true</span><br><span class="line">obj.hasOwnProperty(&#x27;toString&#x27;)  // false</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>toLocaleString() 方法<br>该方法返回对象的字符串表示，和代码的执行环境有关。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;&#125;</span><br><span class="line">obj.toLocalString()    &#x2F;&#x2F; &#39;[object object]&#39;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;</span><br><span class="line">obj.toLocalString()    // &#x27;[object object]&#x27;</span><br></pre></td></tr></table></figure></li>
 <li><p>toString() 方法<br>返回对象的字符串表示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;&#125;</span><br><span class="line">obj.toString()  &#x2F;&#x2F; &#39;[object object]&#39;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;&#125;</span><br><span class="line">obj.toString()  // &#x27;[object object]&#x27;</span><br></pre></td></tr></table></figure></li>
 <li><p>valueOf() 方法<br>该方法返回对象的原始值。可能是字符串、数值或者布尔值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  name:&#39;obj&#39;</span><br><span class="line">&#125;</span><br><span class="line">var arr &#x3D; [1]</span><br><span class="line">var bool &#x3D; new Boolean(1)</span><br><span class="line">var date &#x3D; new Date()</span><br><span class="line"></span><br><span class="line">obj.valueOf()     &#x2F;&#x2F; Object &#123;name:&#39;obj&#39;&#125;</span><br><span class="line">arr.valueOf()     &#x2F;&#x2F; [1]</span><br><span class="line">bool.valueOf()    &#x2F;&#x2F; true</span><br><span class="line">data.valueOf()    &#x2F;&#x2F; 145556666666</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  name:&#x27;obj&#x27;</span><br><span class="line">&#125;</span><br><span class="line">var arr = [1]</span><br><span class="line">var bool = new Boolean(1)</span><br><span class="line">var date = new Date()</span><br><span class="line"></span><br><span class="line">obj.valueOf()     // Object &#123;name:&#x27;obj&#x27;&#125;</span><br><span class="line">arr.valueOf()     // [1]</span><br><span class="line">bool.valueOf()    // true</span><br><span class="line">data.valueOf()    // 145556666666</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -369,20 +416,20 @@
 <h4 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h4><p>数据属性可以理解为我们平时定义对象赋予的属性，可以进行读和写。但在 ES5 中定义了一些特性，这些特性用来描述属性的各种特征，特性是内部值，不能直接访问。需要通过 Object.defineProperty 方法来修改。</p>
 <ul>
 <li><p>[[Configurable]]<br>该特性表示是否可以通过 delete 操作符来删除属性，默认值为 true。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  name:&#39;obj&#39;,</span><br><span class="line">  age:25</span><br><span class="line">&#125;</span><br><span class="line">obj.name         &#x2F;&#x2F; obj</span><br><span class="line">delete obj.name</span><br><span class="line">obj.name         &#x2F;&#x2F; undefined</span><br><span class="line">Object.defineProperty(obj,&#39;age&#39;,&#123;</span><br><span class="line">  configurable:false</span><br><span class="line">&#125;)</span><br><span class="line">obj.age          &#x2F;&#x2F; 25</span><br><span class="line">delete obj.age</span><br><span class="line">obj.age          &#x2F;&#x2F; 25</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  name:&#x27;obj&#x27;,</span><br><span class="line">  age:25</span><br><span class="line">&#125;</span><br><span class="line">obj.name         // obj</span><br><span class="line">delete obj.name</span><br><span class="line">obj.name         // undefined</span><br><span class="line">Object.defineProperty(obj,&#x27;age&#x27;,&#123;</span><br><span class="line">  configurable:false</span><br><span class="line">&#125;)</span><br><span class="line">obj.age          // 25</span><br><span class="line">delete obj.age</span><br><span class="line">obj.age          // 25</span><br></pre></td></tr></table></figure>
 
 <p>通过 configurable 特性设置成 false 之后，delete 就无法删除 age 属性，如果是在严格模式下，使用 delete 去删除就会报错。</p>
 </li>
 <li><p>[[Enumerable]]<br>表示是否能够通过 for in 语句来枚举出属性。默认是 true</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  name:&#39;objName&#39;</span><br><span class="line">&#125;</span><br><span class="line">for( var key in obj)&#123;</span><br><span class="line">  console.log(key)      &#x2F;&#x2F; name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(obj,&#39;constructor&#39;,&#123;</span><br><span class="line">  enumerable:true</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">for ( var key in obj)&#123;</span><br><span class="line">  console.log(key)       &#x2F;&#x2F; name constructor</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  name:&#x27;objName&#x27;</span><br><span class="line">&#125;</span><br><span class="line">for( var key in obj)&#123;</span><br><span class="line">  console.log(key)      // name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Object.defineProperty(obj,&#x27;constructor&#x27;,&#123;</span><br><span class="line">  enumerable:true</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">for ( var key in obj)&#123;</span><br><span class="line">  console.log(key)       // name constructor</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>[[Writable]] 和 [[Value]]<br>Writable：表示属性值是否可以修改，默认为 true，若设为 false，修改属性值的时候没有效果，在严格模式下会报错。<br>Value：表示属性的值，默认为 undefined</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D; &#123;</span><br><span class="line">  name:&#39;name&#39;</span><br><span class="line">&#125;</span><br><span class="line">obj.name &#x2F;&#x2F; name</span><br><span class="line">Object.defineProperty(obj,&#39;name&#39;,&#123;</span><br><span class="line">  value:&#39;newVlaue&#39;,</span><br><span class="line">  writable:false</span><br><span class="line">&#125;)</span><br><span class="line">obj.name  &#x2F;&#x2F; newValue</span><br><span class="line">obj.name &#x3D; &#39;oldValue&#39;</span><br><span class="line">obj.name &#x2F;&#x2F; newValue</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">  name:&#x27;name&#x27;</span><br><span class="line">&#125;</span><br><span class="line">obj.name // name</span><br><span class="line">Object.defineProperty(obj,&#x27;name&#x27;,&#123;</span><br><span class="line">  value:&#x27;newVlaue&#x27;,</span><br><span class="line">  writable:false</span><br><span class="line">&#125;)</span><br><span class="line">obj.name  // newValue</span><br><span class="line">obj.name = &#x27;oldValue&#x27;</span><br><span class="line">obj.name // newValue</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <h4 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h4><p>[[get]] 读取属性时调用的函数,[[set]] 给属性设置值的时候调用的函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; &#123;</span><br><span class="line">  age:15</span><br><span class="line">&#125;</span><br><span class="line">Object.defineProperty(person,&#39;type&#39;,&#123;</span><br><span class="line">  get:function()&#123;</span><br><span class="line">    if(person.age&gt;17)&#123;</span><br><span class="line">      return &#39;成人&#39;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#39;小孩&#39;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">person.type &#x2F;&#x2F; 小孩</span><br><span class="line">person.age &#x3D; 20</span><br><span class="line">person.type &#x2F;&#x2F; 成人</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  age:15</span><br><span class="line">&#125;</span><br><span class="line">Object.defineProperty(person,&#x27;type&#x27;,&#123;</span><br><span class="line">  get:function()&#123;</span><br><span class="line">    if(person.age&gt;17)&#123;</span><br><span class="line">      return &#x27;成人&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#x27;小孩&#x27;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">person.type // 小孩</span><br><span class="line">person.age = 20</span><br><span class="line">person.type // 成人</span><br></pre></td></tr></table></figure>
 
 <h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2><p>函数的本身就是对象。函数是第一类对象。<br>第一类对象又称第一类公民。具有的的特性</p>
 <ul>
@@ -391,7 +438,7 @@
 <li>能够被修改和赋值给变量。<br><code>在js 里函数也是对象，可以拥有自己的属性和方法，而它和一般js对象的区别是：可以被调用，即可以执行。</code></li>
 </ul>
 <h3 id="创建-4"><a href="#创建-4" class="headerlink" title="创建"></a>创建</h3><p>函数创建方法:<code>函数定义表达式、函数声明语句和 new Function()</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 函数声明</span><br><span class="line">function fun() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 函数表达式</span><br><span class="line">var  fun &#x3D; function() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; new Function</span><br><span class="line">var  fun1 &#x3D; new Function()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 函数声明</span><br><span class="line">function fun() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// 函数表达式</span><br><span class="line">var  fun = function() &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// new Function</span><br><span class="line">var  fun1 = new Function()</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><p>变量提升<br>JavaScript 中由 var 关键字声明的变量存在变量提升：将变量声明提升到作用域的顶部，但赋值仍保留在原处。函数表达式和函数声明有本质的区别。</p>
@@ -399,7 +446,7 @@
 <li>函数声明语句<br>将函数声明和函数的赋值都提升到作用域的顶部，在同一个作用域中可以出现调用在函数之前。</li>
 <li>函数表达式<br>与 var 声明的普通变量相同，只是将变量声明提升到作用域顶部，但赋值仍然留在原处，不能在定义前使用</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fun()                       &#x2F;&#x2F; 函数声明</span><br><span class="line">fun1()                      &#x2F;&#x2F; undefined</span><br><span class="line">function fun() &#123;</span><br><span class="line">  var name &#x3D; &#39;函数声明&#39;</span><br><span class="line">  console.log(name)</span><br><span class="line">&#125;</span><br><span class="line">var fun1 &#x3D; function() &#123;</span><br><span class="line">  var name &#x3D; &#39;函数表达式&#39;</span><br><span class="line">  console.log(name)</span><br><span class="line">&#125;</span><br><span class="line">fun()                     &#x2F;&#x2F; 函数声明</span><br><span class="line">fun1()                    &#x2F;&#x2F; 函数表达式</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fun()                       // 函数声明</span><br><span class="line">fun1()                      // undefined</span><br><span class="line">function fun() &#123;</span><br><span class="line">  var name = &#x27;函数声明&#x27;</span><br><span class="line">  console.log(name)</span><br><span class="line">&#125;</span><br><span class="line">var fun1 = function() &#123;</span><br><span class="line">  var name = &#x27;函数表达式&#x27;</span><br><span class="line">  console.log(name)</span><br><span class="line">&#125;</span><br><span class="line">fun()                     // 函数声明</span><br><span class="line">fun1()                    // 函数表达式</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -413,7 +460,7 @@
 <li><p>如果函数没有显式 return 语句返回一个值，默认返回 undefined</p>
 </li>
 <li><p>传入的实参是由逗号分隔的 0 个或多个函数表达式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function printPrps(o) &#123;</span><br><span class="line">  for(var prop in o) &#123;</span><br><span class="line">    console.log(prop + &quot;: &quot; + o[prop] + &quot;\n&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(this)   &#x2F;&#x2F; window</span><br><span class="line">&#125;</span><br><span class="line">printPrps(&#123;x:1&#125;)      &#x2F;&#x2F; x:1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function printPrps(o) &#123;</span><br><span class="line">  for(var prop in o) &#123;</span><br><span class="line">    console.log(prop + &quot;: &quot; + o[prop] + &quot;\n&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(this)   // window</span><br><span class="line">&#125;</span><br><span class="line">printPrps(&#123;x:1&#125;)      // x:1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -421,7 +468,7 @@
 <ul>
 <li>对方法调用的参数和返回值处理与函数调用相同</li>
 <li>方法调用由两部分组成：<code>对象.属性名()</code>，其中属性名是值为函数的属性</li>
-<li>方法调用中：调用上下文指调用方法的对象，使用 this 关键字引用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj &#x3D;&#123;</span><br><span class="line">  num1: 12,</span><br><span class="line">  num2: 11,</span><br><span class="line">  add: function() &#123;</span><br><span class="line">    this.result &#x3D; this.num1 + this.num2</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.add()   &#x2F;&#x2F; 调用 add 方法</span><br><span class="line">obj.result  &#x2F;&#x2F; 23</span><br></pre></td></tr></table></figure>
+<li>方法调用中：调用上下文指调用方法的对象，使用 this 关键字引用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj =&#123;</span><br><span class="line">  num1: 12,</span><br><span class="line">  num2: 11,</span><br><span class="line">  add: function() &#123;</span><br><span class="line">    this.result = this.num1 + this.num2</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.add()   // 调用 add 方法</span><br><span class="line">obj.result  // 23</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -433,7 +480,7 @@
 <li>callee 和 caller 属性。<br>callee 是 ECMAScript 规范中 arguments 对象的属性：代表当前正在执行的函数。<br>caller 是非标准的，只是浏览器基本实现了这个属性：代表调用当前函数的函数。<br>在严格模式中，对这个两个属性读写都会产生错误。</li>
 </ul>
 <h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包在 JavaScript 中，指内部函数总是可以访问其所在的外部函数中声明的变量和参数，即是外部函数被返回(调用结束)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var scope &#x3D; &#39;global scope&#39;</span><br><span class="line">function checkScope() &#123;</span><br><span class="line">  var scope &#x3D; &#39;local scope&#39;</span><br><span class="line">  function f() &#123; return scope&#125;</span><br><span class="line">  return f</span><br><span class="line">&#125;</span><br><span class="line">checkScope()()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var scope = &#x27;global scope&#x27;</span><br><span class="line">function checkScope() &#123;</span><br><span class="line">  var scope = &#x27;local scope&#x27;</span><br><span class="line">  function f() &#123; return scope&#125;</span><br><span class="line">  return f</span><br><span class="line">&#125;</span><br><span class="line">checkScope()()</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>在 Js 中，每个函数在定义时会创建一个与之相关的作用域链，并且在程序执行期间一直存在<br>外部函数有自身的作用域链，内部函数有自身单独的作用域链。</li>
@@ -461,7 +508,7 @@
 - 时间戳参数
   时间戳是自 1970年1月1日以来经过的毫秒数
 - 不带参数
-  会将日期设置为当前时间</code></pre>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 使用日期字符串参数</span><br><span class="line">  new Date(&#39;2021-10-21&#39;)</span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; 使用一系列参数来创建</span><br><span class="line">  </span><br><span class="line">  new Date(2020,1,23,5,30,39)</span><br></pre></td></tr></table></figure>
+  会将日期设置为当前时间</code></pre>  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 使用日期字符串参数</span><br><span class="line">  new Date(&#x27;2021-10-21&#x27;)</span><br><span class="line">  </span><br><span class="line">// 使用一系列参数来创建</span><br><span class="line">  </span><br><span class="line">  new Date(2020,1,23,5,30,39)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="日期提供的方法"><a href="#日期提供的方法" class="headerlink" title="日期提供的方法"></a>日期提供的方法</h3><ul>
 <li><p>编写自定义日期格式化<br>Date 中获取 年月日时分秒的方法</p>
 <ul>
@@ -484,7 +531,7 @@
 <li>setSeconds: 设置秒</li>
 <li>setMilliseconds: 设置毫秒<h4 id="日期添加-减去增量"><a href="#日期添加-减去增量" class="headerlink" title="日期添加/减去增量"></a>日期添加/减去增量</h4></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">当前日期 2019年3月28日，获取三天后的日期</span><br><span class="line"></span><br><span class="line">let today &#x3D; new Date(2019,2,28)</span><br><span class="line">let finalDate &#x3D; new Date(today)</span><br><span class="line">finalDate.setDate(today.getDate()+3)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">当前日期 2019年3月28日，获取三天后的日期</span><br><span class="line"></span><br><span class="line">let today = new Date(2019,2,28)</span><br><span class="line">let finalDate = new Date(today)</span><br><span class="line">finalDate.setDate(today.getDate()+3)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
 
@@ -507,138 +554,4 @@
 <li>原始值：把变量的值传递给参数，之后参数和这个变量互不影响。</li>
 <li>引用值：传递的值是内存地址，所以在函数内部对参数修改会体现在外部，因为他们指向的是同一个对象。</li>
 </ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/" data-id="cl8473qwj002ew0dx7hjg8weq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/04/13/props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Vue.js 源码解读, 虚拟Dom
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JS 事件</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CommonJS-AMD-CMD-ES6/">CommonJS AMD CMD ES6</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JS%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/">JS模块化发展</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-%E9%AB%98%E7%BA%A7/">JavaScript 高级</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TypeScript/">TypeScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/">Vue.js</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js/Props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/">Props与Data的区别</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/">变化侦测</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%8F%98%E5%8C%96%E4%BE%A6%E6%B5%8B/%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8F%98%E5%8C%96%E4%BE%A6%E5%90%AC/">数据的变化侦听</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E5%90%8D%E8%AF%8D/">名词</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91/">模板编译</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/">虚拟DOM</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Diff/">Diff</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/Vue%E4%B8%AD%E7%9A%84%E8%99%9A%E6%8B%9FDom/">Vue中的虚拟Dom</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E8%99%9A%E6%8B%9FDOM/%E6%9B%B4%E6%96%B0%E5%AD%90%E8%8A%82%E7%82%B9/">更新子节点</a></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/async-await/">async await</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">elementUI奇怪问题解决办法</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/element%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/">element使用不常用方法总结</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/">es6</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/es6/Symbol/">Symbol</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/es6/%E8%BF%90%E7%AE%97%E7%AC%A6%E6%89%A9%E5%B1%95/">运算符扩展</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/import-%E5%92%8C-export/">import 和 export</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/">js知识体系</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">js 代码执行过程分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/js-%E8%AF%AD%E8%A8%80%E7%9A%84%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7/">js 语言的三大特性</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/">事件</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">数据</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue2-%E4%B8%8E-vue3/">vue2 与 vue3</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/webpack/">webpack</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/%E6%AD%A3%E5%88%99%E7%9F%A5%E8%AF%86%E7%82%B9/">正则知识点</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9/">浏览器渲染涉及的知识点</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">状态管理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E7%9F%A5%E8%AF%86/">登录认证知识</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/">vue知识点</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%9F%A5%E8%AF%86/">生命周期知识</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CSPA%E5%8D%95%E9%A1%B5%E9%9D%A2/">vue知识点，SPA单页面</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86-MVVM/">vue知识点，双向数据绑定原理& MVVM</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/vue%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8C%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%BC%8F%E5%8E%9F%E7%90%86/">vue知识点，路由模式原理</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%8E%B0%E6%B6%89%E5%8F%8A%E7%9A%84%E7%9F%A5%E8%AF%86%E3%80%82/">从URL输入到页面展现涉及的知识。</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E4%BD%9C%E7%94%A8%E5%9F%9F-%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">作用域-作用域链</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/">浏览器缓存</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84js%E6%93%8D%E4%BD%9C/">项目中常用的js操作</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/09/">September 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/07/">July 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/04/">April 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">July 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/09/16/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9D%97%E5%8C%96%E6%96%B9%E6%A1%88%E8%A7%84%E8%8C%83/">JS 模块化</a>
-          </li>
-        
-          <li>
-            <a href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/">JS 模块化</a>
-          </li>
-        
-          <li>
-            <a href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/">前端状态管理</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">面试/面试问题</a>
-          </li>
-        
-          <li>
-            <a href="/2022/07/16/vue2vsvue3/beagin/">vue2 VS vue3,</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 sxhMxd<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://yoursite.com">sxhMxd</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/">http://yoursite.com/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E6%95%B0%E6%8D%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/04/13/props%E4%B8%8EData%E7%9A%84%E5%8C%BA%E5%88%AB/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Vue.js 源码解读, 虚拟Dom</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/13/js%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB/%E4%BA%8B%E4%BB%B6/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">JS 事件</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">sxhMxd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">47</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E5%A7%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">1.</span> <span class="toc-text">原始数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Number-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">Number 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NaN"><span class="toc-number">1.1.1.</span> <span class="toc-text">NaN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E4%B8%8D%E5%90%8C%E8%BF%9B%E5%88%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">数字不同进制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B0%E5%AD%97%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.3.</span> <span class="toc-text">转换成数字方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Number"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">Number()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#parseInt"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">parseInt()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#parseFloat"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">parseFloat()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String-%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">String 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.2.</span> <span class="toc-text">属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#string-%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.3.</span> <span class="toc-text">string 方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Boolean"><span class="toc-number">1.3.</span> <span class="toc-text">Boolean</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E5%90%8C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.3.2.</span> <span class="toc-text">不同数据类型的比较</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Undefined-%E5%92%8C-Null"><span class="toc-number">1.4.</span> <span class="toc-text">Undefined 和 Null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Symbol"><span class="toc-number">1.5.</span> <span class="toc-text">Symbol</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">引用数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84-Array"><span class="toc-number">2.1.</span> <span class="toc-text">数组(Array)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-2"><span class="toc-number">2.2.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7-1"><span class="toc-number">2.3.</span> <span class="toc-text">属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#length-%E5%B1%9E%E6%80%A7"><span class="toc-number">2.3.1.</span> <span class="toc-text">length 属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">数组的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%95%B0%E7%BB%84%E8%87%AA%E8%BA%AB%E5%86%85%E5%AE%B9%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">改变数组自身内容的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E5%B1%9E%E6%80%A7%E6%88%96%E7%B4%A2%E5%BC%95%E5%80%BC"><span class="toc-number">2.3.3.</span> <span class="toc-text">获取数组属性或索引值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%88%E5%AF%B9%E6%AF%8F%E4%B8%80%E9%A1%B9%E5%A4%84%E7%90%86"><span class="toc-number">2.3.4.</span> <span class="toc-text">针对每一项处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F%E6%96%B0%E7%9A%84%E6%95%B0%E7%BB%84%E6%88%96%E6%96%B0%E7%9A%84%E5%80%BC"><span class="toc-number">2.3.5.</span> <span class="toc-text">产生新的数组或新的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%88%A4%E6%96%AD"><span class="toc-number">2.3.6.</span> <span class="toc-text">布尔判断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">2.4.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Oject"><span class="toc-number">2.5.</span> <span class="toc-text">Oject</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-3"><span class="toc-number">2.5.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.2.</span> <span class="toc-text">属性和方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.5.3.</span> <span class="toc-text">属性的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B1%9E%E6%80%A7"><span class="toc-number">2.5.3.1.</span> <span class="toc-text">数据属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E5%99%A8%E5%B1%9E%E6%80%A7"><span class="toc-number">2.5.3.2.</span> <span class="toc-text">访问器属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function"><span class="toc-number">2.6.</span> <span class="toc-text">Function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-4"><span class="toc-number">2.6.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E8%B0%83%E7%94%A8"><span class="toc-number">2.6.2.</span> <span class="toc-text">函数的调用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E6%99%AE%E9%80%9A%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.2.1.</span> <span class="toc-text">作为普通函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.6.2.2.</span> <span class="toc-text">作为对象的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%9C%E4%B8%BA%E6%9E%84%E9%80%A0%E5%99%A8%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.2.3.</span> <span class="toc-text">作为构造器函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0%E7%9A%84-call-%E5%92%8C-apply-%E6%96%B9%E6%B3%95%E9%97%B4%E6%8E%A5%E8%B0%83%E7%94%A8"><span class="toc-number">2.6.2.4.</span> <span class="toc-text">使用函数的 call() 和 apply() 方法间接调用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E5%8F%82%E5%92%8C%E5%BD%A2%E5%8F%82"><span class="toc-number">2.6.3.</span> <span class="toc-text">函数的实参和形参</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.6.3.1.</span> <span class="toc-text">参数对象</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AD%E5%8C%85"><span class="toc-number">2.6.4.</span> <span class="toc-text">闭包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date"><span class="toc-number">2.7.</span> <span class="toc-text">Date</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E5%8C%BA"><span class="toc-number">2.7.1.</span> <span class="toc-text">时区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-5"><span class="toc-number">2.7.2.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%8F%90%E4%BE%9B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">2.7.3.</span> <span class="toc-text">日期提供的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%B7%BB%E5%8A%A0-%E5%87%8F%E5%8E%BB%E5%A2%9E%E9%87%8F"><span class="toc-number">2.7.3.1.</span> <span class="toc-text">日期添加&#x2F;减去增量</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">引用类型与原始类型的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F%E6%97%B6%E4%B8%8D%E5%90%8C%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="toc-number">3.0.1.</span> <span class="toc-text">声明变量时不同的内存分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E6%9C%BA%E5%88%B6"><span class="toc-number">3.0.2.</span> <span class="toc-text">访问机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E5%8F%98%E9%87%8F"><span class="toc-number">3.0.3.</span> <span class="toc-text">复制变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="toc-number">3.0.4.</span> <span class="toc-text">传递参数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/09/16/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9D%97%E5%8C%96%E6%96%B9%E6%A1%88%E8%A7%84%E8%8C%83/" title="CommonJS AMD CMD ES6"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CommonJS AMD CMD ES6"/></a><div class="content"><a class="title" href="/2022/09/16/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%90%84%E7%A7%8D%E6%A8%A1%E5%9D%97%E5%8C%96%E6%96%B9%E6%A1%88%E8%A7%84%E8%8C%83/" title="CommonJS AMD CMD ES6">CommonJS AMD CMD ES6</a><time datetime="2022-09-16T07:25:52.056Z" title="Created 2022-09-16 15:25:52">2022-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/" title="JS模块化发展"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JS模块化发展"/></a><div class="content"><a class="title" href="/2022/09/15/js%E6%A8%A1%E5%9D%97%E5%8C%96%E5%8F%91%E5%B1%95/%E5%89%8D%E8%A8%80/" title="JS模块化发展">JS模块化发展</a><time datetime="2022-09-15T11:57:11.669Z" title="Created 2022-09-15 19:57:11">2022-09-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" title="前端状态管理"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="前端状态管理"/></a><div class="content"><a class="title" href="/2022/08/12/%E5%89%8D%E7%AB%AF%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" title="前端状态管理">前端状态管理</a><time datetime="2022-08-12T11:04:54.052Z" title="Created 2022-08-12 19:04:54">2022-08-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="No title"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2022/07/27/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="No title">No title</a><time datetime="2022-07-27T02:09:36.910Z" title="Created 2022-07-27 10:09:36">2022-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/07/16/vue2vsvue3/beagin/" title="vue2 VS vue3,"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vue2 VS vue3,"/></a><div class="content"><a class="title" href="/2022/07/16/vue2vsvue3/beagin/" title="vue2 VS vue3,">vue2 VS vue3,</a><time datetime="2022-07-16T03:01:42.069Z" title="Created 2022-07-16 11:01:42">2022-07-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By sxhMxd</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
