@@ -1,0 +1,203 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+# 头部菜单，title: link
+
+menu:
+  首页: /
+  分类: /categories
+  标签: /tags
+  归档: /archives
+  关于: /about
+
+# 是否显示目录
+TOC: false
+
+# 是否自动播放音乐
+autoplay: false
+
+# 默认音乐（随机播放）
+mp3:
+  - http://link.hhtjim.com/163/425570952.mp3
+  - http://link.hhtjim.com/163/425570952.mp3
+
+# 首页封面图, 为空时取文章的cover作为封面(注意跨域问题,建议使用同源图片)
+welcome_cover: /img/welcome-cover.jpg
+
+# 默认文章封面图（随机调用,支持外链）
+cover:
+  - /img/cover.jpg
+  - /img/welcome-cover.jpg
+
+# 是否显示Twitter分享卡片图像(图像尺寸要求：1200*600，creatorid不需要带@符号。注意：链接必须是完整url，否则Twitter将无法读取图片信息）
+twitterpic:
+  enable: false
+  src: https://bangdream.moe/img/ident.png
+  creatorid: yourtwitteridhere
+
+# 是否使用mathjax
+mathjax: false
+
+# 是否关闭默认滚动条
+scrollbar: true
+
+# 本地搜索,请将索引文件放在网站根目录,或修改主题js文件的path值
+local_search:
+  # 是否启用
+  enable: false
+
+# 是否显示 一言(hitokoto)
+hitokoto: true
+
+# 链接(可选:facebook,twitter,github,wechat,email)
+links:
+  facebook: /
+  twitter: /
+  github: /
+  wechat: /img/logo.png
+  email: mailto:xxxx@gmail.com
+
+# 备案
+beian:
+  # 是否显示备案信息
+  enable: true
+  # 是否在主页面最底下显示备案信息(虽然丑，但是完全满足规定要求)
+  enableFooter: false
+  # 备案号
+  beianInfo: 冀ICP备xxxxxxx号
+  # 链接地址
+  link: http://www.beian.miit.gov.cn
+
+# Gitalk 评论插件（https://github.com/gitalk/gitalk）
+gitalk:
+  # 是否启用评论功能
+  enable: false
+  # 是否自动展开评论框
+  autoExpand: false
+  # 应用编号
+  clientID: ""
+  # 应用秘钥
+  clientSecret: ""
+  # issue仓库名
+  repo: ""
+  # Github名
+  owner: ""
+  # Github名
+  admin: [""]
+  # Ensure uniqueness and length less than 50
+  id: location.pathname
+  # Facebook-like distraction free mode
+  distractionFreeMode: false
+
+# 要使用google_analytics进行统计的话，这里需要配置ID
+google_analytics:
+
+# 网站ico
+favicon: /img/favicon.png
+
+# rss文件
+rss: atom.xml
+
+# 要使用版权信息可以在这配置并设定许可方式，可以从 https://creativecommons.org/about/cclicenses/ 查询
+copyright:
+  enable: false
+  license: "CC BY-NC-ND"
+# Site
+title: 有理想的笛子
+subtitle: ""
+description: ""
+keywords:
+author: sxhMxd
+language: zh
+timezone: ""
+
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://yoursite.com
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link:
+  enable: true # Open external links in new tab
+  field: site # Apply to the whole site
+  exclude: ""
+filename_case: 0
+render_drafts: false
+post_asset_folder: true
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace: ""
+  wrap: true
+  hljs: false
+
+# Home page setting
+# path: Root path for your blogs index page. (default = '')
+# per_page: Posts displayed per page. (0 = disable pagination)
+# order_by: Posts order. (Order by date descending by default)
+index_generator:
+  path: ""
+  per_page: 10
+  order_by: -date
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Metadata elements
+## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
+meta_generator: true
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+## Use post's date for updated date unless set in front-matter
+use_date_for_updated: false
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Include / Exclude file(s)
+## include:/exclude: options only apply to the 'source/' folder
+include:
+exclude:
+ignore:
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: butterfly
+
+# Deployment
+## Docs: https://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repo: git@github.com:sxhmxd/sxhmxd.github.io.git
+  branch: master
