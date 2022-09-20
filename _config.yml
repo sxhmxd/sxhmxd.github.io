@@ -3,7 +3,7 @@ title: 有理想的笛子
 description: ""
 keywords:
 author: sxhMxd
-language: zh_CN
+language: zh-CN
 timezone: ""
 
 # URL
@@ -90,13 +90,13 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: butterfly
 
-local_search:
-  enable: true
-  preload: false
-  CDN:
-  labels:
-  input_placeholder: Search for Posts
-  hits_empty: "We didn't find any results for the search: ${query}"
+# local_search:
+#   enable: true
+#   preload: false
+#   CDN:
+#   labels:
+#   input_placeholder: Search for Posts
+#   hits_empty: "We didn't find any results for the search: ${query}"
 # 如果没有查到内容相关内容显示
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

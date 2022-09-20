@@ -55,7 +55,7 @@ algolia_search:
 
 # Local search
 local_search:
-  enable: false
+  enable: true
   preload: false
   CDN:
 
@@ -128,13 +128,14 @@ cover:
   position: both
   # When cover is not set, the default cover is displayed (當沒有設置cover時，默認的封面顯示)
   default_cover:
-    /img/404.jpg
+    # /img/welcome-cover.jpg
+
     # - https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
-  flink: /img/friend_404.gif
-  post_page: /img/404.jpg
+  # flink: /img/friend_404.gif
+  post_page: /img/welcome-cover.jpg
 
 # A simple 404 page
 error_404:
