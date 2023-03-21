@@ -1,0 +1,316 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Vue.js 源码解读, | 有理想的笛子</title><meta name="author" content="sxhMxd"><meta name="copyright" content="sxhMxd"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="初始化 initState 函数该函数是用来初始化实例状态的，例如：props、 data、 methods 、computed 、watch initState 函数分析123456789101112131415export function initState (vm: Component) &amp;#123;  vm._watchers &#x3D; []  const opts &#x3D; vm.$options">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js 源码解读,">
+<meta property="og:url" content="http://yoursite.com/2023/03/01/vue%E6%BA%90%E7%A0%816/index.html">
+<meta property="og:site_name" content="有理想的笛子">
+<meta property="og:description" content="初始化 initState 函数该函数是用来初始化实例状态的，例如：props、 data、 methods 、computed 、watch initState 函数分析123456789101112131415export function initState (vm: Component) &amp;#123;  vm._watchers &#x3D; []  const opts &#x3D; vm.$options">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/img/welcome-cover.jpg">
+<meta property="article:published_time" content="2023-03-01T07:26:50.544Z">
+<meta property="article:modified_time" content="2023-03-01T07:26:50.544Z">
+<meta property="article:author" content="sxhMxd">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/img/welcome-cover.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2023/03/01/vue%E6%BA%90%E7%A0%816/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vue.js 源码解读,',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-01 15:26:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories"><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about"><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/welcome-cover.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">有理想的笛子</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/categories"><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags"><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/archives"><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about"><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Vue.js 源码解读,</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-01T07:26:50.544Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-01T07:26:50.544Z" title="更新于 2023-03-01 15:26:50">2023-03-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">Vue.js 源码解读</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">生命周期</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Vue-js-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E9%98%B6%E6%AE%B5/">初始化 initState 阶段</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Vue.js 源码解读,"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="初始化-initState-函数"><a href="#初始化-initState-函数" class="headerlink" title="初始化 initState 函数"></a>初始化 initState 函数</h2><p>该函数是用来初始化实例状态的，例如：props、 data、 methods 、computed 、watch</p>
+<h3 id="initState-函数分析"><a href="#initState-函数分析" class="headerlink" title="initState 函数分析"></a>initState 函数分析</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">export function initState (vm: Component) &#123;</span><br><span class="line">  vm._watchers = []</span><br><span class="line">  const opts = vm.$options</span><br><span class="line">  if (opts.props) initProps(vm, opts.props)</span><br><span class="line">  if (opts.methods) initMethods(vm, opts.methods)</span><br><span class="line">  if (opts.data) &#123;</span><br><span class="line">    initData(vm)</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    observe(vm._data = &#123;&#125;, true /* asRootData */)</span><br><span class="line">  &#125;</span><br><span class="line">  if (opts.computed) initComputed(vm, opts.computed)</span><br><span class="line">  if (opts.watch &amp;&amp; opts.watch !== nativeWatch) &#123;</span><br><span class="line">    initWatch(vm, opts.watch)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>代码分析</p>
+<ul>
+<li><p>首先给实例增加一个属性 _watchers,用来存储当前实例中所有的 watcher 实例，无论是使用 vm.$watch 注册的 watcher 实例还是使用 watch 选项注册的 watcher 实例，都会保存到该属性中。</p>
+</li>
+<li><p>先判断实例中是否有 props 选项，如果有，就调用 props 选项初始化函数 initProps 去初始化 props 选项。</p>
+</li>
+<li><p>再判断实例中是否有 methods 选项，如果有，就调用 methods 选项初始化函数 initMethods 去初始化 methods 选项；</p>
+</li>
+<li><p>接着再判断实例中是否有 data 选项，如果有，就调用 data 选项初始化函数 initData 去初始化 data 选项；如果没有，就把 data 当作空对象并将其转换成响应式；</p>
+</li>
+<li><p>接着再判断实例中是否有 computed 选项，如果有，就调用 computed 选项初始化函数 initComputed 去初始化 computed 选项；</p>
+</li>
+<li><p>最后判断实例中是否有 watch 选项，如果有，就调用 watch 选项初始化函数 initWatch 去初始化 watch 选项；</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="初始化-props"><a href="#初始化-props" class="headerlink" title="初始化 props"></a>初始化 props</h3><p>props 选项通常是由当前组件的父级组件传入的，当父组件在调用子组件的时候，通常会把 props 属性值作为标签属性添加到子组件的标签上。<br>在模板编译的时候，当解析到组件标签的时会将所有的标签属性都解析出来然后在子组件实例化的时候给子组件。(props 数据包含其中)</p>
+<h4 id="规范化数据"><a href="#规范化数据" class="headerlink" title="规范化数据"></a>规范化数据</h4><p>vue 给用户提供的 props 选项写法非常自由，根据 vue 的惯例，写法虽然有多种但是最终处理的时候肯定只处理一种写法，处理之前先对数据进行规范化，将所有写法都转化成一种写法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function normalizeProps (options, vm) &#123;</span><br><span class="line">  const props = options.props</span><br><span class="line">  if (!props) return</span><br><span class="line">  const res = &#123;&#125;</span><br><span class="line">  let i, val, name</span><br><span class="line">  if (Array.isArray(props)) &#123;</span><br><span class="line">    i = props.length</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">      val = props[i]</span><br><span class="line">      if (typeof val === &#x27;string&#x27;) &#123;</span><br><span class="line">        name = camelize(val)</span><br><span class="line">        res[name] = &#123; type: null &#125;</span><br><span class="line">      &#125; else if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">        warn(&#x27;props must be strings when using array syntax.&#x27;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (isPlainObject(props)) &#123;</span><br><span class="line">    for (const key in props) &#123;</span><br><span class="line">      val = props[key]</span><br><span class="line">      name = camelize(key)</span><br><span class="line">      res[name] = isPlainObject(val)</span><br><span class="line">        ? val</span><br><span class="line">        : &#123; type: val &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      `Invalid value for option &quot;props&quot;: expected an Array or an Object, ` +</span><br><span class="line">      `but got $&#123;toRawType(props)&#125;.`,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  options.props = res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先拿到实例中的 props 选项，如果不存在，则直接返回。</li>
+<li>判断如果是 props: [‘name’] 这样的写法，则遍历数组中的每一项元素，如果该元素是字符串，将该元素统一转化成驼峰式命名，然后将该元素作为 key，将 {type:null} 作为 value 存入 res 中;如果该元素不是字符串，则抛出异常。</li>
+<li>判断如果不是数组，则判断是不是对象，如果是对象，那就遍历对象中的每一对键值，拿到每一对键值后，将键名统一转化成驼峰式命名，然后判断值是否还是一个对象，如果还是一个对象，那么将该键值对存入 res 中；如果值不是对象，那么就将键名作为 key,将 {type:null} 作为 value 存入 res 中。</li>
+</ul>
+</li>
+</ul>
+<h4 id="initProps-函数分析"><a href="#initProps-函数分析" class="headerlink" title="initProps 函数分析"></a>initProps 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">function initProps (vm: Component, propsOptions: Object) &#123;</span><br><span class="line">  const propsData = vm.$options.propsData || &#123;&#125;</span><br><span class="line">  const props = vm._props = &#123;&#125;</span><br><span class="line">  // cache prop keys so that future props updates can iterate using Array</span><br><span class="line">  // instead of dynamic object key enumeration.</span><br><span class="line">  const keys = vm.$options._propKeys = []</span><br><span class="line">  const isRoot = !vm.$parent</span><br><span class="line">  // root instance props should be converted</span><br><span class="line">  if (!isRoot) &#123;</span><br><span class="line">    toggleObserving(false)</span><br><span class="line">  &#125;</span><br><span class="line">  for (const key in propsOptions) &#123;</span><br><span class="line">    keys.push(key)</span><br><span class="line">    const value = validateProp(key, propsOptions, propsData, vm)</span><br><span class="line">    /* istanbul ignore else */</span><br><span class="line">    if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">      const hyphenatedKey = hyphenate(key)</span><br><span class="line">      if (isReservedAttribute(hyphenatedKey) ||</span><br><span class="line">          config.isReservedAttr(hyphenatedKey)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          `&quot;$&#123;hyphenatedKey&#125;&quot; is a reserved attribute and cannot be used as component prop.`,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      defineReactive(props, key, value, () =&gt; &#123;</span><br><span class="line">        if (vm.$parent &amp;&amp; !isUpdatingChildComponent) &#123;</span><br><span class="line">          warn(</span><br><span class="line">            `Avoid mutating a prop directly since the value will be ` +</span><br><span class="line">            `overwritten whenever the parent component re-renders. ` +</span><br><span class="line">            `Instead, use a data or computed property based on the prop&#x27;s ` +</span><br><span class="line">            `value. Prop being mutated: &quot;$&#123;key&#125;&quot;`,</span><br><span class="line">            vm</span><br><span class="line">          )</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      defineReactive(props, key, value)</span><br><span class="line">    &#125;</span><br><span class="line">    // static props are already proxied on the component&#x27;s prototype</span><br><span class="line">    // during Vue.extend(). We only need to proxy props defined at</span><br><span class="line">    // instantiation here.</span><br><span class="line">    if (!(key in vm)) &#123;</span><br><span class="line">      proxy(vm, `_props`, key)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  toggleObserving(true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>该函数接收两个参数：当前 Vue 实例和当前实例规范化后的 props 选项。</li>
+<li>函数内部定义四个变量<ul>
+<li>propsData:父组件传入的真实 props 数据。</li>
+<li>props: 指向 vm._props 的指针，所有设置到 props 变量中的属性都会保存到 vm._props 中。</li>
+<li>keys:指向 vm.$options._propKeys 的指针，缓存 props 对象中的 key,将来更新 props 时只需遍历 vm.$options._propKeys 数组即可得多所有 props 的 key .</li>
+<li>isRoot:当前组件是否为根组件。</li>
+</ul>
+</li>
+<li>判断当前组件是否为根组件，如果不是不需要将 props 数组转换成响应式的，toggleObserving(false) 用来控制是否将数据转换成响应式。</li>
+<li>遍历 props 选项拿到每一对键值，先将键名添加到 keys 中然后调用 validateProp 函数校验父组件传入的 props 数据类型是否匹配并获取到传入的值 value, 然后通过将键名和值通过 defineReactive 函数添加到 props (即 vm._props)中。</li>
+</ul>
+</li>
+</ul>
+<h4 id="validateProp-函数分析"><a href="#validateProp-函数分析" class="headerlink" title="validateProp 函数分析"></a>validateProp 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">export function validateProp (key,propOptions,propsData,vm) &#123;</span><br><span class="line">  const prop = propOptions[key]</span><br><span class="line">  const absent = !hasOwn(propsData, key)</span><br><span class="line">  let value = propsData[key]</span><br><span class="line">  // boolean casting</span><br><span class="line">  const booleanIndex = getTypeIndex(Boolean, prop.type)</span><br><span class="line">  if (booleanIndex &gt; -1) &#123;</span><br><span class="line">    if (absent &amp;&amp; !hasOwn(prop, &#x27;default&#x27;)) &#123;</span><br><span class="line">      value = false</span><br><span class="line">    &#125; else if (value === &#x27;&#x27; || value === hyphenate(key)) &#123;</span><br><span class="line">      // only cast empty string / same name to boolean if</span><br><span class="line">      // boolean has higher priority</span><br><span class="line">      const stringIndex = getTypeIndex(String, prop.type)</span><br><span class="line">      if (stringIndex &lt; 0 || booleanIndex &lt; stringIndex) &#123;</span><br><span class="line">        value = true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  // check default value</span><br><span class="line">  if (value === undefined) &#123;</span><br><span class="line">    value = getPropDefaultValue(vm, prop, key)</span><br><span class="line">    // since the default value is a fresh copy,</span><br><span class="line">    // make sure to observe it.</span><br><span class="line">    const prevShouldObserve = shouldObserve</span><br><span class="line">    toggleObserving(true)</span><br><span class="line">    observe(value)</span><br><span class="line">    toggleObserving(prevShouldObserve)</span><br><span class="line">  &#125;</span><br><span class="line">  if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">    assertProp(prop, key, value, vm, absent)</span><br><span class="line">  &#125;</span><br><span class="line">  return value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>代码分析</p>
+<ul>
+<li><p>该函数接收四个参数</p>
+<ul>
+<li>key:遍历 propOptions 时拿到的每个属性名。</li>
+<li>propOptions:当前实例规范化后的 props 选项。</li>
+<li>propsData:父组件传入的真实 props 数据。</li>
+<li>vm:当前实例。</li>
+</ul>
+</li>
+<li><p>函数内部定义三个变量</p>
+<ul>
+<li>prop:当前 key 在 propOptions 中对应的值。</li>
+<li>absent:当前 key 是否在 propsData 中存在，即父组件是否传入了该属性。</li>
+<li>value:当前 key 在 propsData 中对应的值，即父组件对于该属性传入的真实值。</li>
+</ul>
+</li>
+<li><p>判断 prop 的 type 属性是否是布尔类型(Boolean), getTypeIndex 函数用于判断 prop 的 type 属性中是否存在某种类型，如果存在则返回在 type 属性中的索引，如果不存在则返回 -1。</p>
+<ul>
+<li><p>如果是布尔类型，有两种情况需要单独处理</p>
+<ul>
+<li>如果 absent 为 true 即父组件没有传入该 prop 属性并且该属性也没有默认值的时候，将该属性设置为 false</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(absent &amp;&amp; !hasOwn(prop,&#x27;default&#x27;))&#123;</span><br><span class="line">  value = false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果父组件传入了该 prop 属性，那么需要满足以下几点，则将该属性值设为 true<ul>
+<li>该属性值为空字符串或者属性值与属性名相等;</li>
+<li>prop 的 type 属性中不存在 String 类型;</li>
+<li>如果 prop 的 type 属性中存在 String 类型，那么 Boolean 类型在 type 属性中的索引必须小于 String 类型的索引，即 Boolean 类型的优先级更高。<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if (value === &#x27;&#x27; || value === hyphenate(key)) &#123;</span><br><span class="line">  cosnt stringIndex = getTypeIndex(String, prop.type)</span><br><span class="line">  if (stringIndex &lt; 0 || booleanIndex&lt; stringIndex) &#123;</span><br><span class="line">    value = true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>如果不是布尔类型，是其他类型则只需判断父组件是否传入该属性即可，如果没有传入，则该属性值为 undefined。</p>
+</li>
+<li><p>如果父组件传入了该属性并且也有对应的真实值，那么在非生产环境下会调用 assertProp 函数，校验该属性值是否与要求类型匹配。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="getPropDefaultValue-函数分析"><a href="#getPropDefaultValue-函数分析" class="headerlink" title="getPropDefaultValue 函数分析"></a>getPropDefaultValue 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">function getPropDefaultValue (vm, prop, key)&#123;</span><br><span class="line">  // no default, return undefined</span><br><span class="line">  if (!hasOwn(prop, &#x27;default&#x27;)) &#123;</span><br><span class="line">    return undefined</span><br><span class="line">  &#125;</span><br><span class="line">  const def = prop.default</span><br><span class="line">  // warn against non-factory defaults for Object &amp; Array</span><br><span class="line">  if (process.env.NODE_ENV !== &#x27;production&#x27; &amp;&amp; isObject(def)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#x27;Invalid default value for prop &quot;&#x27; + key + &#x27;&quot;: &#x27; +</span><br><span class="line">      &#x27;Props with type Object/Array must use a factory function &#x27; +</span><br><span class="line">      &#x27;to return the default value.&#x27;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  // the raw prop value was also undefined from previous render,</span><br><span class="line">  // return previous default value to avoid unnecessary watcher trigger</span><br><span class="line">  if (vm &amp;&amp; vm.$options.propsData &amp;&amp;</span><br><span class="line">    vm.$options.propsData[key] === undefined &amp;&amp;</span><br><span class="line">    vm._props[key] !== undefined</span><br><span class="line">  ) &#123;</span><br><span class="line">    return vm._props[key]</span><br><span class="line">  &#125;</span><br><span class="line">  // call factory function for non-Function types</span><br><span class="line">  // a value is Function if its prototype is function even across different execution context</span><br><span class="line">  return typeof def === &#x27;function&#x27; &amp;&amp; getType(prop.type) !== &#x27;Function&#x27;</span><br><span class="line">    ? def.call(vm)</span><br><span class="line">    : def</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>该函数接收三个参数<ul>
+<li>vm:当前实例；</li>
+<li>prop:子组件 props 选项中的每个 key 对应的值；</li>
+<li>key:子组件 props 选项中的每个 key；<br>作用是根据子组件 props 选项中的 key 获取对应的默认值。</li>
+</ul>
+</li>
+<li>首先判断 prop 中是否有 default 属性，如果没有，则表示没有默认值，直接返回。如果有则取出 default 属性，赋值给变量 def。接着判断在非生产环境下 def 是否是一个对象，如果是，则抛出警告。</li>
+<li>接着判断如果父组件没有传入 props 属性，但是在 vm._props 中有该属性值，这说明 vm._props 中的该属性值就是默认值。</li>
+<li>最后，判断 def 是否为函数并且 prop.type 不为 Function ，如果是的话表明 def 是一个返回对象或数组的工厂函数，那么将函数的返回值作为默认值返回；如果 def 不是函数，则将 def 作为默认值返回。</li>
+</ul>
+</li>
+</ul>
+<h4 id="assertProp-函数分析"><a href="#assertProp-函数分析" class="headerlink" title="assertProp 函数分析"></a>assertProp 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">function assertProp (prop,name,value,vm,absent) &#123;</span><br><span class="line">  if (prop.required &amp;&amp; absent) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      &#x27;Missing required prop: &quot;&#x27; + name + &#x27;&quot;&#x27;,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  if (value == null &amp;&amp; !prop.required) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  let type = prop.type</span><br><span class="line">  let valid = !type || type === true</span><br><span class="line">  const expectedTypes = []</span><br><span class="line">  if (type) &#123;</span><br><span class="line">    if (!Array.isArray(type)) &#123;</span><br><span class="line">      type = [type]</span><br><span class="line">    &#125;</span><br><span class="line">    for (let i = 0; i &lt; type.length &amp;&amp; !valid; i++) &#123;</span><br><span class="line">      const assertedType = assertType(value, type[i])</span><br><span class="line">      expectedTypes.push(assertedType.expectedType || &#x27;&#x27;)</span><br><span class="line">      valid = assertedType.valid</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  if (!valid) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      `Invalid prop: type check failed for prop &quot;$&#123;name&#125;&quot;.` +</span><br><span class="line">      ` Expected $&#123;expectedTypes.map(capitalize).join(&#x27;, &#x27;)&#125;` +</span><br><span class="line">      `, got $&#123;toRawType(value)&#125;.`,</span><br><span class="line">      vm</span><br><span class="line">    )</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line">  const validator = prop.validator</span><br><span class="line">  if (validator) &#123;</span><br><span class="line">    if (!validator(value)) &#123;</span><br><span class="line">      warn(</span><br><span class="line">        &#x27;Invalid prop: custom validator check failed for prop &quot;&#x27; + name + &#x27;&quot;.&#x27;,</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>该函数接收五个参数<ul>
+<li>prop: prop 选项</li>
+<li>name: props 中 prop 选项的 key</li>
+<li>value: 父组件传入的 propsData 中 key 对应的真实数据。</li>
+<li>vm: 当前实例。</li>
+<li>absent: 当前 key 是否在 propsData 中存在，即父组件是否传入了该属性<br>作用：是校验父组件传来的真实值是否与 prop 的 type 类型相匹配，如果不匹配则在非生产环境下抛出警告。</li>
+</ul>
+</li>
+<li>定义 3 个变量<ul>
+<li>type: prop 中的 type 类型。</li>
+<li>valid: 校验是否成功。</li>
+<li>expectedTypes: 保存期望类型的数组，当校验失败抛出警告时，提示用户该属性所期望的类型是什么</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="初始化-methods"><a href="#初始化-methods" class="headerlink" title="初始化 methods"></a>初始化 methods</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">function initMethods (vm, methods) &#123;</span><br><span class="line">  const props = vm.$options.props</span><br><span class="line">  for (const key in methods) &#123;</span><br><span class="line">    if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">      if (methods[key] == null) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          `Method &quot;$&#123;key&#125;&quot; has an undefined value in the component definition. ` +</span><br><span class="line">          `Did you reference the function correctly?`,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      if (props &amp;&amp; hasOwn(props, key)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          `Method &quot;$&#123;key&#125;&quot; has already been defined as a prop.`,</span><br><span class="line">          vm</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">      if ((key in vm) &amp;&amp; isReserved(key)) &#123;</span><br><span class="line">        warn(</span><br><span class="line">          `Method &quot;$&#123;key&#125;&quot; conflicts with an existing Vue instance method. ` +</span><br><span class="line">          `Avoid defining component methods that start with _ or $.`</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    vm[key] = methods[key] == null ? noop : bind(methods[key], vm)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先遍历 methods 选项中的每一个对象，在非生产环境下判断如果 methods 中某个方法只有 key 而没有 value，即只有方法名没有方法体时，抛出异常：提示用户方法未定义。</li>
+<li>接着判断如果 methods 中某个方法名与 props 中某个属性名重复了，就抛出异常：提示用户方法名重复。</li>
+<li>接着判断如果 methods 中某个方法名如果在实例 vm 中已经存在并且方法名是以 _ 或 $ 开头的，就抛出异常：提示用户方法名命名不规范。</li>
+<li>最后，如果上述判断没有问题，那就 method 绑定到 实例 vm 上，可以通过 this.fun() 来访问 methods 选项中的 fun 方法。<br>总起来：初始化 methods 就做了三件事情，判断 method 有没有，method 的命名符不符合命名规范，method 既有又符合命名规范就把它挂载到 vm 实例上。</li>
+</ul>
+</li>
+</ul>
+<h3 id="初始化-data"><a href="#初始化-data" class="headerlink" title="初始化 data"></a>初始化 data</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function initData (vm) &#123;</span><br><span class="line">    let data = vm.$options.data</span><br><span class="line">    data = vm._data = typeof data === &#x27;function&#x27;</span><br><span class="line">        ? getData(data, vm)</span><br><span class="line">    : data || &#123;&#125;</span><br><span class="line">    if (!isPlainObject(data)) &#123;</span><br><span class="line">        data = &#123;&#125;</span><br><span class="line">        process.env.NODE_ENV !== &#x27;production&#x27; &amp;&amp; warn(</span><br><span class="line">            &#x27;data functions should return an object:\n&#x27; +</span><br><span class="line">            &#x27;https://vuejs.org/v2/guide/components.html##data-Must-Be-a-Function&#x27;,</span><br><span class="line">            vm</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    // proxy data on instance</span><br><span class="line">    const keys = Object.keys(data)</span><br><span class="line">    const props = vm.$options.props</span><br><span class="line">    const methods = vm.$options.methods</span><br><span class="line">    let i = keys.length</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">        const key = keys[i]</span><br><span class="line">        if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">            if (methods &amp;&amp; hasOwn(methods, key)) &#123;</span><br><span class="line">                warn(</span><br><span class="line">                    `Method &quot;$&#123;key&#125;&quot; has already been defined as a data property.`,</span><br><span class="line">                    vm</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (props &amp;&amp; hasOwn(props, key)) &#123;</span><br><span class="line">            process.env.NODE_ENV !== &#x27;production&#x27; &amp;&amp; warn(</span><br><span class="line">                `The data property &quot;$&#123;key&#125;&quot; is already declared as a prop. ` +</span><br><span class="line">                `Use prop default value instead.`,</span><br><span class="line">                vm</span><br><span class="line">            )</span><br><span class="line">        &#125; else if (!isReserved(key)) &#123;</span><br><span class="line">            proxy(vm, `_data`, key)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // observe data</span><br><span class="line">    observe(data, true /* asRootData */)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先获取到用户传入的 data 选项，赋值给变量 data,同时将变量 data 作为指针指向 vm._data, 然后判断 data 是不是一个函数，如果是函数调用 getData 函数获取其返回值，将其保存到 vm._data 中，如果不是，就将其本身保存到 vm._data 中。</li>
+<li>接下来遍历 data 对象中的每一项，在非生产环境下判断 data 对象中是否存在某一项的 key 与 method 中某个属性名重复，如果重复，就抛出警告：提示用户属性名重复。</li>
+<li>接着再判断是否存在某一项的 key 与 prop 中某个属性名重复，如果存在重复，就抛出警告：提示用户属性名重复。<br>如果都没有重复，则调用 proxy 函数将 data 对象中 key 不以_或$开头的属性代理到实例 vm 上，这样，我们就可以通过 this.xxx 来访问 data 选项中的 xxx 数据了</li>
+<li>最后，调用 observe 函数将 data 中的数据转化成响应式。</li>
+</ul>
+</li>
+</ul>
+<h3 id="初始化-computed"><a href="#初始化-computed" class="headerlink" title="初始化 computed"></a>初始化 computed</h3><p>计算属性有一个很大的特点：计算属性的结果会被缓存，除非依赖的响应属性发生变化才会重新计算。</p>
+<h4 id="initComputed-函数分析"><a href="#initComputed-函数分析" class="headerlink" title="initComputed 函数分析"></a>initComputed 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">function initComputed (vm: Component, computed: Object) &#123;</span><br><span class="line">    const watchers = vm._computedWatchers = Object.create(null)</span><br><span class="line">    const isSSR = isServerRendering()</span><br><span class="line"></span><br><span class="line">    for (const key in computed) &#123;</span><br><span class="line">        const userDef = computed[key]</span><br><span class="line">        const getter = typeof userDef === &#x27;function&#x27; ? userDef : userDef.get</span><br><span class="line">        if (process.env.NODE_ENV !== &#x27;production&#x27; &amp;&amp; getter == null) &#123;</span><br><span class="line">            warn(</span><br><span class="line">                `Getter is missing for computed property &quot;$&#123;key&#125;&quot;.`,</span><br><span class="line">                vm</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!isSSR) &#123;</span><br><span class="line">            // create internal watcher for the computed property.</span><br><span class="line">            watchers[key] = new Watcher(</span><br><span class="line">                vm,</span><br><span class="line">                getter || noop,</span><br><span class="line">                noop,</span><br><span class="line">                computedWatcherOptions</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!(key in vm)) &#123;</span><br><span class="line">            defineComputed(vm, key, userDef)</span><br><span class="line">        &#125; else if (process.env.NODE_ENV !== &#x27;production&#x27;) &#123;</span><br><span class="line">            if (key in vm.$data) &#123;</span><br><span class="line">                warn(`The computed property &quot;$&#123;key&#125;&quot; is already defined in data.`, vm)</span><br><span class="line">            &#125; else if (vm.$options.props &amp;&amp; key in vm.$options.props) &#123;</span><br><span class="line">                warn(`The computed property &quot;$&#123;key&#125;&quot; is already defined as a prop.`, vm)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码分析<ul>
+<li>首先定义一个变量 watchers 并将其赋值为空对象，同时将其作为指针指向 vm.computedWatchers</li>
+<li>接着遍历 computed 选项中的每一项属性，首先获取到每一项的属性值，记作 userDef,然后判断 userDef 是不是一个函数，如果是函数，则该函数默认为取值器 getter,将其赋值给变量 getter; 如果不是函数，则说明是一个对象，则对象中的 get 属性作为取值器赋给变量 getter。</li>
+<li>接着判断在非生产环境下如果上面的两种情况取到的取值器不存在，则抛出警告：提示用户计算属性必须有取值器。</li>
+<li>接着判断如果不是在服务端渲染环境下，则创建一个 watcher 实例，并将当前循环到的属性名作为键，创建的 watcher 实例作为值存入 watcher 对象中。</li>
+<li>最后判断当前循环到的属性名是否存在于当前实例 vm 上，如果存在，则在非生产环境下抛出警告；如果不存在，则调用 defineComputed 函数为实例 vm 上设置计算属性。</li>
+</ul>
+</li>
+</ul>
+<h4 id="defineComputed-函数分析"><a href="#defineComputed-函数分析" class="headerlink" title="defineComputed 函数分析"></a>defineComputed 函数分析</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const sharedPropertyDefinition = &#123;</span><br><span class="line">  enumerable: true,</span><br><span class="line">  configurable: true,</span><br><span class="line">  get: noop,</span><br><span class="line">  set: noop</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function defineComputed (target,key,userDef) &#123;</span><br><span class="line">  const shouldCache = !isServerRendering()</span><br><span class="line">  if (typeof userDef === &#x27;function&#x27;) &#123;</span><br><span class="line">    sharedPropertyDefinition.get = shouldCache</span><br><span class="line">      ? createComputedGetter(key)</span><br><span class="line">      : userDef</span><br><span class="line">    sharedPropertyDefinition.set = noop</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    sharedPropertyDefinition.get = userDef.get</span><br><span class="line">      ? shouldCache &amp;&amp; userDef.cache !== false</span><br><span class="line">        ? createComputedGetter(key)</span><br><span class="line">        : userDef.get</span><br><span class="line">      : noop</span><br><span class="line">    sharedPropertyDefinition.set = userDef.set</span><br><span class="line">      ? userDef.set</span><br><span class="line">      : noop</span><br><span class="line">  &#125;</span><br><span class="line">  if (process.env.NODE_ENV !== &#x27;production&#x27; &amp;&amp;</span><br><span class="line">      sharedPropertyDefinition.set === noop) &#123;</span><br><span class="line">    sharedPropertyDefinition.set = function () &#123;</span><br><span class="line">      warn(</span><br><span class="line">        `Computed property &quot;$&#123;key&#125;&quot; was assigned to but it has no setter.`,</span><br><span class="line">        this</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  Object.defineProperty(target, key, sharedPropertyDefinition)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>-</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://yoursite.com">sxhMxd</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2023/03/01/vue%E6%BA%90%E7%A0%816/">http://yoursite.com/2023/03/01/vue%E6%BA%90%E7%A0%816/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com" target="_blank">有理想的笛子</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/welcome-cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/01/vue%E6%BA%90%E7%A0%815/"><img class="prev-cover" src="/img/welcome-cover.jpg" onerror="onerror=null;src='/img/welcome-cover.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Vue.js 源码解读,</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/01/vue%E6%BA%90%E7%A0%812/"><img class="next-cover" src="/img/welcome-cover.jpg" onerror="onerror=null;src='/img/welcome-cover.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Vue.js 源码解读, Diff</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">sxhMxd</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">52</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">48</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-initState-%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">初始化 initState 函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initState-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.1.</span> <span class="toc-text">initState 函数分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-props"><span class="toc-number">1.2.</span> <span class="toc-text">初始化 props</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%84%E8%8C%83%E5%8C%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">规范化数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#initProps-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.2.2.</span> <span class="toc-text">initProps 函数分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#validateProp-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.2.3.</span> <span class="toc-text">validateProp 函数分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getPropDefaultValue-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.2.4.</span> <span class="toc-text">getPropDefaultValue 函数分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#assertProp-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.2.5.</span> <span class="toc-text">assertProp 函数分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-methods"><span class="toc-number">1.3.</span> <span class="toc-text">初始化 methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-data"><span class="toc-number">1.4.</span> <span class="toc-text">初始化 data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-computed"><span class="toc-number">1.5.</span> <span class="toc-text">初始化 computed</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#initComputed-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.5.1.</span> <span class="toc-text">initComputed 函数分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#defineComputed-%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90"><span class="toc-number">1.5.2.</span> <span class="toc-text">defineComputed 函数分析</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="elementUI奇怪问题解决办法"><img src="/img/welcome-cover.jpg" onerror="this.onerror=null;this.src='/img/welcome-cover.jpg'" alt="elementUI奇怪问题解决办法"/></a><div class="content"><a class="title" href="/2023/03/01/%E9%A1%B9%E7%9B%AE%E9%81%87%E5%88%B0%E7%9A%84%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98/elementUI%E5%A5%87%E6%80%AA%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" title="elementUI奇怪问题解决办法">elementUI奇怪问题解决办法</a><time datetime="2023-03-01T07:26:50.566Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" title="项目中常用的js操作,"><img src="/img/welcome-cover.jpg" onerror="this.onerror=null;this.src='/img/welcome-cover.jpg'" alt="项目中常用的js操作,"/></a><div class="content"><a class="title" href="/2023/03/01/%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84js%E6%96%B9%E6%B3%95/" title="项目中常用的js操作,">项目中常用的js操作,</a><time datetime="2023-03-01T07:26:50.565Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="无题"><img src="/img/welcome-cover.jpg" onerror="this.onerror=null;this.src='/img/welcome-cover.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/" title="无题">无题</a><time datetime="2023-03-01T07:26:50.564Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" title="浏览器缓存"><img src="/img/welcome-cover.jpg" onerror="this.onerror=null;this.src='/img/welcome-cover.jpg'" alt="浏览器缓存"/></a><div class="content"><a class="title" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98/" title="浏览器缓存">浏览器缓存</a><time datetime="2023-03-01T07:26:50.556Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" title="从URL输入到页面展现涉及的知识。"><img src="/img/welcome-cover.jpg" onerror="this.onerror=null;this.src='/img/welcome-cover.jpg'" alt="从URL输入到页面展现涉及的知识。"/></a><div class="content"><a class="title" href="/2023/03/01/%E9%9D%A2%E8%AF%95/%E4%BB%8EURL%E8%BE%93%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E5%B1%95%E7%A4%BA/" title="从URL输入到页面展现涉及的知识。">从URL输入到页面展现涉及的知识。</a><time datetime="2023-03-01T07:26:50.555Z" title="发表于 2023-03-01 15:26:50">2023-03-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By sxhMxd</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
